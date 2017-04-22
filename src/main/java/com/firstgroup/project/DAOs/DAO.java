@@ -10,6 +10,4 @@ public interface DAO<T> {
     boolean delete(T obj);
 
     T update(T obj);
-
-    T findByID(T obj);
 }
