@@ -43,9 +43,9 @@ public class ConsoleHelper {
 
     private void chooseTheOperation() {
         System.out.println("Введите номер операции которую вы хотите произвести!!!");
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        Scanner scanner = new Scanner(System.in);
-        try {
+//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//        Scanner scanner = new Scanner(System.in);
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
             switch (Integer.parseInt(br.readLine())) {
 //            switch (scanner.nextInt()){
                 case 1:
@@ -93,13 +93,12 @@ public class ConsoleHelper {
                     break;
                 case 0:
                     System.out.println("0. * ВЫХОД");
+                    br.close();
                     break;
                 default:
                     System.err.println("Не верный номер операции! Повторите попытку!" + " \nДля выхода нажмите \"0\"");
                     chooseTheOperation();
             }
-            scanner.close();
-//            br.close();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NumberFormatException n) {
@@ -120,9 +119,6 @@ public class ConsoleHelper {
         System.out.println("Укажите цену номера в грн:");
         double roomPrice = scanner.nextDouble();
         System.out.println("Укажите дату когда номер будет доступен в формате year.mm.dd");
-
-//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//        String dateAvailableFrom = br.readLine();
         scanner.nextLine();
         String dateAvailableFrom = scanner.nextLine();
         Hotel hotel = null;
@@ -132,8 +128,6 @@ public class ConsoleHelper {
             r.getMessage();
             addHotel();
         }
-//        br.close();
-        scanner.close();
         System.out.println(hotel.getHotelName() + " успешно сохранен!");
         mainMenu();
     }
