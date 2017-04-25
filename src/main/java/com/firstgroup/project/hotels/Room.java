@@ -1,6 +1,6 @@
 package com.firstgroup.project.hotels;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * Created by Sonikb on 22.04.2017.
@@ -8,14 +8,18 @@ import java.util.Date;
 public class Room {
     private long roomID;
     private int persons;
-    private int price;
-    private Date availableFrom;
+    private double price;
+    private LocalDate availableFrom;
 
-    public Room(long roomID, int persons, int price, Date availableFrom) {
-        this.roomID = roomID;
+    public Room(int persons, double price, LocalDate availableFrom) {
         this.persons = persons;
         this.price = price;
         this.availableFrom = availableFrom;
+        this.roomID = idGenerator();
+    }
+
+    public long idGenerator() {
+        return this.persons + (int)this.price + this.availableFrom.hashCode();
     }
 
     public long getRoomID() {
@@ -26,11 +30,11 @@ public class Room {
         return persons;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public Date getAvailableFrom() {
+    public LocalDate getAvailableFrom() {
         return availableFrom;
     }
 }

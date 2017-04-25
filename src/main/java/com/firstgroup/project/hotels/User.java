@@ -10,12 +10,16 @@ public class User {
     private String email;
     private String password;
 
-    public User(long userID, String name, String surname, String email, String password) {
-        this.userID = userID;
+    public User(String name, String surname, String email, String password) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
+        this.userID = idGenerator();
+    }
+
+    public int idGenerator() {
+        return name.hashCode() + surname.hashCode() + email.hashCode() + password.hashCode() / 5;
     }
 
     public long getUserID() {

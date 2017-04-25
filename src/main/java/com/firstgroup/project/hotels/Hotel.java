@@ -9,13 +9,17 @@ public class Hotel {
     private long hotelID;
     private String hotelName;
     private String cityName;
-    List<Room> roomList;
+    private List<Room> roomList;
 
-    public Hotel(long hotelID, String hotelName, String cityName, List<Room> roomList) {
-        this.hotelID = hotelID;
+    public Hotel(String hotelName, String cityName, List<Room> roomList) {
         this.hotelName = hotelName;
         this.cityName = cityName;
         this.roomList = roomList;
+        this.hotelID = idGenerator();
+    }
+
+    public int idGenerator() {
+        return hotelName.hashCode() + cityName.hashCode() / 2;
     }
 
     public long getHotelID() {

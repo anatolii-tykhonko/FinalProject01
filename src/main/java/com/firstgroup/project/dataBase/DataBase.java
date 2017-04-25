@@ -12,8 +12,15 @@ import java.util.Map;
 /**
  * Created by Sonikb on 22.04.2017.
  */
-public class DB {
-    List<Hotel> hotelList = new ArrayList<Hotel>();
-    List<Room> roomList = new ArrayList<Room>();
-    Map<String, User> userMap = new HashMap<String, User>();
+public class DataBase {
+    private List<Hotel> hotelList = new ArrayList<>();
+    private Map<String, User> userMap = new HashMap<>();
+
+    public List<Hotel> getHotelList() {
+        return hotelList;
+    }
+
+    public Map<String, User> getUserMap() {
+        return userMap;
+    }
 }
