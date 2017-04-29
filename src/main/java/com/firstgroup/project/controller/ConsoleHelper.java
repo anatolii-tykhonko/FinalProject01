@@ -9,7 +9,9 @@ import com.firstgroup.project.loginService.LoginController;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 /**
  * Created by Sonikb on 22.04.2017.
@@ -88,18 +90,20 @@ public class ConsoleHelper {
         System.out.println("Введите номер операции которую вы хотите произвести!!!");
 //        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 //        Scanner scanner = new Scanner(System.in);
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
-            switch (Integer.parseInt(br.readLine())) {
-//            switch (scanner.nextInt()){
+//        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
+        try (Scanner scanner = new Scanner(System.in)) {
+//            switch (Integer.parseInt(br.readLine())) {
+            switch (scanner.nextInt()) {
                 case 1:
-                    System.out.println("1. * Добавить отель");
+                    System.out.println("\n***** Добавление отеля в базу данных *****\n");
                     addHotel();
                     break;
                 case 2:
                     System.out.println("2. * Редактировать данные отеля");
                     break;
                 case 3:
-                    System.out.println("3. * Добавить комнату в отель");
+                    System.out.println("\n////// Добавление комнаты в отель //////\n");
+                    addRoom();
                     break;
                 case 4:
                     System.out.println("4. * Редактировать данные комнаты");
@@ -136,7 +140,7 @@ public class ConsoleHelper {
                     break;
                 case 0:
                     System.out.println("0. * ВЫХОД");
-                    br.close();
+                    scanner.close();
                     DBService.save();
                     break;
                 default:
@@ -174,6 +178,27 @@ public class ConsoleHelper {
         }
         System.out.println(hotel.getHotelName() + " успешно сохранен!");
         mainMenu();
+    }
+
+    private void addRoom() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Выберите отель в котором вы хотите добавить комнату:");
+        int count = 1;
+        List<String> hotelNames = controller.getDbService().getDataBase().getHotelList().stream().map(Hotel::getHotelName).collect(Collectors.toList());
+        for (String hotel : hotelNames) {
+            System.out.println(count++ + ". * " + hotel);
+        }
+        int i = scanner.nextInt();
+        Hotel hotel = controller.getDbService().getDataBase().getHotelList().get(i-1);
+        System.out.println("**** Добавление комнат в отель " + hotel.getHotelName()+ " ****");
+        System.out.println("Укажите количество спальных мест в номере:");
+        int roomPersons = scanner.nextInt();
+        System.out.println("Укажите цену номера в грн:");
+        double roomPrice = scanner.nextDouble();
+        System.out.println("Укажите дату когда номер будет доступен в формате year.mm.dd");
+        scanner.nextLine();
+        String dateAvailableFrom = scanner.nextLine();
+        controller.addRoom(hotel, roomPersons, roomPrice, dateAvailableFrom);
     }
 
 }

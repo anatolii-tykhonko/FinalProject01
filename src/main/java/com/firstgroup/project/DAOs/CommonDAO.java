@@ -8,6 +8,7 @@ import com.firstgroup.project.hotels.Room;
 import com.firstgroup.project.hotels.User;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by MakeMeSm1Le- on 24.04.2017.
@@ -30,7 +31,7 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
     }
 
     public Hotel save(Hotel obj) throws HotelAlreadyExist {
-        if (dbService.getDataBase().getHotelList().stream().anyMatch(hotel -> hotel.equals(obj))) {
+        if (dbService.getDataBase().getHotelList().contains(obj)) {
             System.out.println("Здесь нужно кинуть ексепшн что отель уже существунт");  ///TODO create throw exception
             throw new HotelAlreadyExist("Комната уже существует!");
         }

@@ -3,6 +3,7 @@ package com.firstgroup.project.APIs;
 import com.firstgroup.project.DAOs.CommonDAO;
 import com.firstgroup.project.Exceptions.HotelAlreadyExist;
 import com.firstgroup.project.Exceptions.UserAlreadyExist;
+import com.firstgroup.project.dataBase.DBService;
 import com.firstgroup.project.hotels.Hotel;
 import com.firstgroup.project.hotels.Room;
 import com.firstgroup.project.hotels.User;
@@ -69,5 +70,9 @@ public class HotelsAPI implements API {
 
     public boolean cancelReservationByName(String userName) {
         return false;
+    }
+
+    public DBService getDbService() {
+        return commonDAO.getDbService();
     }
 }

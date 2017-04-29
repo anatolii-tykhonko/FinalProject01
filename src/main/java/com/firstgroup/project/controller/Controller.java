@@ -2,6 +2,7 @@ package com.firstgroup.project.controller;
 
 import com.firstgroup.project.APIs.HotelsAPI;
 import com.firstgroup.project.Exceptions.HotelAlreadyExist;
+import com.firstgroup.project.dataBase.DBService;
 import com.firstgroup.project.hotels.Hotel;
 import com.firstgroup.project.hotels.Room;
 import com.firstgroup.project.hotels.User;
@@ -9,6 +10,8 @@ import com.firstgroup.project.hotels.User;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Controller {
     private HotelsAPI hotelsAPI = new HotelsAPI();
@@ -17,8 +20,16 @@ public class Controller {
         List<Room> roomList = new ArrayList<>();
         roomList.add(new Room(roomPersons, roomPrice, LocalDate.of(Integer.valueOf(date.substring(0, 4)), Integer.valueOf(date.substring(5, 7)), Integer.valueOf(date.substring(9, 10)))));
         return hotelsAPI.addHotel(new Hotel(hotelName, cityName, roomList));
+    }
 
-        //year.mm.dd  2017   10    21
-        // 2017.04.21   2017.4.4
+    public Room addRoom(Hotel hotel, int roomPersons, double roomPrice, String date) {
+        // TODO Do something with this crap!!!
+//        List<Hotel> collect = getHotelList().stream().filter(hotels -> hotels.equals(hotel)).collect(Collectors.toList());
+//        collect.get(0).getRoomList().add(new Room(roomPersons, roomPrice, LocalDate.of(Integer.valueOf(date.substring(0, 4)), Integer.valueOf(date.substring(5, 7)), Integer.valueOf(date.substring(9, 10)))));
+        return null;
+    }
+
+    public DBService getDbService() {
+        return hotelsAPI.getDbService();
     }
 }
