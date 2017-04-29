@@ -1,7 +1,10 @@
 package com.firstgroup.project.controller;
 
 import com.firstgroup.project.Exceptions.HotelAlreadyExist;
+import com.firstgroup.project.Exceptions.UserAlreadyExist;
+import com.firstgroup.project.dataBase.DBService;
 import com.firstgroup.project.hotels.Hotel;
+import com.firstgroup.project.loginService.LoginController;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,11 +16,51 @@ import java.util.Scanner;
  */
 public class ConsoleHelper {
     Controller controller = new Controller();
+//    LoginController loginController = new LoginController();
 
     public static void main(String[] args) {
         ConsoleHelper consoleHelper = new ConsoleHelper();
         consoleHelper.mainMenu();
+//        consoleHelper.loginService();
     }
+
+//    public void loginService() {
+//        System.out.println("Что бы войти в систему создайте профиль или выполните вход с существуещего!");
+//        System.out.println("\n1. * Зарегистрироваться!");
+//        System.out.println("2. * Войти!");
+//        try{
+//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//            String line = br.readLine();
+//            if (line.equals("1")) {
+//                regUser();
+//                mainMenu();
+//            }
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    public void regUser() {
+//        try  {
+//            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//            System.out.println("Введите Ваше имя");
+//            String name = br.readLine();
+//            System.out.println("Введите Вашу фамилию");
+//            String secondName = br.readLine();
+//            System.out.println("Введите Ваш email");
+//            String email = br.readLine();
+//            System.out.println("Введите PASSWORD");
+//            String password = br.readLine();
+//
+//            loginController.registerUser(name, secondName, email, password);
+//        } catch (IOException | UserAlreadyExist e) {
+//            regUser();
+//            e.printStackTrace();
+//        }
+//
+//
+//    }
 
     public void mainMenu() {
 
@@ -94,6 +137,7 @@ public class ConsoleHelper {
                 case 0:
                     System.out.println("0. * ВЫХОД");
                     br.close();
+                    DBService.save();
                     break;
                 default:
                     System.err.println("Не верный номер операции! Повторите попытку!" + " \nДля выхода нажмите \"0\"");
@@ -123,8 +167,8 @@ public class ConsoleHelper {
         String dateAvailableFrom = scanner.nextLine();
         Hotel hotel = null;
         try {
-            hotel = controller.addHotel(hotelName,cityName,roomPersons,roomPrice,dateAvailableFrom);
-        }catch (HotelAlreadyExist r){
+            hotel = controller.addHotel(hotelName, cityName, roomPersons, roomPrice, dateAvailableFrom);
+        } catch (HotelAlreadyExist r) {
             r.getMessage();
             addHotel();
         }

@@ -1,11 +1,12 @@
 package com.firstgroup.project.hotels;
 
 import java.time.LocalDate;
+import java.io.Serializable;
 
 /**
  * Created by Sonikb on 22.04.2017.
  */
-public class Room {
+public class Room implements Serializable{
     private long roomID;
     private int persons;
     private double price;

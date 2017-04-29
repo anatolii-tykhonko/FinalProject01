@@ -4,6 +4,8 @@ import com.firstgroup.project.APIs.HotelsAPI;
 import com.firstgroup.project.Exceptions.HotelAlreadyExist;
 import com.firstgroup.project.hotels.Hotel;
 import com.firstgroup.project.hotels.Room;
+import com.firstgroup.project.hotels.User;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,9 +1,10 @@
 package com.firstgroup.project.hotels;
 
+import java.io.Serializable;
 /**
  * Created by Sonikb on 22.04.2017.
  */
-public class User {
+public class User implements Serializable{
     private long userID;
     private String name;
     private String surname;

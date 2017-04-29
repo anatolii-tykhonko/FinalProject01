@@ -1,11 +1,12 @@
 package com.firstgroup.project.hotels;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Sonikb on 22.04.2017.
  */
-public class Hotel {
+public class Hotel implements Serializable {
     private long hotelID;
     private String hotelName;
     private String cityName;
