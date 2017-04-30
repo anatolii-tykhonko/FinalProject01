@@ -38,4 +38,20 @@ public class Hotel implements Serializable {
     public List<Room> getRoomList() {
         return roomList;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Hotel hotel = (Hotel) o;
+
+        return hotelName != null ? hotelName.equals(hotel.hotelName) : hotel.hotelName == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return hotelName != null ? hotelName.hashCode() : 0;
+    }
+
 }

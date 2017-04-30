@@ -1,6 +1,8 @@
 package com.firstgroup.project.DAOs;
 
 import com.firstgroup.project.Exceptions.HotelAlreadyExist;
+import com.firstgroup.project.Exceptions.IncorrectEmail;
+import com.firstgroup.project.Exceptions.IncorrectPassword;
 import com.firstgroup.project.Exceptions.UserAlreadyExist;
 import com.firstgroup.project.dataBase.DBService;
 import com.firstgroup.project.hotels.Hotel;
@@ -8,7 +10,6 @@ import com.firstgroup.project.hotels.Room;
 import com.firstgroup.project.hotels.User;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by MakeMeSm1Le- on 24.04.2017.
@@ -22,9 +23,8 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
     }
 
     public User save (User obj) throws UserAlreadyExist {
-        if (dbService.getDataBase().getUserMap().keySet().stream().anyMatch(email -> email.equals(obj.getEmail()))) {
-            System.out.println("Юзер с таким имейлом уже существует"); //TODO will create exception if email is exist
-            throw new UserAlreadyExist("Юзер уже существует");
+        if (dbService.getDataBase().getUserMap().keySet().contains(obj.getEmail())) {
+            throw new UserAlreadyExist("Юзер с таким имейлом уже существует");
         }
         dbService.getDataBase().getUserMap().put(obj.getEmail(),obj);
         return obj;
@@ -77,6 +77,16 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
 
     public Hotel findHotelByCity(Hotel obj) {
         return null;
+    }
+
+    public boolean loginUser(String email, String password) throws IncorrectEmail, IncorrectPassword {
+        if (dbService.getDataBase().getUserMap().keySet().contains(email)){
+            if (dbService.getDataBase().getUserMap().get(email).getPassword().equals(password)) {
+                getDbService().getDataBase().setCurrentUser(getDbService().getDataBase().getUserMap().get(email));
+                return true;
+            }else throw new IncorrectPassword("Не верный пароль! Повторите ввод!");
+        }else throw new IncorrectEmail("Юзера с таким email не существует! Повторите ввод!");
+
     }
 
     public DBService getDbService() {

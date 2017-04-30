@@ -2,6 +2,8 @@ package com.firstgroup.project.APIs;
 
 import com.firstgroup.project.DAOs.CommonDAO;
 import com.firstgroup.project.Exceptions.HotelAlreadyExist;
+import com.firstgroup.project.Exceptions.IncorrectEmail;
+import com.firstgroup.project.Exceptions.IncorrectPassword;
 import com.firstgroup.project.Exceptions.UserAlreadyExist;
 import com.firstgroup.project.dataBase.DBService;
 import com.firstgroup.project.hotels.Hotel;
@@ -40,7 +42,7 @@ public class HotelsAPI implements API {
         return false;
     }
 
-    public User registerUser (User user) throws UserAlreadyExist {
+    public User registerUser(User user) throws UserAlreadyExist {
         return commonDAO.save(user);
     }
 
@@ -70,6 +72,10 @@ public class HotelsAPI implements API {
 
     public boolean cancelReservationByName(String userName) {
         return false;
+    }
+
+    public boolean loginUser(String email, String password) throws IncorrectEmail, IncorrectPassword {
+        return commonDAO.loginUser(email,password);
     }
 
     public DBService getDbService() {

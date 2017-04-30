@@ -1,15 +1,16 @@
 package com.firstgroup.project.controller;
 
 import com.firstgroup.project.Exceptions.HotelAlreadyExist;
+import com.firstgroup.project.Exceptions.IncorrectEmail;
+import com.firstgroup.project.Exceptions.IncorrectPassword;
 import com.firstgroup.project.Exceptions.UserAlreadyExist;
 import com.firstgroup.project.dataBase.DBService;
 import com.firstgroup.project.hotels.Hotel;
 import com.firstgroup.project.loginService.LoginController;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
  */
 public class ConsoleHelper {
     Controller controller = new Controller();
-//    LoginController loginController = new LoginController();
+    LoginController loginController = new LoginController();
 
     public static void main(String[] args) {
         ConsoleHelper consoleHelper = new ConsoleHelper();
@@ -26,43 +27,64 @@ public class ConsoleHelper {
 //        consoleHelper.loginService();
     }
 
-//    public void loginService() {
-//        System.out.println("Что бы войти в систему создайте профиль или выполните вход с существуещего!");
-//        System.out.println("\n1. * Зарегистрироваться!");
-//        System.out.println("2. * Войти!");
-//        try{
-//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//            String line = br.readLine();
-//            if (line.equals("1")) {
-//                regUser();
-//                mainMenu();
-//            }
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public void regUser() {
-//        try  {
-//            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//            System.out.println("Введите Ваше имя");
-//            String name = br.readLine();
-//            System.out.println("Введите Вашу фамилию");
-//            String secondName = br.readLine();
-//            System.out.println("Введите Ваш email");
-//            String email = br.readLine();
-//            System.out.println("Введите PASSWORD");
-//            String password = br.readLine();
-//
-//            loginController.registerUser(name, secondName, email, password);
-//        } catch (IOException | UserAlreadyExist e) {
-//            regUser();
-//            e.printStackTrace();
-//        }
-//
-//
-//    }
+    public void loginService() {
+        System.out.println("Что бы войти в систему создайте профиль или выполните вход с существуещего!");
+        System.out.println("\n1. * Зарегистрироваться!");
+        System.out.println("2. * Войти!");
+
+        Scanner sc = new Scanner(System.in);
+        String line = sc.nextLine();
+        if ("1".equals(line)) {
+            regUser();
+            mainMenu();
+        } else {
+            enterToSystem();
+        }
+    }
+
+    public void enterToSystem() {
+        System.out.println("***Вход в систему***");
+        String email;
+        String password;
+        Scanner sc = new Scanner(System.in);
+        try {
+            System.out.println("Введите email: ");
+            email = sc.nextLine();
+            System.out.println("Введите password: ");
+            password = sc.nextLine();
+            if (loginController.loginUser(email, password)) {
+                System.out.println("Вход выполнен " + loginController.getDbService().getDataBase().getCurrentUser().getName() + "\n");
+                mainMenu();
+            }
+        } catch (IncorrectEmail incorrectEmail) {
+            System.out.println(incorrectEmail.getMessage());
+            enterToSystem();
+        } catch (IncorrectPassword incorrectPassword) {
+            System.out.println(incorrectPassword.getMessage());
+            enterToSystem();
+        }
+    }
+
+    public void regUser() {
+        try {
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Введите Ваше имя");
+            String name = sc.nextLine();
+            System.out.println("Введите Вашу фамилию");
+            String secondName = sc.nextLine();
+            System.out.println("Введите Ваш email");
+            String email = sc.nextLine();
+            System.out.println("Введите PASSWORD");
+            String password = sc.nextLine();
+
+            loginController.registerUser(name, secondName, email, password);
+        } catch (UserAlreadyExist e) {
+            System.out.println(e.getMessage());
+            regUser();
+        }
+
+
+    }
 
     public void mainMenu() {
 
@@ -88,70 +110,66 @@ public class ConsoleHelper {
 
     private void chooseTheOperation() {
         System.out.println("Введите номер операции которую вы хотите произвести!!!");
-//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//        Scanner scanner = new Scanner(System.in);
-//        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
-        try (Scanner scanner = new Scanner(System.in)) {
-//            switch (Integer.parseInt(br.readLine())) {
-            switch (scanner.nextInt()) {
+        try {
+            Scanner sc = new Scanner(System.in);
+            switch (sc.nextInt()) {
                 case 1:
                     System.out.println("\n***** Добавление отеля в базу данных *****\n");
                     addHotel();
                     break;
                 case 2:
-                    System.out.println("2. * Редактировать данные отеля");
+                    System.out.println("\n***** Редактировать данные отеля *****\n");
                     break;
                 case 3:
-                    System.out.println("\n////// Добавление комнаты в отель //////\n");
+                    System.out.println("\n***** Добавление комнаты в отель *****\n");
                     addRoom();
                     break;
                 case 4:
-                    System.out.println("4. * Редактировать данные комнаты");
+                    System.out.println("\n***** Редактировать данные комнаты *****\n");
                     break;
                 case 5:
-                    System.out.println("5. * Удалить комнату из отеля");
+                    System.out.println("\n***** Удалить комнату из отеля *****\n");
                     break;
                 case 6:
-                    System.out.println("6. * Удалить отель");
+                    System.out.println("\n***** Удалить отель *****\n");
                     break;
                 case 7:
-                    System.out.println("7. * Зарегистрировать пользователя");
+                    System.out.println("\n***** Зарегистрировать пользователя *****\n");
                     break;
                 case 8:
-                    System.out.println("8. * Редактировать данные пользователя");
+                    System.out.println("\n***** Редактировать данные пользователя *****\n");
                     break;
                 case 9:
-                    System.out.println("9. * Удалить пользователя");
+                    System.out.println("\n***** Удалить пользователя *****\n");
                     break;
                 case 10:
-                    System.out.println("10. * Поиск отеля по имени");
+                    System.out.println("\n***** Поиск отеля по имени *****\n");
                     break;
                 case 11:
-                    System.out.println("11. * Поиск отеля по городу");
+                    System.out.println("\n***** Поиск отеля по городу *****\n");
                     break;
                 case 12:
-                    System.out.println("12. * Поиск комнаты по отелю");
+                    System.out.println("\n***** Поиск комнаты по отелю *****\n");
                     break;
                 case 13:
-                    System.out.println("13. * Бронирование комнаты на имя пользователя");
+                    System.out.println("\n***** Бронирование комнаты на имя пользователя *****\n");
                     break;
                 case 14:
-                    System.out.println("14. * Отмена бронирования комнаты");
+                    System.out.println("\n***** Отмена бронирования комнаты *****\n");
                     break;
                 case 0:
-                    System.out.println("0. * ВЫХОД");
-                    scanner.close();
+                    System.out.println("\n***** Программа завершена, все изменения сохранены *****\n");
+                    sc.close();
                     DBService.save();
                     break;
                 default:
-                    System.err.println("Не верный номер операции! Повторите попытку!" + " \nДля выхода нажмите \"0\"");
+                    System.out.println("Не верный номер операции! Повторите попытку!" + " \nДля выхода нажмите \"0\"");
                     chooseTheOperation();
             }
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NumberFormatException n) {
-            System.err.println("Не верный формат даных! Попробуйте снова!" + " \nДля выхода нажмите \"0\"");
-            chooseTheOperation();
+            e.printStackTrace();              //TODO create some exception
+        } catch (NoSuchElementException n) {
+            mainMenu();
         }
     }
 
@@ -189,8 +207,8 @@ public class ConsoleHelper {
             System.out.println(count++ + ". * " + hotel);
         }
         int i = scanner.nextInt();
-        Hotel hotel = controller.getDbService().getDataBase().getHotelList().get(i-1);
-        System.out.println("**** Добавление комнат в отель " + hotel.getHotelName()+ " ****");
+        Hotel hotel = controller.getDbService().getDataBase().getHotelList().get(i - 1);
+        System.out.println("**** Добавление комнат в отель " + hotel.getHotelName() + " ****");
         System.out.println("Укажите количество спальных мест в номере:");
         int roomPersons = scanner.nextInt();
         System.out.println("Укажите цену номера в грн:");

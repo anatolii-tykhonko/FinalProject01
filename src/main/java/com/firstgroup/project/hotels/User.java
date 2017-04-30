@@ -1,15 +1,19 @@
 package com.firstgroup.project.hotels;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Sonikb on 22.04.2017.
  */
-public class User implements Serializable{
+public class User implements Serializable {
     private long userID;
     private String name;
     private String surname;
     private String email;
     private String password;
+    private List<Room> roomList = new ArrayList<>();
 
     public User(String name, String surname, String email, String password) {
         this.name = name;
@@ -19,8 +23,10 @@ public class User implements Serializable{
         this.userID = idGenerator();
     }
 
+
+
     public int idGenerator() {
-        return name.hashCode() + surname.hashCode() + email.hashCode() + password.hashCode() / 5;
+        return Math.abs(name.hashCode() + surname.hashCode() + email.hashCode() + password.hashCode() / 5);
     }
 
     public long getUserID() {
@@ -41,5 +47,16 @@ public class User implements Serializable{
 
     public String getPassword() {
         return password;
+    }
+
+    public List<Room> getRoomList() {
+        return roomList;
+    }
+
+    @Override
+    public String toString() {
+        return "Имя: " + name +
+                ", фамилия" + surname +
+                ", email: '" + email;
     }
 }

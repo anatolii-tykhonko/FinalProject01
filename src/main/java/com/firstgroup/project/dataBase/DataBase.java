@@ -15,6 +15,11 @@ import java.util.Map;
 public class DataBase implements Serializable{
     private List<Hotel> hotelList = new ArrayList<>();
     private Map<String, User> userMap = new HashMap<>();
+    private User currentUser;
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
 
     public List<Hotel> getHotelList() {
         return hotelList;
@@ -22,5 +27,9 @@ public class DataBase implements Serializable{
 
     public Map<String, User> getUserMap() {
         return userMap;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
     }
 }
