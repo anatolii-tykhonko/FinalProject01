@@ -25,11 +25,9 @@ public class ConsoleHelper {
 
     public static void main(String[] args) {
         ConsoleHelper consoleHelper = new ConsoleHelper();
-//        consoleHelper.mainMenu();
-        consoleHelper.loginService();
+        consoleHelper.mainMenu();
+//        consoleHelper.loginService();
     }
-
-
 
 
     public void loginService() {
@@ -123,31 +121,31 @@ public class ConsoleHelper {
                     addHotel();
                     break;
                 case 2:
-                    System.out.println("\n***** Редактировать данные отеля *****\n");
+                    System.out.println("\n***** Редактирование данных отеля *****\n");
                     break;
                 case 3:
                     System.out.println("\n***** Добавление комнаты в отель *****\n");
                     addRoom();
                     break;
                 case 4:
-                    System.out.println("\n***** Редактировать данные комнаты *****\n");
+                    System.out.println("\n***** Редактирование данных комнаты *****\n");
                     break;
                 case 5:
-                    System.out.println("\n***** Удалить комнату из отеля *****\n");
+                    System.out.println("\n***** Удалиение комнат из отеля *****\n");
                     deleteRoom();
                     break;
                 case 6:
-                    System.out.println("\n***** Удалить отель *****\n");
+                    System.out.println("\n***** Удаление отелей *****\n");
                     deleteHotel();
                     break;
                 case 7:
-                    System.out.println("\n***** Зарегистрировать пользователя *****\n");
+                    System.out.println("\n***** Регистрация пользователей *****\n");
                     break;
                 case 8:
-                    System.out.println("\n***** Редактировать данные пользователя *****\n");
+                    System.out.println("\n***** Редактирование данных пользователя *****\n");
                     break;
                 case 9:
-                    System.out.println("\n***** Удалить пользователя *****\n");
+                    System.out.println("\n***** Удаление пользователей *****\n");
                     break;
                 case 10:
                     System.out.println("\n***** Поиск отеля по имени *****\n");
@@ -181,6 +179,7 @@ public class ConsoleHelper {
     }
 
     private void addHotel() throws IOException {
+        Hotel hotel = null;
         Scanner scanner = new Scanner(System.in);
         System.out.println("Укажите название отеля:");
         String hotelName = scanner.nextLine();
@@ -194,7 +193,6 @@ public class ConsoleHelper {
         System.out.println("Укажите дату когда номер будет доступен в формате year.mm.dd");
         scanner.nextLine();
         String dateAvailableFrom = scanner.nextLine();
-        Hotel hotel = null;
         try {
             hotel = controller.addHotel(hotelName, cityName, roomPersons, roomPrice, dateAvailableFrom);
         } catch (HotelAlreadyExist r) {
@@ -213,8 +211,8 @@ public class ConsoleHelper {
         for (String hotel : hotelNames) {
             System.out.println(count++ + ". * " + hotel);
         }
-        int i = scanner.nextInt();
-        Hotel hotel = controller.getDbService().getDataBase().getHotelList().get(i - 1);
+        int hotelIndex = scanner.nextInt() - 1;
+        Hotel hotel = controller.getDbService().getDataBase().getHotelList().get(hotelIndex);
         System.out.println("**** Добавление комнат в отель " + hotel.getHotelName() + " ****");
         System.out.println("Укажите количество спальных мест в номере:");
         int roomPersons = scanner.nextInt();
@@ -223,7 +221,10 @@ public class ConsoleHelper {
         System.out.println("Укажите дату когда номер будет доступен в формате year.mm.dd");
         scanner.nextLine();
         String dateAvailableFrom = scanner.nextLine();
-        controller.addRoom(hotel, roomPersons, roomPrice, dateAvailableFrom);
+        controller.addRoom(hotelIndex, roomPersons, roomPrice, dateAvailableFrom);
+        System.out.println("Комната сохранена в отель " + hotel.getHotelName());
+//        controller.getDbService().getDataBase().getHotelList().get(hotelIndex).getRoomList().stream().forEach(System.out::println); // Testing, after remove
+        mainMenu();
     }
 
     private void deleteHotel() {

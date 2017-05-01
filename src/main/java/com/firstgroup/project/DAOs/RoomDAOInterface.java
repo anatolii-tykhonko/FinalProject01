@@ -7,7 +7,7 @@ import com.firstgroup.project.hotels.Room;
 import java.util.List;
 
 public interface RoomDAOInterface {
-    Room save(Room obj);
+    Room save(Room obj, int hotelsIndex);
     boolean delete(Room obj);
     Room update(Room obj);
     List<Room> findRoomsByHotel(Hotel hotel);

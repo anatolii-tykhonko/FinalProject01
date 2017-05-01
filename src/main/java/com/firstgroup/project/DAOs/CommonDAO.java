@@ -39,8 +39,9 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
         return obj;
     }
 
-    public Room save(Room obj) {
-        return null;
+    public Room save(Room obj, int hotelIndex) {
+        dbService.getDataBase().getHotelList().get(hotelIndex).getRoomList().add(obj);
+        return obj;
     }
 
     public boolean delete(User obj) {

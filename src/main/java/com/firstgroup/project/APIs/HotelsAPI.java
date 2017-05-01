@@ -26,8 +26,8 @@ public class HotelsAPI implements API {
         return null;
     }
 
-    public Room addRoom(Room room) {
-        return null;
+    public Room addRoom(Room room, int hotelsIndex) {
+        return commonDAO.save(room,hotelsIndex);
     }
 
     public Room editRoomDetails() {

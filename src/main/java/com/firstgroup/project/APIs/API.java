@@ -14,7 +14,7 @@ import java.util.List;
 public interface API {
     Hotel addHotel(Hotel hotel) throws HotelAlreadyExist;
     Hotel editHotelDetails();
-    Room addRoom(Room room);
+    Room addRoom(Room room, int hotelsIndex);
     Room editRoomDetails();
     boolean deleteRoom(Room room);
     boolean deleteHotel(Hotel hotel);
