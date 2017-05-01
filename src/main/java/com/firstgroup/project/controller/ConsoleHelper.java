@@ -23,9 +23,12 @@ public class ConsoleHelper {
 
     public static void main(String[] args) {
         ConsoleHelper consoleHelper = new ConsoleHelper();
-        consoleHelper.mainMenu();
-//        consoleHelper.loginService();
+//        consoleHelper.mainMenu();
+        consoleHelper.loginService();
     }
+
+
+
 
     public void loginService() {
         System.out.println("Что бы войти в систему создайте профиль или выполните вход с существуещего!");
@@ -36,7 +39,7 @@ public class ConsoleHelper {
         String line = sc.nextLine();
         if ("1".equals(line)) {
             regUser();
-            mainMenu();
+            loginService();
         } else {
             enterToSystem();
         }
