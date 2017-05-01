@@ -20,13 +20,22 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
         DBService.load();
     }
 
-    public User save(User obj) throws UserAlreadyExist {
-        if (dbService.getDataBase().getUserMap().keySet().contains(obj.getEmail())) {
+    public User save(User user) throws UserAlreadyExist {
+        if (dbService.getDataBase().getUserMap().keySet().contains(user.getEmail())) {
             throw new UserAlreadyExist("Юзер с таким имейлом уже существует");
         }
-        dbService.getDataBase().getUserMap().put(obj.getEmail(), obj);
-        dbService.getDataBase().setCurrentUser(obj);
-        return obj;
+        dbService.getDataBase().getUserMap().put(user.getEmail(), user);
+        dbService.getDataBase().setCurrentUser(user);
+        return user;
+    }
+
+
+    public User add(User user) throws UserAlreadyExist {
+        if (dbService.getDataBase().getUserMap().keySet().contains(user.getEmail())) {
+            throw new UserAlreadyExist("Юзер с таким имейлом уже существует");
+        }
+        dbService.getDataBase().getUserMap().put(user.getEmail(), user);
+        return user;
     }
 
     public Hotel save(Hotel obj) throws HotelAlreadyExist {

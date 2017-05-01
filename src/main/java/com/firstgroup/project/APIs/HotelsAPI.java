@@ -43,6 +43,11 @@ public class HotelsAPI implements API {
         return commonDAO.save(user);
     }
 
+
+    public User addUser(User user) throws UserAlreadyExist {
+        return commonDAO.add(user);
+    }
+
     public User editUserInfo(User user) {
         return commonDAO.update(user);
     }

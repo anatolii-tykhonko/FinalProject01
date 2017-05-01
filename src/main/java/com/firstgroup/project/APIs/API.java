@@ -21,6 +21,7 @@ public interface API {
     boolean deleteRoom(Room room);
     boolean deleteHotel(int hotelIndex);
     User registerUser(User user) throws UserAlreadyExist;
+    User addUser(User user) throws UserAlreadyExist;
     User editUserInfo(User user);
     User deleteUser(String email) throws UserNotCreated, CantDeleteCurrentUser;
     Hotel findHotelByName(String hotelName);

@@ -28,15 +28,15 @@ public class ConsoleHelper {
 
         System.out.println("-->Система бронирования отелей<--" + "\n");
 
-        System.out.println("1. * Добавить отель");
+        System.out.println("1. * @Добавить отель");
         System.out.println("2. * Редактировать данные отеля");
-        System.out.println("3. * Добавить комнату в отель");
+        System.out.println("3. * @Добавить комнату в отель");
         System.out.println("4. * Редактировать данные комнаты");
-        System.out.println("5. * Удалить комнату из отеля");
-        System.out.println("6. * Удалить отель");
-        System.out.println("7. * Зарегистрировать пользователя");
-        System.out.println("8. * Редактировать данные пользователя");
-        System.out.println("9. * Удалить пользователя");
+        System.out.println("5. * @Удалить комнату из отеля");
+        System.out.println("6. * @Удалить отель");
+        System.out.println("7. * @Зарегистрировать пользователя");
+        System.out.println("8. * @Редактировать данные пользователя");
+        System.out.println("9. * @Удалить пользователя");
         System.out.println("10. * Поиск отеля по имени");
         System.out.println("11. * Поиск отеля по городу");
         System.out.println("12. * Поиск комнаты по отелю");
@@ -79,6 +79,8 @@ public class ConsoleHelper {
                     break;
                 case 7:
                     System.out.println("\n***** Регистрация пользователей *****\n");
+                    addUser();
+                    mainMenu();
                     break;
                 case 8:
                     System.out.println("\n***** Редактирование данных пользователя *****\n");
@@ -293,6 +295,26 @@ public class ConsoleHelper {
             String password = sc.nextLine();
 
             User user = loginController.registerUser(name, secondName, email, password);
+            System.out.println("Пользователь " + user.getEmail() + " успешно зарегистрирован!\n");
+        } catch (UserAlreadyExist e) {
+            System.out.println(e.getMessage());
+            regUser();
+        }
+    }
+
+    private void addUser(){
+        try {
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Введите Ваше имя");
+            String name = sc.nextLine();
+            System.out.println("Введите Вашу фамилию");
+            String secondName = sc.nextLine();
+            System.out.println("Введите Ваш email");
+            String email = sc.nextLine();
+            System.out.println("Введите PASSWORD");
+            String password = sc.nextLine();
+
+            User user = loginController.addUser(name, secondName, email, password);
             System.out.println("Пользователь " + user.getEmail() + " успешно зарегистрирован!\n");
         } catch (UserAlreadyExist e) {
             System.out.println(e.getMessage());

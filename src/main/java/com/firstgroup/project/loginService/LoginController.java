@@ -7,6 +7,8 @@ import com.firstgroup.project.Exceptions.UserAlreadyExist;
 import com.firstgroup.project.dataBase.DBService;
 import com.firstgroup.project.hotels.User;
 
+import javax.jws.soap.SOAPBinding;
+
 public class LoginController {
 
     private HotelsAPI hotelsAPI = new HotelsAPI();
@@ -15,6 +17,10 @@ public class LoginController {
 
         return hotelsAPI.registerUser(new User(name,surname,email,password));
 
+    }
+
+    public User addUser(String name, String surname, String email, String password) throws UserAlreadyExist{
+        return hotelsAPI.addUser(new User(name,surname,email,password));
     }
 
     public boolean loginUser(String email, String password) throws IncorrectEmail, IncorrectPassword {
