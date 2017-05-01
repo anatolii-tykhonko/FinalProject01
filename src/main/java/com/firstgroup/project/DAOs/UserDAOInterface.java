@@ -1,6 +1,8 @@
 package com.firstgroup.project.DAOs;
 
+import com.firstgroup.project.Exceptions.CantDeleteCurrentUser;
 import com.firstgroup.project.Exceptions.UserAlreadyExist;
+import com.firstgroup.project.Exceptions.UserNotCreated;
 import com.firstgroup.project.hotels.User;
 
 /**
@@ -10,7 +12,7 @@ public interface UserDAOInterface {
 
     User save(User obj) throws UserAlreadyExist;
 
-    boolean delete(User obj);
+    User delete(String email) throws UserNotCreated, CantDeleteCurrentUser;
 
     User update(User obj);
 }

@@ -1,9 +1,6 @@
 package com.firstgroup.project.DAOs;
 
-import com.firstgroup.project.Exceptions.HotelAlreadyExist;
-import com.firstgroup.project.Exceptions.IncorrectEmail;
-import com.firstgroup.project.Exceptions.IncorrectPassword;
-import com.firstgroup.project.Exceptions.UserAlreadyExist;
+import com.firstgroup.project.Exceptions.*;
 import com.firstgroup.project.dataBase.DBService;
 import com.firstgroup.project.hotels.Hotel;
 import com.firstgroup.project.hotels.Room;
@@ -22,11 +19,12 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
         DBService.load();
     }
 
-    public User save (User obj) throws UserAlreadyExist {
+    public User save(User obj) throws UserAlreadyExist {
         if (dbService.getDataBase().getUserMap().keySet().contains(obj.getEmail())) {
             throw new UserAlreadyExist("Юзер с таким имейлом уже существует");
         }
-        dbService.getDataBase().getUserMap().put(obj.getEmail(),obj);
+        dbService.getDataBase().getUserMap().put(obj.getEmail(), obj);
+        dbService.getDataBase().setCurrentUser(obj);
         return obj;
     }
 
@@ -44,12 +42,14 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
         return obj;
     }
 
-    public boolean delete(User obj) {
-        return false;
+    public User delete(String email) throws UserNotCreated, CantDeleteCurrentUser {
+        if (getDbService().getDataBase().getCurrentUser().equals(getDbService().getDataBase().getUserMap().get(email))) throw new CantDeleteCurrentUser("Нельзя удалить текущего юзера! Повторите попытку!");
+        if (!getDbService().getDataBase().getUserMap().keySet().contains(email)) throw new UserNotCreated("Неверный email! Попробуйте снова!");
+        return getDbService().getDataBase().getUserMap().remove(email);
     }
 
     public boolean delete(Hotel obj) {
-        if(dbService.getDataBase().getHotelList().contains(obj)){
+        if (dbService.getDataBase().getHotelList().contains(obj)) {
             dbService.getDataBase().getHotelList().remove(obj);
             return true;
         }
@@ -85,12 +85,12 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
     }
 
     public boolean loginUser(String email, String password) throws IncorrectEmail, IncorrectPassword {
-        if (dbService.getDataBase().getUserMap().keySet().contains(email)){
+        if (dbService.getDataBase().getUserMap().keySet().contains(email)) {
             if (dbService.getDataBase().getUserMap().get(email).getPassword().equals(password)) {
                 getDbService().getDataBase().setCurrentUser(getDbService().getDataBase().getUserMap().get(email));
                 return true;
-            }else throw new IncorrectPassword("Не верный пароль! Повторите ввод!");
-        }else throw new IncorrectEmail("Юзера с таким email не существует! Повторите ввод!");
+            } else throw new IncorrectPassword("Не верный пароль! Повторите ввод!\n");
+        } else throw new IncorrectEmail("Юзера с таким email не существует! Повторите ввод!\n");
 
     }
 

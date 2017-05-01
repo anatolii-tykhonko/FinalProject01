@@ -55,8 +55,8 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "Имя: " + name +
-                ", фамилия" + surname +
-                ", email: '" + email;
+        return  "Имя: " + name +
+                ", фамилия: " + surname +
+                ", email: " + email;
     }
 }

@@ -11,9 +11,9 @@ public class LoginController {
 
     private HotelsAPI hotelsAPI = new HotelsAPI();
 
-    public void registerUser (String name, String surname, String email, String password) throws UserAlreadyExist {
+    public User registerUser (String name, String surname, String email, String password) throws UserAlreadyExist {
 
-        hotelsAPI.registerUser(new User(name,surname,email,password));
+        return hotelsAPI.registerUser(new User(name,surname,email,password));
 
     }
 

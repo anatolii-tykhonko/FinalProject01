@@ -1,10 +1,7 @@
 package com.firstgroup.project.APIs;
 
 import com.firstgroup.project.DAOs.CommonDAO;
-import com.firstgroup.project.Exceptions.HotelAlreadyExist;
-import com.firstgroup.project.Exceptions.IncorrectEmail;
-import com.firstgroup.project.Exceptions.IncorrectPassword;
-import com.firstgroup.project.Exceptions.UserAlreadyExist;
+import com.firstgroup.project.Exceptions.*;
 import com.firstgroup.project.dataBase.DBService;
 import com.firstgroup.project.hotels.Hotel;
 import com.firstgroup.project.hotels.Room;
@@ -50,8 +47,8 @@ public class HotelsAPI implements API {
         return null;
     }
 
-    public boolean deleteUser(User user) {
-        return false;
+    public User deleteUser(String email) throws UserNotCreated, CantDeleteCurrentUser {
+        return commonDAO.delete(email);
     }
 
     public Hotel findHotelByName(String hotelName) {

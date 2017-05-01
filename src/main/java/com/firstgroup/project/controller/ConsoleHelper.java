@@ -1,19 +1,14 @@
 package com.firstgroup.project.controller;
 
-import com.firstgroup.project.Exceptions.HotelAlreadyExist;
-import com.firstgroup.project.Exceptions.IncorrectEmail;
-import com.firstgroup.project.Exceptions.IncorrectPassword;
-import com.firstgroup.project.Exceptions.UserAlreadyExist;
+import com.firstgroup.project.Exceptions.*;
 import com.firstgroup.project.dataBase.DBService;
 import com.firstgroup.project.hotels.Hotel;
 import com.firstgroup.project.hotels.Room;
+import com.firstgroup.project.hotels.User;
 import com.firstgroup.project.loginService.LoginController;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -25,8 +20,8 @@ public class ConsoleHelper {
 
     public static void main(String[] args) {
         ConsoleHelper consoleHelper = new ConsoleHelper();
-        consoleHelper.mainMenu();
-//        consoleHelper.loginService();
+//        consoleHelper.mainMenu();
+        consoleHelper.loginService();
     }
 
 
@@ -37,15 +32,19 @@ public class ConsoleHelper {
 
         Scanner sc = new Scanner(System.in);
         String line = sc.nextLine();
+        if (!"1".equals(line) && !"2".equals(line)) {
+            System.out.println("Не верная команда, повторите попытку!\n");
+            loginService();
+        }
         if ("1".equals(line)) {
             regUser();
-            loginService();
+            mainMenu();
         } else {
             enterToSystem();
         }
     }
 
-    public void enterToSystem() {
+    private void enterToSystem() {
         System.out.println("***Вход в систему***");
         String email;
         String password;
@@ -59,16 +58,13 @@ public class ConsoleHelper {
                 System.out.println("Вход выполнен " + loginController.getDbService().getDataBase().getCurrentUser().getName() + "\n");
                 mainMenu();
             }
-        } catch (IncorrectEmail incorrectEmail) {
-            System.out.println(incorrectEmail.getMessage());
-            enterToSystem();
-        } catch (IncorrectPassword incorrectPassword) {
-            System.out.println(incorrectPassword.getMessage());
+        } catch (IncorrectEmail | IncorrectPassword ex) {
+            System.out.println(ex.getMessage());
             enterToSystem();
         }
     }
 
-    public void regUser() {
+    private void regUser() {
         try {
             Scanner sc = new Scanner(System.in);
             System.out.println("Введите Ваше имя");
@@ -80,11 +76,37 @@ public class ConsoleHelper {
             System.out.println("Введите PASSWORD");
             String password = sc.nextLine();
 
-            loginController.registerUser(name, secondName, email, password);
+            User user = loginController.registerUser(name, secondName, email, password);
+            System.out.println("Пользователь " + user.getEmail() + " успешно зарегистрирован!\n");
         } catch (UserAlreadyExist e) {
             System.out.println(e.getMessage());
             regUser();
         }
+    }
+
+    private void deleteUser() {
+        System.out.println("Cписок пользователей----------------------------------------\n");
+        Set<Map.Entry<String, User>> entries = controller.getDbService().getDataBase().getUserMap().entrySet();
+        int count = 1;
+        for (Map.Entry<String, User> entry : entries) {
+            System.out.println(count++ + "." + " " + entry.getValue());
+        }
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\nУкажите email пользователя которого вы хотите удалить");
+        System.out.println("\nДля возврата в меню введите \"0\"");
+        String email = sc.nextLine();
+        if ("0".equals(email))mainMenu();
+        try {
+            System.out.println("Пользователь " + controller.deleteUser(email).getEmail() + " удалён!\n");
+        } catch (UserNotCreated | CantDeleteCurrentUser ex) {
+            System.out.println(ex.getMessage());
+            deleteUser();
+        }
+        int count2 = 1;
+        for (Map.Entry<String, User> entry : entries) {
+            System.out.println(count2++ + " " + entry.getValue());
+        }
+        mainMenu();
 
 
     }
@@ -146,6 +168,7 @@ public class ConsoleHelper {
                     break;
                 case 9:
                     System.out.println("\n***** Удаление пользователей *****\n");
+                    deleteUser();
                     break;
                 case 10:
                     System.out.println("\n***** Поиск отеля по имени *****\n");
@@ -164,8 +187,8 @@ public class ConsoleHelper {
                     break;
                 case 0:
                     System.out.println("\n***** Программа завершена, все изменения сохранены *****\n");
-                    sc.close();
                     DBService.save();
+                    sc.close();
                     break;
                 default:
                     System.out.println("Не верный номер операции! Повторите попытку!" + " \nДля выхода нажмите \"0\"");

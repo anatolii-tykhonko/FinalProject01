@@ -1,10 +1,13 @@
 package com.firstgroup.project.controller;
 
 import com.firstgroup.project.APIs.HotelsAPI;
+import com.firstgroup.project.Exceptions.CantDeleteCurrentUser;
 import com.firstgroup.project.Exceptions.HotelAlreadyExist;
+import com.firstgroup.project.Exceptions.UserNotCreated;
 import com.firstgroup.project.dataBase.DBService;
 import com.firstgroup.project.hotels.Hotel;
 import com.firstgroup.project.hotels.Room;
+import com.firstgroup.project.hotels.User;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -38,6 +41,10 @@ public class Controller {
     }
     public DBService getDbService() {
         return hotelsAPI.getDbService();
+    }
+
+    public User deleteUser(String email) throws UserNotCreated, CantDeleteCurrentUser {
+        return hotelsAPI.deleteUser(email);
     }
 
 }
