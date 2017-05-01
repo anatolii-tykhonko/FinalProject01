@@ -29,7 +29,19 @@ public class Controller {
         return null;
     }
 
+    public boolean deleteHotel(String hotelName){
+        Hotel hotelObject = hotelsAPI.getDbService().getDataBase().getHotelList().stream().filter(hotel ->hotel.getHotelName().equals(hotelName)).findFirst().get();
+        if(hotelObject.getHotelName().equals(hotelName)){
+            return hotelsAPI.deleteHotel(hotelObject);
+        }
+        return false;
+    }
+
+    public boolean deleteRoom(){
+        return false;
+    }
     public DBService getDbService() {
         return hotelsAPI.getDbService();
     }
+
 }

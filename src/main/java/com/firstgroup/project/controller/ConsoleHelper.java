@@ -6,9 +6,11 @@ import com.firstgroup.project.Exceptions.IncorrectPassword;
 import com.firstgroup.project.Exceptions.UserAlreadyExist;
 import com.firstgroup.project.dataBase.DBService;
 import com.firstgroup.project.hotels.Hotel;
+import com.firstgroup.project.hotels.Room;
 import com.firstgroup.project.loginService.LoginController;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -132,9 +134,11 @@ public class ConsoleHelper {
                     break;
                 case 5:
                     System.out.println("\n***** Удалить комнату из отеля *****\n");
+                    deleteRoom();
                     break;
                 case 6:
                     System.out.println("\n***** Удалить отель *****\n");
+                    deleteHotel();
                     break;
                 case 7:
                     System.out.println("\n***** Зарегистрировать пользователя *****\n");
@@ -222,4 +226,47 @@ public class ConsoleHelper {
         controller.addRoom(hotel, roomPersons, roomPrice, dateAvailableFrom);
     }
 
+    private void deleteHotel() {
+        System.out.println("Список отелей : ");
+        int count = 1;
+        List<String> hotelNames = controller.getDbService().getDataBase().getHotelList().stream().map(Hotel::getHotelName).collect(Collectors.toList());
+
+        for (String hotel : hotelNames) {
+            System.out.println(count++ + ". * " + hotel);
+        }
+        System.out.println("Введите имя отеля которий ви хотите удалить...");
+        Scanner in = new Scanner(System.in);
+        String hotelName = in.nextLine();
+        controller.deleteHotel(hotelName);
+
+
+        System.out.println("Список отелей после удаления: ");
+        List<String> hotelNamesWhenWeDeleteHotel = controller.getDbService().getDataBase().getHotelList().stream().map(Hotel::getHotelName).collect(Collectors.toList());
+        int count1 = 1;
+        for (String hotel : hotelNamesWhenWeDeleteHotel) {
+            System.out.println(count1++ + ". * " + hotel);
+        }
+        mainMenu();
+    }
+
+    private void deleteRoom() {
+        System.out.println("Виберете отель из которого ви хотите удалить комануту: ");
+        int count = 1;
+        List<String> hotelNames = controller.getDbService().getDataBase().getHotelList().stream().map(Hotel::getHotelName).collect(Collectors.toList());
+        for (String hotel : hotelNames) {
+            System.out.println(count++ + ". * " + hotel);
+        }
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите имя отеля из которого ви хотите удалить:");
+        String hotelName = in.nextLine();
+        Hotel hotel = controller.getDbService().getDataBase().getHotelList().stream()
+                .filter(hotel1 -> hotel1.getHotelName().equals(hotelName)).findFirst().get();
+        System.out.println("**** Удаление комнат в отеле " + hotel.getHotelName() + " ****");
+        List<Room> roomList = new ArrayList<>(hotel.getRoomList());
+        count = 1;
+        for (Room room : roomList) {
+            System.out.println(count++ + ". * " + room);
+        }
+        controller.deleteRoom();
+    }
 }

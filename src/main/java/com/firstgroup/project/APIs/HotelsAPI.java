@@ -39,7 +39,7 @@ public class HotelsAPI implements API {
     }
 
     public boolean deleteHotel(Hotel hotel) {
-        return false;
+        return commonDAO.delete(hotel);
     }
 
     public User registerUser(User user) throws UserAlreadyExist {
