@@ -28,12 +28,8 @@ public class Controller {
         return hotelsAPI.addRoom(newRoom, hotelIndex);
     }
 
-    public boolean deleteHotel(String hotelName) {
-        Hotel hotelObject = hotelsAPI.getDbService().getDataBase().getHotelList().stream().filter(hotel -> hotel.getHotelName().equals(hotelName)).findFirst().get();
-        if (hotelObject.getHotelName().equals(hotelName)) {
-            return hotelsAPI.deleteHotel(hotelObject);
-        }
-        return false;
+    public boolean deleteHotel(int hotelIndex) {
+        return hotelsAPI.deleteHotel(hotelIndex);
     }
 
     public boolean deleteRoom(Room room) {

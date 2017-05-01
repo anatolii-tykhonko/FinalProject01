@@ -49,12 +49,9 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
         return getDbService().getDataBase().getUserMap().remove(email);
     }
 
-    public boolean delete(Hotel obj) {
-        if (dbService.getDataBase().getHotelList().contains(obj)) {
-            dbService.getDataBase().getHotelList().remove(obj);
-            return true;
-        }
-        return false;
+    public boolean delete(int hotelIndex) {
+        dbService.getDataBase().getHotelList().remove(hotelIndex);
+        return true;
     }
 
     public boolean delete(Room obj) {

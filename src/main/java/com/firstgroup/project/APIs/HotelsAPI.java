@@ -35,8 +35,8 @@ public class HotelsAPI implements API {
         return commonDAO.delete(room);
     }
 
-    public boolean deleteHotel(Hotel hotel) {
-        return commonDAO.delete(hotel);
+    public boolean deleteHotel(int hotelIndex) {
+        return commonDAO.delete(hotelIndex);
     }
 
     public User registerUser(User user) throws UserAlreadyExist {

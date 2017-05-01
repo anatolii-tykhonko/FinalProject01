@@ -19,7 +19,7 @@ public interface API {
     Room addRoom(Room room, int hotelsIndex);
     Room editRoomDetails();
     boolean deleteRoom(Room room);
-    boolean deleteHotel(Hotel hotel);
+    boolean deleteHotel(int hotelIndex);
     User registerUser(User user) throws UserAlreadyExist;
     User editUserInfo(User user);
     User deleteUser(String email) throws UserNotCreated, CantDeleteCurrentUser;

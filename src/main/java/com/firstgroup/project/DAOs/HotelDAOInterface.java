@@ -8,7 +8,7 @@ import com.firstgroup.project.hotels.Hotel;
  */
 public interface HotelDAOInterface {
     Hotel save(Hotel obj) throws HotelAlreadyExist;
-    boolean delete(Hotel obj) ;
+    boolean delete(int hotelIndex) ;
     Hotel update(Hotel obj);
     Hotel findHotelByName(Hotel obj);
     Hotel findHotelByCity(Hotel obj);
