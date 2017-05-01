@@ -47,4 +47,27 @@ public class Room implements Serializable{
                 ", дата: " + availableFrom +
                 ", статус: " + (status?"занятая":"свободная");
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Room room = (Room) o;
+
+        if (persons != room.persons) return false;
+        if (Double.compare(room.price, price) != 0) return false;
+        return status == room.status;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = persons;
+        temp = Double.doubleToLongBits(price);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (status ? 1 : 0);
+        return result;
+    }
 }

@@ -32,7 +32,7 @@ public class HotelsAPI implements API {
     }
 
     public boolean deleteRoom(Room room) {
-        return false;
+        return commonDAO.delete(room);
     }
 
     public boolean deleteHotel(Hotel hotel) {
@@ -43,8 +43,8 @@ public class HotelsAPI implements API {
         return commonDAO.save(user);
     }
 
-    public User editUserInfo() {
-        return null;
+    public User editUserInfo(User user) {
+        return commonDAO.update(user);
     }
 
     public User deleteUser(String email) throws UserNotCreated, CantDeleteCurrentUser {

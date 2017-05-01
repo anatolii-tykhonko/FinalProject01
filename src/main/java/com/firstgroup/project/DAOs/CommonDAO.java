@@ -7,6 +7,7 @@ import com.firstgroup.project.hotels.Room;
 import com.firstgroup.project.hotels.User;
 
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Created by MakeMeSm1Le- on 24.04.2017.
@@ -57,11 +58,25 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
     }
 
     public boolean delete(Room obj) {
+        if(dbService.getDataBase().getHotelList().stream().anyMatch(hotel -> hotel.getRoomList().contains(obj))){
+            System.out.println("deleteDAo true");
+            return dbService.getDataBase().getHotelList().stream().anyMatch(hotel -> hotel.getRoomList().remove(obj));
+        }
         return false;
     }
 
     public User update(User obj) {
-        return null;
+        System.out.println("Введите новое имя пользувателя: ");
+        Scanner in = new Scanner(System.in);
+        String newName = in.nextLine();
+        obj.setName(newName);
+        System.out.println("Введите новою фамилию пользувателя: ");
+        String newSurName = in.nextLine();
+        obj.setSurname(newSurName);
+        System.out.println("Введите новий пароль ");
+        String newPassword = in.nextLine();
+        obj.setPassword(newPassword);
+        return  obj;
     }
 
     public Hotel update(Hotel obj) {

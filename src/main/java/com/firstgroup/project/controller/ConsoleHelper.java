@@ -165,6 +165,7 @@ public class ConsoleHelper {
                     break;
                 case 8:
                     System.out.println("\n***** Редактирование данных пользователя *****\n");
+                    editUserInfo();
                     break;
                 case 9:
                     System.out.println("\n***** Удаление пользователей *****\n");
@@ -286,11 +287,55 @@ public class ConsoleHelper {
         Hotel hotel = controller.getDbService().getDataBase().getHotelList().stream()
                 .filter(hotel1 -> hotel1.getHotelName().equals(hotelName)).findFirst().get();
         System.out.println("**** Удаление комнат в отеле " + hotel.getHotelName() + " ****");
-        List<Room> roomList = new ArrayList<>(hotel.getRoomList());
         count = 1;
-        for (Room room : roomList) {
+        for (Room room : hotel.getRoomList()) {
             System.out.println(count++ + ". * " + room);
         }
-        controller.deleteRoom();
+        System.out.println("Введите номер команти которою ви хотите удалить: ");
+        Scanner in1 = new Scanner(System.in);
+        int i = in1.nextInt();
+        Room room = hotel.getRoomList().get(i - 1);
+        controller.deleteRoom(room);
+        System.out.println("**** Новий список комант в " + hotel.getHotelName() + " ****");
+        List<Room> roomList1 = new ArrayList<>(hotel.getRoomList());
+        count = 1;
+        for (Room room1 : roomList1) {
+            System.out.println(count++ + ". * " + room1);
+        }
+        mainMenu();
+    }
+
+    public void editUserInfo() {
+        System.out.println("Список юзеров в системе: ");
+        Map<String, User> userMap = controller.getDbService().getDataBase().getUserMap();
+        //получаем набор елементов
+        Set<Map.Entry<String, User>> set = userMap.entrySet();
+        // Отобразим набор
+        int count =1;
+        for (Map.Entry<String, User> me : set) {
+            System.out.println(count++ + ". * " + me.getValue());
+        }
+        System.out.println("Введите email usera которого ви хотите удалить: ");
+        Scanner in = new Scanner(System.in);
+        String emailUser = in.nextLine();
+        User user =  controller.getDbService().getDataBase().getUserMap().get(emailUser);
+        controller.editUserInfo(user);
+
+        System.out.println("Поля юзера после редактирувания: ");
+        count =1;
+        for (Map.Entry<String, User> me : set) {
+            System.out.println(count++ + ". * " + me.getValue());
+        }
+        mainMenu();
+    }
+
+    public  void lala(){
+        Map<String, User> userMap = controller.getDbService().getDataBase().getUserMap();
+        Set<Map.Entry<String, User>> set = userMap.entrySet();
+        // Отобразим набор
+        int count =1;
+        for (Map.Entry<String, User> me : set) {
+            System.out.println(count++ + ". * " + me.getValue());
+        }
     }
 }

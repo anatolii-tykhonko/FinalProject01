@@ -28,17 +28,30 @@ public class Controller {
         return hotelsAPI.addRoom(newRoom, hotelIndex);
     }
 
-    public boolean deleteHotel(String hotelName){
-        Hotel hotelObject = hotelsAPI.getDbService().getDataBase().getHotelList().stream().filter(hotel ->hotel.getHotelName().equals(hotelName)).findFirst().get();
-        if(hotelObject.getHotelName().equals(hotelName)){
+    public boolean deleteHotel(String hotelName) {
+        Hotel hotelObject = hotelsAPI.getDbService().getDataBase().getHotelList().stream().filter(hotel -> hotel.getHotelName().equals(hotelName)).findFirst().get();
+        if (hotelObject.getHotelName().equals(hotelName)) {
             return hotelsAPI.deleteHotel(hotelObject);
         }
         return false;
     }
 
-    public boolean deleteRoom(){
+    public boolean deleteRoom(Room room) {
+        if (room != null) {
+            System.out.println("controller true");
+            return hotelsAPI.deleteRoom(room);
+        }
         return false;
     }
+
+    public User editUserInfo(User user) {
+        if(user!=null){
+            System.out.println("controller true");
+            return hotelsAPI.editUserInfo(user);
+        }
+        return null;
+    }
+
     public DBService getDbService() {
         return hotelsAPI.getDbService();
     }
