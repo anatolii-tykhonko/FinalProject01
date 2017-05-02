@@ -10,8 +10,8 @@ public interface HotelDAOInterface {
     Hotel save(Hotel obj) throws HotelAlreadyExist;
     boolean delete(int hotelIndex) ;
     Hotel update(Hotel obj);
-    Hotel findHotelByName(Hotel obj);
-    Hotel findHotelByCity(Hotel obj);
+    Hotel findHotelByName(String hotelName);
+    Hotel findHotelByCity(String cityName);
 
 
 }

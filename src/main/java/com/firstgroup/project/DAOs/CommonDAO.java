@@ -89,19 +89,19 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
         return null;
     }
 
+    public Hotel findHotelByName(String hotelName) {
+        return null;
+    }
+
+    public Hotel findHotelByCity(String cityName) {
+        return null;
+    }
+
+    public List<Room> findRoomsByHotel(String hotelName) {
+        return null;
+    }
+
     public Room update(Room obj) {
-        return null;
-    }
-
-    public Hotel findHotelByName(Hotel obj) {
-        return null;
-    }
-
-    public List<Room> findRoomsByHotel(Hotel hotel) {
-        return null;
-    }
-
-    public Hotel findHotelByCity(Hotel obj) {
         return null;
     }
 
