@@ -7,7 +7,9 @@ import com.firstgroup.project.hotels.Hotel;
 import com.firstgroup.project.hotels.Room;
 import com.firstgroup.project.hotels.User;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
  */
 public class ConsoleHelper {
     Controller controller = new Controller();
+    Scanner scanner = new Scanner(System.in);
 
 
     public static void main(String[] args) {
@@ -49,8 +52,8 @@ public class ConsoleHelper {
     private void chooseTheOperation() {
         System.out.println("Введите номер операции которую вы хотите произвести!!!");
         try {
-            Scanner sc = new Scanner(System.in);
-            switch (sc.nextInt()) {
+//            Scanner scanner = new Scanner(System.in);
+            switch (scanner.nextInt()) {
                 case 1:
                     System.out.println("\n***** Добавление отеля в базу данных *****\n");
                     addHotel();
@@ -58,6 +61,8 @@ public class ConsoleHelper {
                     break;
                 case 2:
                     System.out.println("\n***** Редактирование данных отеля *****\n");
+                    editHotelDetails();
+                    mainMenu();
                     break;
                 case 3:
                     System.out.println("\n***** Добавление комнаты в отель *****\n");
@@ -122,7 +127,7 @@ public class ConsoleHelper {
                 case 0:
                     System.out.println("\n***** Программа завершена, все изменения сохранены *****\n");
                     CommonDAO.save();
-                    sc.close();
+                    scanner.close();
                     break;
                 default:
                     System.out.println("Не верный номер операции! Повторите попытку!" + " \nДля выхода нажмите \"0\"");
@@ -137,8 +142,9 @@ public class ConsoleHelper {
 
     private void addHotel() throws IOException {
         Hotel hotel = null;
-        Scanner scanner = new Scanner(System.in);
+//        Scanner scanner = new Scanner(System.in);
         System.out.println("Укажите название отеля:");
+        scanner.nextLine();
         String hotelName = scanner.nextLine();
         System.out.println("Укажите название города:");
         String cityName = scanner.nextLine();
@@ -160,7 +166,7 @@ public class ConsoleHelper {
     }
 
     private void addRoom() {
-        Scanner scanner = new Scanner(System.in);
+//        Scanner scanner = new Scanner(System.in);
         System.out.println("Выберите отель в котором вы хотите добавить комнату:");
         int count = 1;
         List<String> hotelNames = controller.getCommonDAO().getDataBase().getHotelList().stream().map(Hotel::getHotelName).collect(Collectors.toList());
@@ -190,8 +196,8 @@ public class ConsoleHelper {
             System.out.println(count++ + ". * " + hotel);
         }
         System.out.println("Введите номер отеля которий вы хотите удалить...");
-        Scanner in = new Scanner(System.in);
-        int hotelIndex = in.nextInt() - 1;
+//        Scanner scanner = new Scanner(System.in);
+        int hotelIndex = scanner.nextInt() - 1;
         controller.deleteHotel(hotelIndex);
 
 
@@ -204,15 +210,15 @@ public class ConsoleHelper {
     }
 
     private void deleteRoom() {
-        System.out.println("Виберете отель из которого вы хотите удалить комануту: ");
+        System.out.println("Выберете номер отеля из которого вы хотите удалить комануту: ");
         int count = 1;
         List<String> hotelNames = controller.getCommonDAO().getDataBase().getHotelList().stream().map(Hotel::getHotelName).collect(Collectors.toList());
-        for (String hotel : hotelNames) {
-            System.out.println(count++ + ". * " + hotel);
+        for (String hotelName : hotelNames) {
+            System.out.println(count++ + ". * " + hotelName);
         }
-        Scanner in = new Scanner(System.in);
+//        Scanner scanner = new Scanner(System.in);
         System.out.println("Введите номер отеля из которого ви хотите удалить:");
-        int hotelIndex = in.nextInt() - 1;
+        int hotelIndex = scanner.nextInt() - 1;
         Hotel hotel = controller.getCommonDAO().getDataBase().getHotelList().get(hotelIndex);
         System.out.println("**** Удаление комнат в отеле " + hotel.getHotelName() + " ****");
         count = 1;
@@ -230,6 +236,23 @@ public class ConsoleHelper {
         for (Room room1 : roomList1) {
             System.out.println(count++ + ". * " + room1);
         }
+    }
+
+    public void editHotelDetails() {
+        int count = 1;
+        System.out.println("Выберите из списка номер отеля который необходимо отредактировать:");
+        List<Hotel> hotelList = controller.getCommonDAO().getDataBase().getHotelList();
+        for (Hotel hotel : hotelList) {
+            System.out.println(count++ + ". * " + hotel.getHotelName());
+        }
+        int hotelIndex = scanner.nextInt() - 1;
+        System.out.println("Название отеля " + hotelList.get(hotelIndex).getHotelName() + " изменяем на: ");
+        scanner.nextLine();
+        String newHotelName = scanner.nextLine();
+        System.out.println("Название города " + hotelList.get(hotelIndex).getCityName() + " изменяем на: ");
+        String newCityName = scanner.nextLine();
+        Hotel editedHotel = controller.editHotelDetails(hotelIndex, newHotelName, newCityName);
+        System.out.println("Изменениея успешно сохранены: имя отеля " + editedHotel.getHotelName() + ", город: " + editedHotel.getCityName());
     }
 
     public void editUserInfo() {
@@ -313,12 +336,12 @@ public class ConsoleHelper {
         System.out.println("***Вход в систему***");
         String email;
         String password;
-        Scanner sc = new Scanner(System.in);
+//        Scanner scanner = new Scanner(System.in);
         try {
             System.out.println("Введите email: ");
-            email = sc.nextLine();
+            email = scanner.nextLine();
             System.out.println("Введите password: ");
-            password = sc.nextLine();
+            password = scanner.nextLine();
             if (controller.loginUser(email, password)) {
                 System.out.println("Вход выполнен " + controller.getCommonDAO().getDataBase().getCurrentUser().getName() + "\n");
                 mainMenu();
@@ -331,15 +354,15 @@ public class ConsoleHelper {
 
     private void regUser() {
         try {
-            Scanner sc = new Scanner(System.in);
+//            Scanner scanner = new Scanner(System.in);
             System.out.println("Введите Ваше имя");
-            String name = sc.nextLine();
+            String name = scanner.nextLine();
             System.out.println("Введите Вашу фамилию");
-            String secondName = sc.nextLine();
+            String secondName = scanner.nextLine();
             System.out.println("Введите Ваш email");
-            String email = sc.nextLine();
+            String email = scanner.nextLine();
             System.out.println("Введите PASSWORD");
-            String password = sc.nextLine();
+            String password = scanner.nextLine();
 
             User user = controller.registerUser(name, secondName, email, password);
             System.out.println("Пользователь " + user.getEmail() + " успешно зарегистрирован!\n");
@@ -351,17 +374,17 @@ public class ConsoleHelper {
 
     private void addUser() {
         try {
-            Scanner sc = new Scanner(System.in);
+//            Scanner scanner = new Scanner(System.in);
             System.out.println("Введите Ваше имя");
             System.out.println("\nДля возврата в меню введите \"0\"");
-            String name = sc.nextLine();
+            String name = scanner.nextLine();
             if ("0".equals(name)) return;
             System.out.println("Введите Вашу фамилию");
-            String secondName = sc.nextLine();
+            String secondName = scanner.nextLine();
             System.out.println("Введите Ваш email");
-            String email = sc.nextLine();
+            String email = scanner.nextLine();
             System.out.println("Введите PASSWORD");
-            String password = sc.nextLine();
+            String password = scanner.nextLine();
 
             User user = controller.addUser(name, secondName, email, password);
             System.out.println("Пользователь " + user.getEmail() + " успешно зарегистрирован!\n");
@@ -380,10 +403,10 @@ public class ConsoleHelper {
             System.out.println(count++ + "." + " " + userEntry.getValue());
             emailList.add(userEntry.getValue().getEmail());
         }
-        Scanner sc = new Scanner(System.in);
+//        Scanner scanner = new Scanner(System.in);
         System.out.println("\nУкажите номер пользователя которого хотите удалить");
         System.out.println("\nДля возврата в меню введите \"0\"");
-        int emailIndex = sc.nextInt() - 1;
+        int emailIndex = scanner.nextInt() - 1;
         if (emailIndex == -1) return;
         try {
             System.out.println("Пользователь " + controller.deleteUser(emailList.get(emailIndex)) + " удалён!\n");

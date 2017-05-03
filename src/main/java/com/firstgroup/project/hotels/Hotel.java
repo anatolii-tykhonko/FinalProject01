@@ -39,6 +39,18 @@ public class Hotel implements Serializable {
         return roomList;
     }
 
+    public void setHotelName(String hotelName) {
+        this.hotelName = hotelName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public void setRoomList(List<Room> roomList) {
+        this.roomList = roomList;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

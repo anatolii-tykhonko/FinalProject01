@@ -59,8 +59,9 @@ public class Controller implements API {
         return commonDAO.loginUser(email, password);
     }
 
-    public Hotel editHotelDetails() {
-        return null;
+    public Hotel editHotelDetails(int hotelIndex,String newHotelName,String newCityName) {
+        Hotel editedHotel = new Hotel(newHotelName,newCityName,commonDAO.getDataBase().getHotelList().get(hotelIndex).getRoomList());
+        return commonDAO.update(editedHotel,hotelIndex);
     }
 
     public Room editRoomDetails(int hotelIndex, int roomIndex, int roomPersons, double roomPrice, String date) {

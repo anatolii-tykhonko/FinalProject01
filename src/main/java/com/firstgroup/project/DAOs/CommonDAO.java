@@ -79,8 +79,11 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
         return user;
     }
 
-    public Hotel update(Hotel obj) {
-        return null;
+    public Hotel update(Hotel hotel, int hotelIndex) {
+        Hotel editHotel = dataBase.getHotelList().get(hotelIndex);
+        editHotel.setHotelName(hotel.getHotelName());
+        editHotel.setCityName(hotel.getCityName());
+        return getDataBase().getHotelList().get(hotelIndex);
     }
 
     public Hotel findHotelByName(String hotelName) {
@@ -147,7 +150,6 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
                 return true;
             } else throw new IncorrectPassword("Не верный пароль! Повторите ввод!\n");
         } else throw new IncorrectEmail("Юзера с таким email не существует! Повторите ввод!\n");
-
     }
 
     //    ***** Cервис для работы с "базой данных"
