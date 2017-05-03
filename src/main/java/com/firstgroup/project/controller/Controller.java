@@ -1,16 +1,12 @@
 package com.firstgroup.project.controller;
 
 import com.firstgroup.project.APIs.HotelsAPI;
-import com.firstgroup.project.Exceptions.CantDeleteCurrentUser;
-import com.firstgroup.project.Exceptions.HotelAlreadyExist;
-import com.firstgroup.project.Exceptions.UserNotCreated;
-import com.firstgroup.project.dataBase.DBService;
+import com.firstgroup.project.Exceptions.*;
 import com.firstgroup.project.hotels.Hotel;
 import com.firstgroup.project.hotels.Room;
 import com.firstgroup.project.hotels.User;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,12 +44,26 @@ public class Controller {
         return null;
     }
 
-    public DBService getDbService() {
-        return hotelsAPI.getDbService();
-    }
-
     public User deleteUser(String email) throws UserNotCreated, CantDeleteCurrentUser {
         return hotelsAPI.deleteUser(email);
     }
 
+    public User registerUser (String name, String surname, String email, String password) throws UserAlreadyExist {
+
+        return hotelsAPI.registerUser(new User(name,surname,email,password));
+
+    }
+
+    public User addUser(String name, String surname, String email, String password) throws UserAlreadyExist{
+        return hotelsAPI.addUser(new User(name,surname,email,password));
+    }
+
+    public boolean loginUser(String email, String password) throws IncorrectEmail, IncorrectPassword {
+
+        return hotelsAPI.loginUser(email,password);
+    }
+
+    public HotelsAPI getHotelsAPI() {
+        return hotelsAPI;
+    }
 }

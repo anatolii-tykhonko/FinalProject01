@@ -2,7 +2,6 @@ package com.firstgroup.project.APIs;
 
 import com.firstgroup.project.DAOs.CommonDAO;
 import com.firstgroup.project.Exceptions.*;
-import com.firstgroup.project.dataBase.DBService;
 import com.firstgroup.project.hotels.Hotel;
 import com.firstgroup.project.hotels.Room;
 import com.firstgroup.project.hotels.User;
@@ -80,7 +79,7 @@ public class HotelsAPI implements API {
         return commonDAO.loginUser(email,password);
     }
 
-    public DBService getDbService() {
-        return commonDAO.getDbService();
+    public CommonDAO getCommonDAO() {
+        return commonDAO;
     }
 }

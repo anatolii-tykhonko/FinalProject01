@@ -1,11 +1,12 @@
 package com.firstgroup.project.DAOs;
 
 import com.firstgroup.project.Exceptions.*;
-import com.firstgroup.project.dataBase.DBService;
+import com.firstgroup.project.dataBase.DataBase;
 import com.firstgroup.project.hotels.Hotel;
 import com.firstgroup.project.hotels.Room;
 import com.firstgroup.project.hotels.User;
 
+import java.io.*;
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,59 +15,59 @@ import java.util.Scanner;
  */
 public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOInterface {
 
-    private DBService dbService = new DBService();
+    private static DataBase dataBase = new DataBase();
 
     {
-        DBService.load();
+        load();
     }
 
     public User save(User user) throws UserAlreadyExist {
-        if (dbService.getDataBase().getUserMap().keySet().contains(user.getEmail())) {
+        if (dataBase.getUserMap().keySet().contains(user.getEmail())) {
             throw new UserAlreadyExist("Юзер с таким имейлом уже существует");
         }
-        dbService.getDataBase().getUserMap().put(user.getEmail(), user);
-        dbService.getDataBase().setCurrentUser(user);
+        dataBase.getUserMap().put(user.getEmail(), user);
+        dataBase.setCurrentUser(user);
         return user;
     }
 
 
     public User add(User user) throws UserAlreadyExist {
-        if (dbService.getDataBase().getUserMap().keySet().contains(user.getEmail())) {
+        if (dataBase.getUserMap().keySet().contains(user.getEmail())) {
             throw new UserAlreadyExist("Юзер с таким имейлом уже существует");
         }
-        dbService.getDataBase().getUserMap().put(user.getEmail(), user);
+        dataBase.getUserMap().put(user.getEmail(), user);
         return user;
     }
 
     public Hotel save(Hotel obj) throws HotelAlreadyExist {
-        if (dbService.getDataBase().getHotelList().contains(obj)) {
+        if (dataBase.getHotelList().contains(obj)) {
             System.out.println("Здесь нужно кинуть ексепшн что отель уже существунт");  ///TODO create throw exception
             throw new HotelAlreadyExist("Комната уже существует!");
         }
-        dbService.getDataBase().getHotelList().add(obj);
+        dataBase.getHotelList().add(obj);
         return obj;
     }
 
     public Room save(Room obj, int hotelIndex) {
-        dbService.getDataBase().getHotelList().get(hotelIndex).getRoomList().add(obj);
+        dataBase.getHotelList().get(hotelIndex).getRoomList().add(obj);
         return obj;
     }
 
     public User delete(String email) throws UserNotCreated, CantDeleteCurrentUser {
-        if (getDbService().getDataBase().getCurrentUser().equals(getDbService().getDataBase().getUserMap().get(email))) throw new CantDeleteCurrentUser("Нельзя удалить текущего юзера! Повторите попытку!");
-        if (!getDbService().getDataBase().getUserMap().keySet().contains(email)) throw new UserNotCreated("Неверный email! Попробуйте снова!");
-        return getDbService().getDataBase().getUserMap().remove(email);
+        if (dataBase.getCurrentUser().equals(dataBase.getUserMap().get(email))) throw new CantDeleteCurrentUser("Нельзя удалить текущего юзера! Повторите попытку!");
+        if (!dataBase.getUserMap().keySet().contains(email)) throw new UserNotCreated("Неверный email! Попробуйте снова!");
+        return dataBase.getUserMap().remove(email);
     }
 
     public boolean delete(int hotelIndex) {
-        dbService.getDataBase().getHotelList().remove(hotelIndex);
+        dataBase.getHotelList().remove(hotelIndex);
         return true;
     }
 
     public boolean delete(Room obj) {
-        if(dbService.getDataBase().getHotelList().stream().anyMatch(hotel -> hotel.getRoomList().contains(obj))){
+        if(dataBase.getHotelList().stream().anyMatch(hotel -> hotel.getRoomList().contains(obj))){
             System.out.println("deleteDAo true");
-            return dbService.getDataBase().getHotelList().stream().anyMatch(hotel -> hotel.getRoomList().remove(obj));
+            return dataBase.getHotelList().stream().anyMatch(hotel -> hotel.getRoomList().remove(obj));
         }
         return false;
     }
@@ -106,16 +107,59 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
     }
 
     public boolean loginUser(String email, String password) throws IncorrectEmail, IncorrectPassword {
-        if (dbService.getDataBase().getUserMap().keySet().contains(email)) {
-            if (dbService.getDataBase().getUserMap().get(email).getPassword().equals(password)) {
-                getDbService().getDataBase().setCurrentUser(getDbService().getDataBase().getUserMap().get(email));
+        if (dataBase.getUserMap().keySet().contains(email)) {
+            if (dataBase.getUserMap().get(email).getPassword().equals(password)) {
+                dataBase.setCurrentUser(dataBase.getUserMap().get(email));
                 return true;
             } else throw new IncorrectPassword("Не верный пароль! Повторите ввод!\n");
         } else throw new IncorrectEmail("Юзера с таким email не существует! Повторите ввод!\n");
 
     }
 
-    public DBService getDbService() {
-        return dbService;
+    //    ***** Cервис для работы с "базой данных"
+
+//    * В этом класе есть одна переменная dataBase которая и будет имитировать нашу БД
+//    * Метод save сохраняет все изменения которые мы вносим в нащу БД в файл(в нашем случае изменения вносяться когда мы выходим из програмы через ВЫХОД, команда 0)
+//    * Метод load выгружает нашу БД в переменную dataBase при каждом запуске программы, если файл MyDB.xml будет пустой при запуске выкинет ексепшн, топому я сделал следующий метод
+//    * Метод resetDBToEmpty перезагружает нашу БД в файле до начального состояния(пустой, но со всеми нужными колекциями), этот метод нужно использовать отдельно когда вы тестируете методы, В коде я его нигде не использовал(вызывайте сами вручную)
+//    ** Переменная и все методы кроме getDataBase - статические, я подумал что так будет логично, так как нам надо использовать постоянно одну и ту же переменную для загрузки и выгрузки в файл, так же более проще доступаться к методам save, load, resetDBToEmpty
+//    ** В классе CommonDAO есть переменная dbService через нее мы и доступаемся к нашей БД(к переменной dataBase)
+
+    public static void save() {
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/main/java/com/firstgroup/project/dataBase/MyDB.xml"))) {
+
+            oos.writeObject(dataBase);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void load() {
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("src/main/java/com/firstgroup/project/dataBase/MyDB.xml"))) {
+
+            dataBase = (DataBase) ois.readObject();
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void resetDBToEmpty(){
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/main/java/com/firstgroup/project/dataBase/MyDB.xml"))) {
+
+            oos.writeObject(new DataBase());
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public DataBase getDataBase() {
+        return dataBase;
     }
 }
