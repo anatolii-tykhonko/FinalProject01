@@ -73,18 +73,10 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
         return false;
     }
 
-    public User update(User obj) {
-        System.out.println("Введите новое имя пользувателя: ");
-        Scanner in = new Scanner(System.in);
-        String newName = in.nextLine();
-        obj.setName(newName);
-        System.out.println("Введите новою фамилию пользувателя: ");
-        String newSurName = in.nextLine();
-        obj.setSurname(newSurName);
-        System.out.println("Введите новий пароль ");
-        String newPassword = in.nextLine();
-        obj.setPassword(newPassword);
-        return obj;
+    public User update(User user) {
+        dataBase.getUserMap().get(user.getEmail()).setName(user.getName());
+        dataBase.getUserMap().get(user.getEmail()).setSurname(user.getSurname());
+        return user;
     }
 
     public Hotel update(Hotel obj) {
@@ -124,6 +116,13 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
         return null;
     }
 
+    public Room update(Room obj, int hotelIndex,int roomIndex) {
+        dataBase.getHotelList().get(hotelIndex).getRoomList().get(roomIndex).setPersons(obj.getPersons());
+        dataBase.getHotelList().get(hotelIndex).getRoomList().get(roomIndex).setPrice(obj.getPrice());
+        dataBase.getHotelList().get(hotelIndex).getRoomList().get(roomIndex).setAvailableFrom(obj.getAvailableFrom());
+
+        return dataBase.getHotelList().get(hotelIndex).getRoomList().get(roomIndex);
+    }
    //public List<Room> findRoomsByHotel(String hotelName,int persons,double price,String date) {
    //    List<Hotel> roomList = dbService.getDataBase().getHotelList().stream().filter(hotel -> hotel.getHotelName().equals(hotelName)).
    //            filter(hotel -> hotel.getRoomList().equals()

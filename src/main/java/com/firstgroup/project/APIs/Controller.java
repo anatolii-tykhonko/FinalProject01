@@ -30,18 +30,14 @@ public class Controller implements API {
 
     public boolean deleteRoom(Room room) {
         if (room != null) {
-            System.out.println("consoleHelper true");
             return commonDAO.delete(room);
         }
         return false;
     }
 
-    public User editUserInfo(User user) {
-        if (user != null) {
-            System.out.println("consoleHelper true");
-            return commonDAO.update(user);
-        }
-        return null;
+    public User editUserInfo(String newName,String newSurName,String oldEmail) {
+        User user = new User(newName,newSurName,oldEmail,commonDAO.getDataBase().getUserMap().get(oldEmail).getPassword());
+        return commonDAO.update(user);
     }
 
     public User deleteUser(String email) throws UserNotCreated, CantDeleteCurrentUser {
@@ -67,8 +63,11 @@ public class Controller implements API {
         return null;
     }
 
-    public Room editRoomDetails() {
-        return null;
+    public Room editRoomDetails(int hotelIndex, int roomIndex, int roomPersons, double roomPrice, String date) {
+        Room room = new Room(roomPersons, roomPrice, LocalDate.of(Integer.valueOf(date.substring(0, 4)), Integer.valueOf(date.substring(5, 7)), Integer.valueOf(date.substring(8, 10))));
+
+        return commonDAO.update(room,hotelIndex,roomIndex);
+
     }
 
     public Hotel findHotelByName(String hotelName) {

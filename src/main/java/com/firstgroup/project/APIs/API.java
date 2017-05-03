@@ -14,12 +14,12 @@ public interface API {
     Hotel addHotel(String hotelName, String cityName, int roomPersons, double roomPrice, String date) throws HotelAlreadyExist;
     Hotel editHotelDetails();
     Room addRoom(int hotelIndex, int roomPersons, double roomPrice, String date);
-    Room editRoomDetails();
+    Room editRoomDetails(int hotelIndex, int roomIndex, int roomPersons, double roomPrice, String dateAvailableFrom);
     boolean deleteRoom(Room room);
     boolean deleteHotel(int hotelIndex);
     User registerUser(String name, String surname, String email, String password) throws UserAlreadyExist;
     User addUser(String name, String surname, String email, String password) throws UserAlreadyExist;
-    User editUserInfo(User user);
+    User editUserInfo(String newName,String newSurName,String oldEmail);
     User deleteUser(String email) throws UserNotCreated, CantDeleteCurrentUser;
     Hotel findHotelByName(String hotelName);
     Hotel findHotelByCity(String cityName);

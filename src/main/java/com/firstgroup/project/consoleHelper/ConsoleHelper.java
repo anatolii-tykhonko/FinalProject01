@@ -66,6 +66,8 @@ public class ConsoleHelper {
                     break;
                 case 4:
                     System.out.println("\n***** Редактирование данных комнаты *****\n");
+                    editRoomInfo();
+                    mainMenu();
                     break;
                 case 5:
                     System.out.println("\n***** Удалиение комнат из отеля *****\n");
@@ -217,7 +219,7 @@ public class ConsoleHelper {
         for (Room room : hotel.getRoomList()) {
             System.out.println(count++ + ". * " + room);
         }
-        System.out.println("Введите номер команти которою ви хотите удалить: ");
+        System.out.println("Введите номер комнати которою ви хотите удалить: ");
         Scanner in1 = new Scanner(System.in);
         int i = in1.nextInt();
         Room room = hotel.getRoomList().get(i - 1);
@@ -241,16 +243,51 @@ public class ConsoleHelper {
             System.out.println(count++ + ". * " + userEntry.getValue());
             emailList.add(userEntry.getValue().getEmail());
         }
-        System.out.println("Введите номер пользователя которого вы хотите удалить: ");
+        System.out.println("Введите номер пользователя которого вы хотите редактирувать: ");
         Scanner in = new Scanner(System.in);
         int emailIndex = in.nextInt() - 1;
-        User user = controller.getCommonDAO().getDataBase().getUserMap().get(emailList.get(emailIndex));
-        controller.editUserInfo(user);
-        System.out.println("Поля юзера после редактирования: ");
-        count = 1;
-        for (Map.Entry<String, User> me : entrySet) {
-            System.out.println(count++ + ". * " + me.getValue());
+        String oldEmail = emailList.get(emailIndex);
+        Scanner in1 = new Scanner(System.in);
+        System.out.println("Введите новое имя пользувателя: ");
+        String newName = in1.nextLine();
+        System.out.println("Введите новою фамилию пользувателя: ");
+        String newSurName = in1.nextLine();
+
+        System.out.println("Параметры пользувателя после редактирувания: \n"
+                +controller.editUserInfo(newName, newSurName, oldEmail));
+
+    }
+
+    public void editRoomInfo() {
+        System.out.println("Список отелей в системе: ");
+        int count = 1;
+        List<String> hotelNames = controller.getCommonDAO().getDataBase().getHotelList().stream().map(Hotel::getHotelName).collect(Collectors.toList());
+
+        for (String hotel : hotelNames) {
+            System.out.println(count++ + ". * " + hotel);
         }
+        System.out.println("Введите номер отеля в котором вы хотите редактирувать комнаты");
+        Scanner in = new Scanner(System.in);
+        int hotelIndex = in.nextInt() - 1;
+        Hotel hotel = controller.getCommonDAO().getDataBase().getHotelList().get(hotelIndex);
+        System.out.println("**** Список комнат в " + hotel.getHotelName() + " ****");
+        count = 1;
+        for (Room room : hotel.getRoomList()) {
+            System.out.println(count++ + ". * " + room);
+        }
+        System.out.println("Введите номер комнати которою ви хотите редактирувать: ");
+        int roomIndex = in.nextInt() - 1;
+        Room room = hotel.getRoomList().get(roomIndex );
+        System.out.println("**** Редактирувание параметров комнати  ****");
+        System.out.println("Укажите количество спальных мест в номере:");
+        int roomPersons = in.nextInt();
+        System.out.println("Укажите цену номера в грн:");
+        double roomPrice = in.nextDouble();
+        System.out.println("Укажите дату когда номер будет доступен в формате year.mm.dd");
+        in.nextLine();
+        String dateAvailableFrom = in.nextLine();
+        System.out.println("Комната после введеных изменений: \n"+
+                controller.editRoomDetails(hotelIndex, roomIndex, roomPersons, roomPrice, dateAvailableFrom));
     }
 
     public void loginService() {
@@ -358,7 +395,6 @@ public class ConsoleHelper {
             System.out.println(ex.getMessage());
             deleteUser();
         }
-
     }
 
     private List findByNameHotel() {

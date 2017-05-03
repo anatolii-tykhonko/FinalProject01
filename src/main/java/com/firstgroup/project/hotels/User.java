@@ -68,7 +68,4 @@ public class User implements Serializable {
         this.surname = surname;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

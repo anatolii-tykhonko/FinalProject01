@@ -5,6 +5,8 @@ import com.firstgroup.project.Exceptions.UserAlreadyExist;
 import com.firstgroup.project.Exceptions.UserNotCreated;
 import com.firstgroup.project.hotels.User;
 
+import java.util.List;
+
 /**
  * Created by MakeMeSm1Le- on 24.04.2017.
  */
