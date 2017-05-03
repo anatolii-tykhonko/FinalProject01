@@ -83,12 +83,23 @@ public class Controller implements API {
         return null;
     }
 
-    public Room roomReservationByName(String userName) {
-        return null;
+    public Room roomReservationByName(int hotelIndex, int roomIndex) throws InvalidRoomStatus, InvalidHotelStatus {
+        if (commonDAO.getDataBase().getHotelList().get(hotelIndex).getRoomList().stream().allMatch(Room::isStatus))
+            throw new InvalidHotelStatus("Все комнаты в этом отеле заняты!");
+        Room room = getCommonDAO().getDataBase().getHotelList().get(hotelIndex).getRoomList().get(roomIndex);
+        if (room.isStatus()) throw new InvalidRoomStatus("Эта комната сейчас занята");
+        else {
+            room.setStatus(true);
+            getCommonDAO().getDataBase().getCurrentUser().getRoomList().add(room);
+            System.out.println("Комната успешно забронирована!!!");
+        }
+        return room;
     }
 
-    public boolean cancelReservationByName(String userName) {
-        return false;
+    public boolean cancelReservationByName(int roomIndex) {
+        commonDAO.getDataBase().getCurrentUser().getRoomList().get(roomIndex).setStatus(false);
+        commonDAO.getDataBase().getCurrentUser().getRoomList().remove(roomIndex);
+        return true;
     }
 
     public CommonDAO getCommonDAO() {

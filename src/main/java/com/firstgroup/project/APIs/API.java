@@ -24,7 +24,7 @@ public interface API {
     Hotel findHotelByName(String hotelName);
     Hotel findHotelByCity(String cityName);
     List<Room> findRoomsByHotel(String hotelName);
-    Room roomReservationByName(String userName);
-    boolean cancelReservationByName(String userName);
+    Room roomReservationByName(int hotelIndex, int roomIndex) throws InvalidRoomStatus, InvalidHotelStatus;
+    boolean cancelReservationByName(int roomIndex);
     boolean loginUser(String email, String password) throws IncorrectEmail, IncorrectPassword;
 }

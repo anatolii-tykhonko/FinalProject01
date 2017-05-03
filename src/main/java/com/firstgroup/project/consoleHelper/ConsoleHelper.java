@@ -109,9 +109,13 @@ public class ConsoleHelper {
                     break;
                 case 13:
                     System.out.println("\n***** Бронирование комнаты на имя пользователя *****\n");
+                    reservationRoom();
+                    mainMenu();
                     break;
                 case 14:
                     System.out.println("\n***** Отмена бронирования комнаты *****\n");
+                    cancelReservation();
+                    mainMenu();
                     break;
                 case 0:
                     System.out.println("\n***** Программа завершена, все изменения сохранены *****\n");
@@ -312,7 +316,9 @@ public class ConsoleHelper {
         try {
             Scanner sc = new Scanner(System.in);
             System.out.println("Введите Ваше имя");
+            System.out.println("\nДля возврата в меню введите \"0\"");
             String name = sc.nextLine();
+            if ("0".equals(name)) return;
             System.out.println("Введите Вашу фамилию");
             String secondName = sc.nextLine();
             System.out.println("Введите Ваш email");
@@ -400,6 +406,57 @@ public class ConsoleHelper {
 
         return null;
 
+
+    }
+
+    private void reservationRoom(){
+        System.out.println("Виберете отель в которогм вы хотите забронировать комануту: ");
+        int count = 1;
+        List<String> hotelNames = controller.getCommonDAO().getDataBase().getHotelList().stream().map(Hotel::getHotelName).collect(Collectors.toList());
+        for (String hotel : hotelNames) {
+            System.out.println(count++ + ". * " + hotel);
+        }
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите номер отеля в котором вы хотите забронировать комнату:");
+        System.out.println("Для выхода введите \"0\".");
+        int hotelIndex = in.nextInt() - 1;
+        if (hotelIndex == -1) return;
+        Hotel hotel = controller.getCommonDAO().getDataBase().getHotelList().get(hotelIndex);
+        System.out.println("**** Бронирование комнат в отеле " + hotel.getHotelName() + " ****");
+        count = 1;
+        for (Room room : hotel.getRoomList()) {
+            System.out.println(count++ + ". * " + room);
+        }
+        System.out.println("Введите номер комнати которою ви хотите забронировать: ");
+        Scanner in1 = new Scanner(System.in);
+        int i = in1.nextInt();
+
+
+        try {
+            controller.roomReservationByName(hotelIndex,i-1);
+            hotel.getRoomList().stream().forEach(System.out::println);
+            System.out.println(controller.getCommonDAO().getDataBase().getCurrentUser().getRoomList());
+        } catch (InvalidRoomStatus | InvalidHotelStatus invalidStatus) {
+            System.out.println(invalidStatus.getMessage());
+            reservationRoom();
+        }
+    }
+
+    private void cancelReservation(){
+        int count = 1;
+        List<Room> userRooms = controller.getCommonDAO().getDataBase().getCurrentUser().getRoomList();
+        for (Room room : userRooms) {
+            System.out.println(count++ + ". * " + room);
+        }
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите номер комнаты с которой вы хотите снять бронь: ");
+        System.out.println("Для выхода введите \"0\".");
+        int roomIndex = in.nextInt() - 1;
+        if (roomIndex == -1) return;
+
+        if (controller.cancelReservationByName(roomIndex)) {
+            System.out.println("Бронь снята");
+        }
 
     }
 }

@@ -10,7 +10,6 @@ import java.io.*;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by MakeMeSm1Le- on 24.04.2017.
@@ -105,7 +104,7 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
 
     public Hotel findHotelByCity(String cityName) {
         List<Hotel> hotelList = getDataBase().getHotelList().stream().filter(hotel -> hotel.getCityName().equals(cityName)).collect(Collectors.toList());
-        if (hotelList.size() == 0) {
+        if (hotelList.isEmpty()) {
             System.out.println("По Вашему запросу ничего не обнаружено");
         } else
             System.out.println("По Вашему запросу найдены следующие варианты: ");
