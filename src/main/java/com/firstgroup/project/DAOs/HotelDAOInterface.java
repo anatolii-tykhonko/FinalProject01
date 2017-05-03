@@ -12,6 +12,4 @@ public interface HotelDAOInterface {
     Hotel update(Hotel obj);
     Hotel findHotelByName(String hotelName);
     Hotel findHotelByCity(String cityName);
-
-
 }

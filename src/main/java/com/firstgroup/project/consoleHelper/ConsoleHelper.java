@@ -1,5 +1,6 @@
-package com.firstgroup.project.controller;
+package com.firstgroup.project.consoleHelper;
 
+import com.firstgroup.project.APIs.Controller;
 import com.firstgroup.project.DAOs.CommonDAO;
 import com.firstgroup.project.Exceptions.*;
 import com.firstgroup.project.hotels.Hotel;
@@ -150,12 +151,12 @@ public class ConsoleHelper {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Выберите отель в котором вы хотите добавить комнату:");
         int count = 1;
-        List<String> hotelNames = controller.getHotelsAPI().getCommonDAO().getDataBase().getHotelList().stream().map(Hotel::getHotelName).collect(Collectors.toList());
+        List<String> hotelNames = controller.getCommonDAO().getDataBase().getHotelList().stream().map(Hotel::getHotelName).collect(Collectors.toList());
         for (String hotel : hotelNames) {
             System.out.println(count++ + ". * " + hotel);
         }
         int hotelIndex = scanner.nextInt() - 1;
-        Hotel hotel = controller.getHotelsAPI().getCommonDAO().getDataBase().getHotelList().get(hotelIndex);
+        Hotel hotel = controller.getCommonDAO().getDataBase().getHotelList().get(hotelIndex);
         System.out.println("**** Добавление комнат в отель " + hotel.getHotelName() + " ****");
         System.out.println("Укажите количество спальных мест в номере:");
         int roomPersons = scanner.nextInt();
@@ -171,7 +172,7 @@ public class ConsoleHelper {
     private void deleteHotel() {
         System.out.println("Список отелей : ");
         int count = 1;
-        List<String> hotelNames = controller.getHotelsAPI().getCommonDAO().getDataBase().getHotelList().stream().map(Hotel::getHotelName).collect(Collectors.toList());
+        List<String> hotelNames = controller.getCommonDAO().getDataBase().getHotelList().stream().map(Hotel::getHotelName).collect(Collectors.toList());
 
         for (String hotel : hotelNames) {
             System.out.println(count++ + ". * " + hotel);
@@ -183,7 +184,7 @@ public class ConsoleHelper {
 
 
         System.out.println("Список отелей после удаления: ");
-        List<String> hotelNamesWhenWeDeleteHotel = controller.getHotelsAPI().getCommonDAO().getDataBase().getHotelList().stream().map(Hotel::getHotelName).collect(Collectors.toList());
+        List<String> hotelNamesWhenWeDeleteHotel = controller.getCommonDAO().getDataBase().getHotelList().stream().map(Hotel::getHotelName).collect(Collectors.toList());
         int count1 = 1;
         for (String hotel : hotelNamesWhenWeDeleteHotel) {
             System.out.println(count1++ + ". * " + hotel);
@@ -193,14 +194,14 @@ public class ConsoleHelper {
     private void deleteRoom() {
         System.out.println("Виберете отель из которого вы хотите удалить комануту: ");
         int count = 1;
-        List<String> hotelNames = controller.getHotelsAPI().getCommonDAO().getDataBase().getHotelList().stream().map(Hotel::getHotelName).collect(Collectors.toList());
+        List<String> hotelNames = controller.getCommonDAO().getDataBase().getHotelList().stream().map(Hotel::getHotelName).collect(Collectors.toList());
         for (String hotel : hotelNames) {
             System.out.println(count++ + ". * " + hotel);
         }
         Scanner in = new Scanner(System.in);
         System.out.println("Введите номер отеля из которого ви хотите удалить:");
         int hotelIndex = in.nextInt() - 1;
-        Hotel hotel = controller.getHotelsAPI().getCommonDAO().getDataBase().getHotelList().get(hotelIndex);
+        Hotel hotel = controller.getCommonDAO().getDataBase().getHotelList().get(hotelIndex);
         System.out.println("**** Удаление комнат в отеле " + hotel.getHotelName() + " ****");
         count = 1;
         for (Room room : hotel.getRoomList()) {
@@ -221,7 +222,7 @@ public class ConsoleHelper {
 
     public void editUserInfo() {
         System.out.println("Список юзеров в системе: ");
-        Set<Map.Entry<String, User>> entrySet = controller.getHotelsAPI().getCommonDAO().getDataBase().getUserMap().entrySet();
+        Set<Map.Entry<String, User>> entrySet = controller.getCommonDAO().getDataBase().getUserMap().entrySet();
         //получаем набор елементов
         // Отобразим набор
         int count = 1;
@@ -233,7 +234,7 @@ public class ConsoleHelper {
         System.out.println("Введите номер пользователя которого вы хотите удалить: ");
         Scanner in = new Scanner(System.in);
         int emailIndex = in.nextInt() - 1;
-        User user = controller.getHotelsAPI().getCommonDAO().getDataBase().getUserMap().get(emailList.get(emailIndex));
+        User user = controller.getCommonDAO().getDataBase().getUserMap().get(emailList.get(emailIndex));
         controller.editUserInfo(user);
         System.out.println("Поля юзера после редактирования: ");
         count = 1;
@@ -272,7 +273,7 @@ public class ConsoleHelper {
             System.out.println("Введите password: ");
             password = sc.nextLine();
             if (controller.loginUser(email, password)) {
-                System.out.println("Вход выполнен " + controller.getHotelsAPI().getCommonDAO().getDataBase().getCurrentUser().getName() + "\n");
+                System.out.println("Вход выполнен " + controller.getCommonDAO().getDataBase().getCurrentUser().getName() + "\n");
                 mainMenu();
             }
         } catch (IncorrectEmail | IncorrectPassword ex) {
@@ -323,7 +324,7 @@ public class ConsoleHelper {
 
     private void deleteUser() {
         System.out.println("Cписок пользователей----------------------------------------\n");
-        Set<Map.Entry<String, User>> entries = controller.getHotelsAPI().getCommonDAO().getDataBase().getUserMap().entrySet();
+        Set<Map.Entry<String, User>> entries = controller.getCommonDAO().getDataBase().getUserMap().entrySet();
         int count = 1;
         List<String> emailList = new ArrayList<>();
         for (Map.Entry<String, User> userEntry : entries) {
