@@ -54,4 +54,13 @@ public class Hotel implements Serializable {
         return hotelName != null ? hotelName.hashCode() : 0;
     }
 
+    @Override
+    public String toString() {
+        return "Hotel{" +
+                "hotelID=" + hotelID +
+                ", hotelName='" + hotelName + '\'' +
+                ", cityName='" + cityName + '\'' +
+                ", roomList=" + roomList +
+                '}';
+    }
 }

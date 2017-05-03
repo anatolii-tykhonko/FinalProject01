@@ -94,12 +94,18 @@ public class ConsoleHelper {
                     break;
                 case 10:
                     System.out.println("\n***** Поиск отеля по имени *****\n");
+                    findByNameHotel();
+                    mainMenu();
                     break;
                 case 11:
                     System.out.println("\n***** Поиск отеля по городу *****\n");
+                    findByCity();
+                    mainMenu();
                     break;
                 case 12:
                     System.out.println("\n***** Поиск комнаты по отелю *****\n");
+                    findRoomsByHotel();
+                    mainMenu();
                     break;
                 case 13:
                     System.out.println("\n***** Бронирование комнаты на имя пользователя *****\n");
@@ -302,7 +308,7 @@ public class ConsoleHelper {
         }
     }
 
-    private void addUser(){
+    private void addUser() {
         try {
             Scanner sc = new Scanner(System.in);
             System.out.println("Введите Ваше имя");
@@ -346,6 +352,54 @@ public class ConsoleHelper {
             System.out.println(ex.getMessage());
             deleteUser();
         }
+
+    }
+
+    private List findByNameHotel() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Введите название отеля: ");
+        String name = sc.nextLine();
+        CommonDAO commonDAO = new CommonDAO();
+        commonDAO.findHotelByName(name);
+        return null;
+    }
+
+    private List findByCity() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Введите название города: ");
+        String city = sc.nextLine();
+        CommonDAO commonDAO = new CommonDAO();
+        commonDAO.findHotelByCity(city);
+        return null;
+    }
+
+    private List findRoomsByHotel(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Введите название отеля: ");
+        String hotel = sc.nextLine();
+        //System.out.println("Введите 1,если Вы хотите ввести дополнительные критерии подбора комнаты,либо 2,если продолжить поиск без них ");
+        //String answer = sc.nextLine();
+//
+        //if (answer.equals("1")) {
+        //    System.out.println("Введите количество спальных мест ");
+        //    int persons = sc.nextInt();
+        //    System.out.println("Введите максимально допустимую для Вас цену ");
+        //    Double price = sc.nextDouble();
+        //    System.out.println("Введите дату прибытия в отель в формате year.mm.dd ");
+        //    sc.nextLine();
+        //    String dateAvailableFrom = sc.nextLine();
+        //    CommonDAO commonDAO = new CommonDAO();
+        //    commonDAO.findRoomsByHotel(hotel,persons,price,dateAvailableFrom);
+//
+        //}
+        //if (answer.equals("2")) {
+            CommonDAO commonDAO = new CommonDAO();
+            commonDAO.findRoomsByHotel(hotel);
+        //}else System.out.println("Неверный формат ввода");
+
+
+        return null;
+
 
     }
 }

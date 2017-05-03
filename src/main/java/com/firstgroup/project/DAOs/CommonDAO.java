@@ -9,6 +9,8 @@ import com.firstgroup.project.hotels.User;
 import java.io.*;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by MakeMeSm1Le- on 24.04.2017.
@@ -83,7 +85,7 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
         System.out.println("Введите новий пароль ");
         String newPassword = in.nextLine();
         obj.setPassword(newPassword);
-        return  obj;
+        return obj;
     }
 
     public Hotel update(Hotel obj) {
@@ -91,16 +93,50 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
     }
 
     public Hotel findHotelByName(String hotelName) {
+        List<Hotel> hotelList = getDataBase().getHotelList().stream().filter(hotel -> hotel.getHotelName().equals(hotelName)).collect(Collectors.toList());
+        if (hotelList.size() == 0) {
+            System.out.println("По Вашему запросу ничего не обнаружено");
+        } else
+            System.out.println("По Вашему запросу найдены следующие варианты: ");
+
+        hotelList.forEach(System.out::println);
         return null;
     }
 
     public Hotel findHotelByCity(String cityName) {
+        List<Hotel> hotelList = getDataBase().getHotelList().stream().filter(hotel -> hotel.getCityName().equals(cityName)).collect(Collectors.toList());
+        if (hotelList.size() == 0) {
+            System.out.println("По Вашему запросу ничего не обнаружено");
+        } else
+            System.out.println("По Вашему запросу найдены следующие варианты: ");
+        hotelList.forEach(System.out::println);
         return null;
     }
 
     public List<Room> findRoomsByHotel(String hotelName) {
+        List<Hotel> roomList = getDataBase().getHotelList().stream().filter(hotel -> hotel.getHotelName().equals(hotelName)).collect(Collectors.toList());
+        if (roomList.size() == 0) {
+            System.out.println("По Вашему запросу ничего не обнаружено");
+        } else
+            System.out.println("По Вашему запросу найдены следующие варианты: ");
+        roomList.forEach(hotel -> hotel.getRoomList().forEach(System.out::println));
+
+
         return null;
     }
+
+   //public List<Room> findRoomsByHotel(String hotelName,int persons,double price,String date) {
+   //    List<Hotel> roomList = dbService.getDataBase().getHotelList().stream().filter(hotel -> hotel.getHotelName().equals(hotelName)).
+   //            filter(hotel -> hotel.getRoomList().equals()
+   //    if (roomList.size() == 0) {
+   //        System.out.println("По Вашему запросу ничего не обнаружено");
+   //    } else
+   //        System.out.println("По Вашему запросу найдены следующие варианты: ");
+   //    roomList.forEach(hotel -> hotel.getRoomList().forEach(System.out::println));
+
+
+   //    return null;
+   //}
 
     public Room update(Room obj) {
         return null;
