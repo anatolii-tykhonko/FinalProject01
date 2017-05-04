@@ -13,13 +13,20 @@ import java.util.List;
 public class Controller implements API {
     private CommonDAO commonDAO = new CommonDAO();
 
-    public Hotel addHotel(String hotelName, String cityName, int roomPersons, double roomPrice, String date) throws HotelAlreadyExist {
+    public Hotel addHotel(String hotelName, String cityName, int roomPersons, double roomPrice, String date) throws HotelAlreadyExist, EmptyStringException {
         List<Room> roomList = new ArrayList<>();
-        roomList.add(new Room(roomPersons, roomPrice, LocalDate.of(Integer.valueOf(date.substring(0, 4)), Integer.valueOf(date.substring(5, 7)), Integer.valueOf(date.substring(8, 10)))));
+        if (hotelName.equals("") || cityName.equals("") || date.equals("")) {
+            throw new EmptyStringException("Во введенных данных есть пустые строки!\nВведите данные повторно!");
+        }
+        LocalDate dateAvailableFrom = LocalDate.of(Integer.valueOf(date.substring(0, 4)), Integer.valueOf(date.substring(5, 7)), Integer.valueOf(date.substring(8, 10)));
+        roomList.add(new Room(roomPersons, roomPrice, dateAvailableFrom));
         return commonDAO.save(new Hotel(hotelName, cityName, roomList));
     }
 
-    public Room addRoom(int hotelIndex, int roomPersons, double roomPrice, String date) {
+    public Room addRoom(int hotelIndex, int roomPersons, double roomPrice, String date) throws EmptyStringException {
+        if (date.equals("")) {
+            throw new EmptyStringException("Во введенных данных есть пустые строки!\nВведите данные повторно!");
+        }
         Room newRoom = new Room(roomPersons, roomPrice, LocalDate.of(Integer.valueOf(date.substring(0, 4)), Integer.valueOf(date.substring(5, 7)), Integer.valueOf(date.substring(8, 10))));
         return commonDAO.save(newRoom, hotelIndex);
     }
@@ -35,8 +42,8 @@ public class Controller implements API {
         return false;
     }
 
-    public User editUserInfo(String newName,String newSurName,String oldEmail) {
-        User user = new User(newName,newSurName,oldEmail,commonDAO.getDataBase().getUserMap().get(oldEmail).getPassword());
+    public User editUserInfo(String newName, String newSurName, String oldEmail) {
+        User user = new User(newName, newSurName, oldEmail, commonDAO.getDataBase().getUserMap().get(oldEmail).getPassword());
         return commonDAO.update(user);
     }
 
@@ -59,15 +66,19 @@ public class Controller implements API {
         return commonDAO.loginUser(email, password);
     }
 
-    public Hotel editHotelDetails(int hotelIndex,String newHotelName,String newCityName) {
-        Hotel editedHotel = new Hotel(newHotelName,newCityName,commonDAO.getDataBase().getHotelList().get(hotelIndex).getRoomList());
-        return commonDAO.update(editedHotel,hotelIndex);
+    public Hotel editHotelDetails(int hotelIndex, String newHotelName, String newCityName) throws EmptyStringException {
+        if (newHotelName.equals("") || newCityName.equals("")) {
+            throw new EmptyStringException("Во введенных данных есть пустые строки!\nВведите данные повторно!");
+        }
+        Hotel editedHotel = new Hotel(newHotelName, newCityName, commonDAO.getDataBase().getHotelList().get(hotelIndex).getRoomList());
+        return commonDAO.update(editedHotel, hotelIndex);
     }
 
     public Room editRoomDetails(int hotelIndex, int roomIndex, int roomPersons, double roomPrice, String date) {
         Room room = new Room(roomPersons, roomPrice, LocalDate.of(Integer.valueOf(date.substring(0, 4)), Integer.valueOf(date.substring(5, 7)), Integer.valueOf(date.substring(8, 10))));
 
-        return commonDAO.update(room,hotelIndex,roomIndex);
+        return commonDAO.update(room, hotelIndex, roomIndex);
+
     }
 
     public Hotel findHotelByName(String hotelName) {

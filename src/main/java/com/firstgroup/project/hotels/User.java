@@ -8,7 +8,6 @@ import java.util.List;
  * Created by Sonikb on 22.04.2017.
  */
 public class User implements Serializable {
-    private long userID;
     private String name;
     private String surname;
     private String email;
@@ -20,17 +19,6 @@ public class User implements Serializable {
         this.surname = surname;
         this.email = email;
         this.password = password;
-        this.userID = idGenerator();
-    }
-
-
-
-    public int idGenerator() {
-        return Math.abs(name.hashCode() + surname.hashCode() + email.hashCode() + password.hashCode() / 5);
-    }
-
-    public long getUserID() {
-        return userID;
     }
 
     public String getName() {

@@ -10,6 +10,7 @@ import com.firstgroup.project.hotels.User;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.DateTimeException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,9 @@ public class ConsoleHelper {
 
     public void mainMenu() {
 
-        System.out.println("-->Система бронирования отелей<--" + "\n");
+        System.out.println("*-------------------------------------------*\n" +
+                "*------> Система бронирования отелей <------*\n" +
+                "*-------------------------------------------*");
 
         System.out.println("1. * Добавить отель");
         System.out.println("2. * Редактировать данные отеля");
@@ -50,7 +53,7 @@ public class ConsoleHelper {
     }
 
     private void chooseTheOperation() {
-        System.out.println("Введите номер операции которую вы хотите произвести!!!");
+        System.out.println("\nВведите номер операции которую вы хотите произвести!!!");
         try {
             switch (Integer.parseInt(buffRead.readLine())) {
                 case 1:
@@ -133,10 +136,10 @@ public class ConsoleHelper {
                     chooseTheOperation();
             }
         } catch (IOException e) {
-            e.printStackTrace();              //TODO create some exception
+            e.printStackTrace();
         } catch (NoSuchElementException | NumberFormatException n) {
-            System.out.println("Не верный номер операции! Повторите попытку!" + " \nДля выхода нажмите \"0\"");
-            chooseTheOperation();
+            System.out.println("Команда введена неверно! Повторите выбор!" + " \nДля выхода нажмите \"0\"");
+            mainMenu();
         }
     }
 
@@ -149,17 +152,31 @@ public class ConsoleHelper {
             System.out.println("Для создания отеля необходимо создать хотя бы одну комнату!");
             System.out.println("Укажите количество спальных мест в номере:");
             int roomPersons = Integer.parseInt(buffRead.readLine());
+            if (roomPersons == 0 || roomPersons < 0) {
+                System.out.println("Вы ввели 0 или отритцательное число!\nВведите данные повторно!\n");
+                addHotel();
+            }
             System.out.println("Укажите цену номера в грн/сутки:");
             double roomPrice = Double.parseDouble(buffRead.readLine());
+            if (roomPrice == 0 || roomPrice < 0) {
+                System.out.println("Вы ввели 0 или отритцательное число!\nВведите данные повторно!\n");
+                addHotel();
+            }
             System.out.println("Укажите дату когда номер будет доступен в формате year.mm.dd");
             String dateAvailableFrom = buffRead.readLine();
             Hotel hotel = controller.addHotel(hotelName, cityName, roomPersons, roomPrice, dateAvailableFrom);
             System.out.println(hotel.getHotelName() + " успешно сохранен!");
-        } catch (HotelAlreadyExist r) {
-            r.getMessage();
+        } catch (HotelAlreadyExist | EmptyStringException r) {
+            System.out.println(r.getMessage());
             addHotel();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (NumberFormatException e) {
+            System.out.println("Данные введены неверно!\nВведите данные повторно!\n");
+            addHotel();
+        } catch (IndexOutOfBoundsException | DateTimeException e) {
+            System.out.println("Дата введена неверно!\nВведите данные повторно!\n");
+            addHotel();
         }
     }
 
@@ -176,14 +193,34 @@ public class ConsoleHelper {
             System.out.println("**** Добавление комнат в отель " + hotel.getHotelName() + " ****");
             System.out.println("Укажите количество спальных мест в номере:");
             int roomPersons = Integer.parseInt(buffRead.readLine());
+            if (roomPersons == 0 || roomPersons < 0) {
+                System.out.println("Вы ввели 0 или отритцательное число!\nВведите данные повторно!\n");
+                addRoom();
+            }
             System.out.println("Укажите цену номера в грн:");
             double roomPrice = Integer.parseInt(buffRead.readLine());
+            if (roomPrice == 0 || roomPrice < 0) {
+                System.out.println("Вы ввели 0 или отритцательное число!\nВведите данные повторно!\n");
+                addRoom();
+            }
             System.out.println("Укажите дату когда номер будет доступен в формате year.mm.dd");
             String dateAvailableFrom = buffRead.readLine();
             controller.addRoom(hotelIndex, roomPersons, roomPrice, dateAvailableFrom);
             System.out.println("Комната сохранена в отель " + hotel.getHotelName());
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (EmptyStringException r) {
+            System.out.println(r.getMessage());
+            addRoom();
+        } catch (NumberFormatException e) {
+            System.out.println("Данные введены неверно!\nВведите данные повторно!\n");
+            addRoom();
+        } catch (DateTimeException e) {
+            System.out.println("Дата введена неверно!\nВведите данные повторно!\n");
+            addRoom();
+        }catch (IndexOutOfBoundsException e){
+            System.out.println("Некоректно введенные данные, попробуйте снова!\n");
+            addRoom();
         }
     }
 
@@ -242,6 +279,10 @@ public class ConsoleHelper {
 
     public void editHotelDetails() {
         int count = 1;
+        if (controller.getCommonDAO().getDataBase().getHotelList().isEmpty()){
+            System.out.println("В базе нет отелей, сначала необходимо создать отель!");
+            mainMenu();
+        }
         System.out.println("Выберите из списка номер отеля который необходимо отредактировать:");
         List<Hotel> hotelList = controller.getCommonDAO().getDataBase().getHotelList();
         for (Hotel hotel : hotelList) {
@@ -257,6 +298,12 @@ public class ConsoleHelper {
             System.out.println("Изменениея успешно сохранены: имя отеля " + editedHotel.getHotelName() + ", город: " + editedHotel.getCityName());
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (EmptyStringException e) {
+            System.out.println(e.getMessage());
+            editHotelDetails();
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Некоректно введенные данные, попробуйте снова!\n");
+            editHotelDetails();
         }
     }
 

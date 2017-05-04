@@ -7,7 +7,6 @@ import java.util.List;
  * Created by Sonikb on 22.04.2017.
  */
 public class Hotel implements Serializable {
-    private long hotelID;
     private String hotelName;
     private String cityName;
     private List<Room> roomList;
@@ -16,15 +15,6 @@ public class Hotel implements Serializable {
         this.hotelName = hotelName;
         this.cityName = cityName;
         this.roomList = roomList;
-        this.hotelID = idGenerator();
-    }
-
-    public int idGenerator() {
-        return hotelName.hashCode() + cityName.hashCode() / 2;
-    }
-
-    public long getHotelID() {
-        return hotelID;
     }
 
     public String getHotelName() {
@@ -47,10 +37,6 @@ public class Hotel implements Serializable {
         this.cityName = cityName;
     }
 
-    public void setRoomList(List<Room> roomList) {
-        this.roomList = roomList;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -64,15 +50,5 @@ public class Hotel implements Serializable {
     @Override
     public int hashCode() {
         return hotelName != null ? hotelName.hashCode() : 0;
-    }
-
-    @Override
-    public String toString() {
-        return "Hotel{" +
-                "hotelID=" + hotelID +
-                ", hotelName='" + hotelName + '\'' +
-                ", cityName='" + cityName + '\'' +
-                ", roomList=" + roomList +
-                '}';
     }
 }

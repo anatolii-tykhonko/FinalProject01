@@ -42,8 +42,7 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
 
     public Hotel save(Hotel obj) throws HotelAlreadyExist {
         if (dataBase.getHotelList().contains(obj)) {
-            System.out.println("Здесь нужно кинуть ексепшн что отель уже существунт");  ///TODO create throw exception
-            throw new HotelAlreadyExist("Комната уже существует!");
+            throw new HotelAlreadyExist("Отель c таким именем уже существует!");
         }
         dataBase.getHotelList().add(obj);
         return obj;
@@ -124,22 +123,6 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
         dataBase.getHotelList().get(hotelIndex).getRoomList().get(roomIndex).setAvailableFrom(obj.getAvailableFrom());
 
         return dataBase.getHotelList().get(hotelIndex).getRoomList().get(roomIndex);
-    }
-   //public List<Room> findRoomsByHotel(String hotelName,int persons,double price,String date) {
-   //    List<Hotel> roomList = dbService.getDataBase().getHotelList().stream().filter(hotel -> hotel.getHotelName().equals(hotelName)).
-   //            filter(hotel -> hotel.getRoomList().equals()
-   //    if (roomList.size() == 0) {
-   //        System.out.println("По Вашему запросу ничего не обнаружено");
-   //    } else
-   //        System.out.println("По Вашему запросу найдены следующие варианты: ");
-   //    roomList.forEach(hotel -> hotel.getRoomList().forEach(System.out::println));
-
-
-   //    return null;
-   //}
-
-    public Room update(Room obj) {
-        return null;
     }
 
     public boolean loginUser(String email, String password) throws IncorrectEmail, IncorrectPassword {

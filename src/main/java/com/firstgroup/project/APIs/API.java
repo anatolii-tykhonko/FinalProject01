@@ -11,9 +11,9 @@ import java.util.List;
  * Created by Sonikb on 22.04.2017.
  */
 public interface API {
-    Hotel addHotel(String hotelName, String cityName, int roomPersons, double roomPrice, String date) throws HotelAlreadyExist;
-    Hotel editHotelDetails(int hotelIndex,String newHotelName,String newCityName);
-    Room addRoom(int hotelIndex, int roomPersons, double roomPrice, String date);
+    Hotel addHotel(String hotelName, String cityName, int roomPersons, double roomPrice, String date) throws HotelAlreadyExist, EmptyStringException;
+    Hotel editHotelDetails(int hotelIndex,String newHotelName,String newCityName) throws EmptyStringException;
+    Room addRoom(int hotelIndex, int roomPersons, double roomPrice, String date) throws EmptyStringException;
     Room editRoomDetails(int hotelIndex, int roomIndex, int roomPersons, double roomPrice, String dateAvailableFrom);
     boolean deleteRoom(Room room);
     boolean deleteHotel(int hotelIndex);

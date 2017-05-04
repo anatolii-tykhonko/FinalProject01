@@ -7,7 +7,6 @@ import java.io.Serializable;
  * Created by Sonikb on 22.04.2017.
  */
 public class Room implements Serializable {
-    private long roomID;
     private int persons;
     private double price;
     private LocalDate availableFrom;
@@ -17,7 +16,6 @@ public class Room implements Serializable {
         this.persons = persons;
         this.price = price;
         this.availableFrom = availableFrom;
-        this.roomID = idGenerator();
     }
 
     public void setPersons(int persons) {
@@ -36,16 +34,8 @@ public class Room implements Serializable {
         this.status = status;
     }
 
-    public long idGenerator() {
-        return this.persons + (int) this.price + this.availableFrom.hashCode();
-    }
-
     public boolean isStatus() {
         return status;
-    }
-
-    public long getRoomID() {
-        return roomID;
     }
 
     public int getPersons() {
