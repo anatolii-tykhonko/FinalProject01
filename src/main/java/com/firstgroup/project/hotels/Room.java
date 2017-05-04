@@ -62,7 +62,7 @@ public class Room implements Serializable {
 
     @Override
     public String toString() {
-        return "К-тво спальных мест=" + persons +
+        return "К-тво спальных мест: " + persons +
                 ", цена: " + price +
                 ", дата: " + availableFrom +
                 ", статус: " + (status ? "занятая" : "свободная");

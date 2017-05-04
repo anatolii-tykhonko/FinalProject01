@@ -20,7 +20,7 @@ public interface API {
     User registerUser(String name, String surname, String email, String password) throws UserAlreadyExist;
     User addUser(String name, String surname, String email, String password) throws UserAlreadyExist;
     User editUserInfo(String newName,String newSurName,String oldEmail);
-    User deleteUser(String email) throws UserNotCreated, CantDeleteCurrentUser;
+    User deleteUser(String email) throws CantDeleteCurrentUser;
     Hotel findHotelByName(String hotelName);
     Hotel findHotelByCity(String cityName);
     List<Room> findRoomsByHotel(String hotelName);

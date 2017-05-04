@@ -40,7 +40,7 @@ public class Controller implements API {
         return commonDAO.update(user);
     }
 
-    public User deleteUser(String email) throws UserNotCreated, CantDeleteCurrentUser {
+    public User deleteUser(String email) throws CantDeleteCurrentUser {
         return commonDAO.delete(email);
     }
 
@@ -68,7 +68,6 @@ public class Controller implements API {
         Room room = new Room(roomPersons, roomPrice, LocalDate.of(Integer.valueOf(date.substring(0, 4)), Integer.valueOf(date.substring(5, 7)), Integer.valueOf(date.substring(8, 10))));
 
         return commonDAO.update(room,hotelIndex,roomIndex);
-
     }
 
     public Hotel findHotelByName(String hotelName) {

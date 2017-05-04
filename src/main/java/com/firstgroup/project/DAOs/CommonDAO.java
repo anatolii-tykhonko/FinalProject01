@@ -34,7 +34,7 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
 
     public User add(User user) throws UserAlreadyExist {
         if (dataBase.getUserMap().keySet().contains(user.getEmail())) {
-            throw new UserAlreadyExist("Юзер с таким имейлом уже существует");
+            throw new UserAlreadyExist("Юзер с таким имейлом уже существует, повторите попытку! ");
         }
         dataBase.getUserMap().put(user.getEmail(), user);
         return user;
@@ -54,9 +54,8 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
         return obj;
     }
 
-    public User delete(String email) throws UserNotCreated, CantDeleteCurrentUser {
+    public User delete(String email) throws CantDeleteCurrentUser {
         if (dataBase.getCurrentUser().equals(dataBase.getUserMap().get(email))) throw new CantDeleteCurrentUser("Нельзя удалить текущего юзера! Повторите попытку!");
-        if (!dataBase.getUserMap().keySet().contains(email)) throw new UserNotCreated("Неверный email! Попробуйте снова!");
         return dataBase.getUserMap().remove(email);
     }
 
