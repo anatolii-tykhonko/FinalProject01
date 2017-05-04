@@ -8,7 +8,7 @@ import com.firstgroup.project.hotels.User;
 
 import java.io.*;
 import java.util.List;
-import java.util.Scanner;
+
 import java.util.stream.Collectors;
 
 /**
@@ -64,8 +64,7 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
     }
 
     public boolean delete(Room obj) {
-        if(dataBase.getHotelList().stream().anyMatch(hotel -> hotel.getRoomList().contains(obj))){
-            System.out.println("deleteDAo true");
+        if (dataBase.getHotelList().stream().anyMatch(hotel -> hotel.getRoomList().contains(obj))) {
             return dataBase.getHotelList().stream().anyMatch(hotel -> hotel.getRoomList().remove(obj));
         }
         return false;
@@ -112,7 +111,7 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
         return roomList;
     }
 
-    public Room update(Room obj, int hotelIndex,int roomIndex) {
+    public Room update(Room obj, int hotelIndex, int roomIndex) {
         dataBase.getHotelList().get(hotelIndex).getRoomList().get(roomIndex).setPersons(obj.getPersons());
         dataBase.getHotelList().get(hotelIndex).getRoomList().get(roomIndex).setPrice(obj.getPrice());
         dataBase.getHotelList().get(hotelIndex).getRoomList().get(roomIndex).setAvailableFrom(obj.getAvailableFrom());
@@ -139,7 +138,7 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
 //    ** В классе CommonDAO есть переменная dbService через нее мы и доступаемся к нашей БД(к переменной dataBase)
 
     public static void save() {
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/main/java/com/firstgroup/project/dataBase/MyDB.xml"))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/main/java/com/firstgroup/project/dataBase/MyDB.xml"))) {
 
             oos.writeObject(dataBase);
 
@@ -149,7 +148,7 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
     }
 
     public static void load() {
-        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("src/main/java/com/firstgroup/project/dataBase/MyDB.xml"))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("src/main/java/com/firstgroup/project/dataBase/MyDB.xml"))) {
 
             dataBase = (DataBase) ois.readObject();
 
@@ -160,8 +159,8 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
         }
     }
 
-    public static void resetDBToEmpty(){
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/main/java/com/firstgroup/project/dataBase/MyDB.xml"))) {
+    public static void resetDBToEmpty() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/main/java/com/firstgroup/project/dataBase/MyDB.xml"))) {
 
             oos.writeObject(new DataBase());
 
