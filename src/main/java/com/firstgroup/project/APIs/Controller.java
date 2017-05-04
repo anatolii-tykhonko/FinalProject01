@@ -35,11 +35,10 @@ public class Controller implements API {
         return commonDAO.delete(hotelIndex);
     }
 
-    public boolean deleteRoom(Room room) {
-        if (room != null) {
-            return commonDAO.delete(room);
-        }
-        return false;
+    public boolean deleteRoom(int hotelIndex, int roomIndex) {
+        Hotel hotel = commonDAO.getDataBase().getHotelList().get(hotelIndex);
+        Room room = hotel.getRoomList().get(roomIndex - 1);
+        return commonDAO.delete(room);
     }
 
     public User editUserInfo(String newName, String newSurName, String oldEmail) {

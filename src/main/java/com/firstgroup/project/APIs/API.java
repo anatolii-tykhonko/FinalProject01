@@ -15,7 +15,7 @@ public interface API {
     Hotel editHotelDetails(int hotelIndex,String newHotelName,String newCityName) throws EmptyStringException;
     Room addRoom(int hotelIndex, int roomPersons, double roomPrice, String date) throws EmptyStringException;
     Room editRoomDetails(int hotelIndex, int roomIndex, int roomPersons, double roomPrice, String dateAvailableFrom);
-    boolean deleteRoom(Room room);
+    boolean deleteRoom(int hotelIndex,int roomIdex);
     boolean deleteHotel(int hotelIndex);
     User registerUser(String name, String surname, String email, String password) throws UserAlreadyExist;
     User addUser(String name, String surname, String email, String password) throws UserAlreadyExist;
