@@ -1,6 +1,8 @@
 package com.firstgroup.project.DAOs;
 
 
+import com.firstgroup.project.Exceptions.IncorrectDataInput;
+import com.firstgroup.project.hotels.Hotel;
 import com.firstgroup.project.hotels.Room;
 
 import java.time.LocalDate;
@@ -10,5 +12,5 @@ public interface RoomDAOInterface {
     Room save(Room obj, int hotelsIndex);
     boolean delete(Room obj);
     Room update(Room obj, int hotelIndex,int roomIndex);
-    List<Room> findRoomsByHotel(String hotelName);
+    List<Hotel> findRoomsByHotel(String hotelName) throws IncorrectDataInput;
 }

@@ -84,37 +84,32 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
         return getDataBase().getHotelList().get(hotelIndex);
     }
 
-    public Hotel findHotelByName(String hotelName) {
-        List<Hotel> hotelList = getDataBase().getHotelList().stream().filter(hotel -> hotel.getHotelName().equals(hotelName)).collect(Collectors.toList());
-        if (hotelList.size() == 0) {
-            System.out.println("По Вашему запросу ничего не обнаружено");
-        } else
-            System.out.println("По Вашему запросу найдены следующие варианты: ");
-
-        hotelList.forEach(System.out::println);
-        return null;
-    }
-
-    public Hotel findHotelByCity(String cityName) {
-        List<Hotel> hotelList = getDataBase().getHotelList().stream().filter(hotel -> hotel.getCityName().equals(cityName)).collect(Collectors.toList());
+    public List<Hotel> findHotelByName(String hotelName)throws IncorrectDataInput {
+        List<Hotel> hotelList = getDataBase().getHotelList().stream().filter(hotel -> hotel.getHotelName().equalsIgnoreCase(hotelName)).collect(Collectors.toList());
         if (hotelList.isEmpty()) {
-            System.out.println("По Вашему запросу ничего не обнаружено");
+            throw new IncorrectDataInput("Проверьте введенные данные. По Вашему запросу ничего не найдено.");
         } else
-            System.out.println("По Вашему запросу найдены следующие варианты: ");
-        hotelList.forEach(System.out::println);
-        return null;
+            System.out.println("По Вашему запросу найдены следующие отели: ");
+        return hotelList;
     }
 
-    public List<Room> findRoomsByHotel(String hotelName) {
-        List<Hotel> roomList = getDataBase().getHotelList().stream().filter(hotel -> hotel.getHotelName().equals(hotelName)).collect(Collectors.toList());
-        if (roomList.size() == 0) {
-            System.out.println("По Вашему запросу ничего не обнаружено");
+    public List<Hotel> findHotelByCity(String cityName) throws IncorrectDataInput {
+        List<Hotel> hotelList = getDataBase().getHotelList().stream().filter(hotel -> hotel.getCityName().equalsIgnoreCase(cityName)).collect(Collectors.toList());
+        if (hotelList.isEmpty()) {
+            throw new IncorrectDataInput("Проверьте введенные данные. По Вашему запросу ничего не найдено.");
         } else
-            System.out.println("По Вашему запросу найдены следующие варианты: ");
-        roomList.forEach(hotel -> hotel.getRoomList().forEach(System.out::println));
+            System.out.println("По Вашему запросу найдены следующие отели: ");
+        return hotelList;
+    }
 
+    public List<Hotel> findRoomsByHotel(String hotelName) throws IncorrectDataInput {
+        List<Hotel> roomList = getDataBase().getHotelList().stream().filter(hotel -> hotel.getHotelName().equalsIgnoreCase(hotelName)).collect(Collectors.toList());
+        if (roomList.isEmpty()) {
+            throw new IncorrectDataInput("Проверьте введенные данные. По Вашему запросу ничего не найдено.");
+        } else
+            System.out.println("По Вашему запросу найдены следующие комнаты: ");
 
-        return null;
+        return roomList;
     }
 
     public Room update(Room obj, int hotelIndex,int roomIndex) {

@@ -218,7 +218,7 @@ public class ConsoleHelper {
         } catch (DateTimeException e) {
             System.out.println("Дата введена неверно!\nВведите данные повторно!\n");
             addRoom();
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             System.out.println("Некоректно введенные данные, попробуйте снова!\n");
             addRoom();
         }
@@ -279,7 +279,7 @@ public class ConsoleHelper {
 
     public void editHotelDetails() {
         int count = 1;
-        if (controller.getCommonDAO().getDataBase().getHotelList().isEmpty()){
+        if (controller.getCommonDAO().getDataBase().getHotelList().isEmpty()) {
             System.out.println("В базе нет отелей, сначала необходимо создать отель!");
             mainMenu();
         }
@@ -490,58 +490,116 @@ public class ConsoleHelper {
         }
     }
 
-    private List findByNameHotel() {
+    private void findByNameHotel() {
+        System.out.println("В системе имеются следующие отели: ");
+        int count = 1;
+        List<String> hotelNames = controller.getCommonDAO().getDataBase().getHotelList().stream().map(Hotel::getHotelName).collect(Collectors.toList());
+        for (String hotel : hotelNames) {
+            System.out.println(count++ + ". " + hotel);
+        }
+        System.out.println("Введите название отеля: ");
         try {
-            System.out.println("Введите название отеля: ");
             String name = buffRead.readLine();
-            CommonDAO commonDAO = new CommonDAO();
-            commonDAO.findHotelByName(name);
+            List<Hotel> hotelByName = controller.findHotelByName(name);
+            for (Hotel hotel : hotelByName) {
+                System.out.println("Название отеля:" + hotel.getHotelName() + ";" +
+                        "Город:" + hotel.getCityName() + "\n" + "Доступные комнаты: ");
+
+                hotel.getRoomList().forEach(System.out::println);
+
+            }
+            System.out.println("Для продолжения поиска отеля по названию нажмите 1, в противном случае Вы перейдете в главное меню");
+            String answer1 = buffRead.readLine();
+            switch (answer1) {
+                case "1":
+                    findByNameHotel();
+                    break;
+                default:
+                    mainMenu();
+
+            }
+        } catch (IncorrectDataInput | EmptyStringException e) {
+            System.out.println(e.getMessage());
+            findByNameHotel();
+            ;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+
+
     }
 
-    private List findByCity() {
+
+    private void findByCity() {
+        System.out.println("В системе имеются отели в следующих городах: ");
+        int count = 1;
+        List<String> citiesNames = controller.getCommonDAO().getDataBase().getHotelList().stream().map(Hotel::getCityName).distinct().collect(Collectors.toList());
+        for (String city : citiesNames) {
+            System.out.println(count++ + ". " + city);
+        }
+        System.out.println("Введите название города: ");
         try {
-            System.out.println("Введите название города: ");
             String city = buffRead.readLine();
-            CommonDAO commonDAO = new CommonDAO();
-            commonDAO.findHotelByCity(city);
+            List<Hotel> hotelByCity = controller.findHotelByCity(city);
+            for (Hotel hotel : hotelByCity) {
+                System.out.println("Название отеля:" + hotel.getHotelName() + ";" +
+                        "Город:" + hotel.getCityName() + "\n" + "Доступные комнаты: ");
+
+                hotel.getRoomList().forEach(System.out::println);
+
+            }
+            System.out.println("Для продолжения поиска отеля по городу нажмите 1, в противном случае Вы перейдете в главное меню");
+            String answer1 = buffRead.readLine();
+            switch (answer1) {
+                case "1":
+                    findByCity();
+                    break;
+                default:
+                    mainMenu();
+
+            }
+        } catch (IncorrectDataInput | EmptyStringException e) {
+            System.out.println(e.getMessage());
+            findByCity();
+            ;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
     }
 
-    private List findRoomsByHotel() {
+    private void findRoomsByHotel() {
+        System.out.println("В системе имеются следующие отели: ");
+        int count = 1;
+        List<String> hotelNames = controller.getCommonDAO().getDataBase().getHotelList().stream().map(Hotel::getHotelName).collect(Collectors.toList());
+        for (String hotel : hotelNames) {
+            System.out.println(count++ + ". " + hotel);
+        }
+        System.out.println("Введите название отеля: ");
         try {
-            System.out.println("Введите название отеля: ");
-            String hotel = buffRead.readLine();
-            //System.out.println("Введите 1,если Вы хотите ввести дополнительные критерии подбора комнаты,либо 2,если продолжить поиск без них ");
-            //String answer = sc.nextLine();
-//
-            //if (answer.equals("1")) {
-            //    System.out.println("Введите количество спальных мест ");
-            //    int persons = sc.nextInt();
-            //    System.out.println("Введите максимально допустимую для Вас цену ");
-            //    Double price = sc.nextDouble();
-            //    System.out.println("Введите дату прибытия в отель в формате year.mm.dd ");
-            //    sc.nextLine();
-            //    String dateAvailableFrom = sc.nextLine();
-            //    CommonDAO commonDAO = new CommonDAO();
-            //    commonDAO.findRoomsByHotel(hotel,persons,price,dateAvailableFrom);
-//
-            //}
-            //if (answer.equals("2")) {
-            CommonDAO commonDAO = new CommonDAO();
-            commonDAO.findRoomsByHotel(hotel);
-            //}else System.out.println("Неверный формат ввода");
+            String name = buffRead.readLine();
+            List<Hotel> hotelByName = controller.findRoomsByHotel(name);
+            for (Hotel hotel : hotelByName) {
+
+                hotel.getRoomList().forEach(System.out::println);
+
+            }
+            System.out.println("Для продолжения поиска комнат по отелям нажмите 1, в противном случае Вы перейдете в главное меню");
+            String answer1 = buffRead.readLine();
+            switch (answer1) {
+                case "1":
+                    findRoomsByHotel();
+                    break;
+                default:
+                    mainMenu();
+
+            }
+        } catch (IncorrectDataInput | EmptyStringException e) {
+            System.out.println(e.getMessage());
+            findByNameHotel();
+            ;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
-
 
     }
 

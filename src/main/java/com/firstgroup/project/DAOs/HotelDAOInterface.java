@@ -1,7 +1,9 @@
 package com.firstgroup.project.DAOs;
 
 import com.firstgroup.project.Exceptions.HotelAlreadyExist;
+import com.firstgroup.project.Exceptions.IncorrectDataInput;
 import com.firstgroup.project.hotels.Hotel;
+import java.util.List;
 
 /**
  * Created by MakeMeSm1Le- on 24.04.2017.
@@ -10,6 +12,6 @@ public interface HotelDAOInterface {
     Hotel save(Hotel obj) throws HotelAlreadyExist;
     boolean delete(int hotelIndex) ;
     Hotel update(Hotel hotel, int hotelIndex);
-    Hotel findHotelByName(String hotelName);
-    Hotel findHotelByCity(String cityName);
+    List<Hotel> findHotelByName(String hotelName) throws IncorrectDataInput;
+    List<Hotel> findHotelByCity(String cityName) throws IncorrectDataInput;
 }

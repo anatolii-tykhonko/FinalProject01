@@ -21,9 +21,9 @@ public interface API {
     User addUser(String name, String surname, String email, String password) throws UserAlreadyExist;
     User editUserInfo(String newName,String newSurName,String oldEmail);
     User deleteUser(String email) throws CantDeleteCurrentUser;
-    Hotel findHotelByName(String hotelName);
-    Hotel findHotelByCity(String cityName);
-    List<Room> findRoomsByHotel(String hotelName);
+    List<Hotel> findHotelByName(String hotelName) throws IncorrectDataInput, EmptyStringException;
+    List<Hotel> findHotelByCity(String cityName) throws IncorrectDataInput, EmptyStringException;
+    List<Hotel> findRoomsByHotel(String hotelName) throws IncorrectDataInput, EmptyStringException;
     Room roomReservationByName(int hotelIndex, int roomIndex) throws InvalidRoomStatus, InvalidHotelStatus;
     boolean cancelReservationByName(int roomIndex);
     boolean loginUser(String email, String password) throws IncorrectEmail, IncorrectPassword;
