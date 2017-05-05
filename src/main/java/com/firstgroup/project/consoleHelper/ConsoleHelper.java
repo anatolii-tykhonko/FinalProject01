@@ -19,7 +19,6 @@ public class ConsoleHelper {
     Controller controller = new Controller();
     BufferedReader buffRead = new BufferedReader(new InputStreamReader(System.in));
 
-
     public static void main(String[] args) {
         ConsoleHelper consoleHelper = new ConsoleHelper();
 //        consoleHelper.mainMenu();
@@ -29,8 +28,8 @@ public class ConsoleHelper {
     public void mainMenu() {
 
         System.out.println("*-------------------------------------------*\n" +
-                "*------> Система бронирования отелей <------*\n" +
-                "*-------------------------------------------*");
+                           "*------> Система бронирования отелей <------*\n" +
+                           "*-------------------------------------------*");
 
         System.out.println("1. * Добавить отель");
         System.out.println("2. * Редактировать данные отеля");
@@ -47,6 +46,7 @@ public class ConsoleHelper {
         System.out.println("13. * Бронирование комнаты на имя пользователя");
         System.out.println("14. * Отмена бронирования комнаты" + "\n");
         System.out.println("0. * ВЫХОД");
+        System.out.println("*-------------------------------------------*");
         chooseTheOperation();
     }
 
@@ -55,22 +55,30 @@ public class ConsoleHelper {
         try {
             switch (Integer.parseInt(buffRead.readLine())) {
                 case 1:
-                    System.out.println("\n***** Добавление отеля в базу данных *****\n");
+                    System.out.println("\n*----------------------------------------------*\n" +
+                                         "*------> Добавление отеля в базу данных <------*\n" +
+                                         "*----------------------------------------------*\n");
                     addHotel();
                     mainMenu();
                     break;
                 case 2:
-                    System.out.println("\n***** Редактирование данных отеля *****\n");
-                    editHotelDetails();
+                    System.out.println("\n*-------------------------------------------*\n" +
+                                         "*------> Редактирование данных отеля <------*\n" +
+                                         "*-------------------------------------------*\n");
+                    editHotelInfo();
                     mainMenu();
                     break;
                 case 3:
-                    System.out.println("\n***** Добавление комнаты в отель *****\n");
+                    System.out.println("\n*--------------------------------------------*\n" +
+                                         "*-------> Добавление комнаты в отель <-------*\n" +
+                                         "*--------------------------------------------*\n");
                     addRoom();
                     mainMenu();
                     break;
                 case 4:
-                    System.out.println("\n***** Редактирование данных комнаты *****\n");
+                    System.out.println("\n*---------------------------------------------*\n" +
+                                         "*------> Редактирование данных комнаты <------*\n" +
+                                         "*---------------------------------------------*\n");
                     editRoomInfo();
                     mainMenu();
                     break;
@@ -128,6 +136,7 @@ public class ConsoleHelper {
                     System.out.println("\n***** Программа завершена, все изменения сохранены *****\n");
                     CommonDAO.save();
                     buffRead.close();
+                    System.exit(0);
                     break;
                 default:
                     System.out.println("Не верный номер операции! Повторите попытку!" + " \nДля выхода нажмите \"0\"");
@@ -145,8 +154,10 @@ public class ConsoleHelper {
         try {
             System.out.println("Укажите название отеля:");
             String hotelName = buffRead.readLine();
+            controller.validLine(hotelName);
             System.out.println("Укажите название города:");
             String cityName = buffRead.readLine();
+            controller.validLine(cityName);
             System.out.println("Для создания отеля необходимо создать хотя бы одну комнату!");
             System.out.println("Укажите количество спальных мест в номере:");
             int roomPersons = Integer.parseInt(buffRead.readLine());
@@ -164,7 +175,7 @@ public class ConsoleHelper {
             String dateAvailableFrom = buffRead.readLine();
             Hotel hotel = controller.addHotel(hotelName, cityName, roomPersons, roomPrice, dateAvailableFrom);
             System.out.println(hotel.getHotelName() + " успешно сохранен!");
-        } catch (HotelAlreadyExist | EmptyStringException r) {
+        } catch (HotelAlreadyExist | ValidStringNameException r) {
             System.out.println(r.getMessage());
             addHotel();
         } catch (IOException e) {
@@ -207,7 +218,7 @@ public class ConsoleHelper {
             System.out.println("Комната сохранена в отель " + hotel.getHotelName());
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (EmptyStringException r) {
+        } catch (ValidStringNameException r) {
             System.out.println(r.getMessage());
             addRoom();
         } catch (NumberFormatException e) {
@@ -299,7 +310,7 @@ public class ConsoleHelper {
         }
     }
 
-    public void editHotelDetails() {
+    public void editHotelInfo() {
         int count = 1;
         if (controller.getCommonDAO().getDataBase().getHotelList().isEmpty()) {
             System.out.println("В базе нет отелей, сначала необходимо создать отель!");
@@ -314,18 +325,20 @@ public class ConsoleHelper {
             int hotelIndex = Integer.parseInt(buffRead.readLine()) - 1;
             System.out.println("Название отеля " + hotelList.get(hotelIndex).getHotelName() + " изменяем на: ");
             String newHotelName = buffRead.readLine();
+            controller.validLine(newHotelName);
             System.out.println("Название города " + hotelList.get(hotelIndex).getCityName() + " изменяем на: ");
             String newCityName = buffRead.readLine();
+            controller.validLine(newCityName);
             Hotel editedHotel = controller.editHotelDetails(hotelIndex, newHotelName, newCityName);
             System.out.println("Изменениея успешно сохранены: имя отеля " + editedHotel.getHotelName() + ", город: " + editedHotel.getCityName());
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (EmptyStringException e) {
+        } catch (ValidStringNameException e) {
             System.out.println(e.getMessage());
-            editHotelDetails();
+            editHotelInfo();
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Некоректно введенные данные, попробуйте снова!\n");
-            editHotelDetails();
+            editHotelInfo();
         }
     }
 
@@ -365,38 +378,39 @@ public class ConsoleHelper {
     }
 
     public void editRoomInfo() {
-        System.out.println("Список отелей в системе: ");
+        System.out.println("***** Список отелей в системе *****");
         int count = 1;
         List<String> hotelNames = controller.getCommonDAO().getDataBase().getHotelList().stream().map(Hotel::getHotelName).collect(Collectors.toList());
         if (hotelNames.isEmpty()) {
-            System.out.println("Лист отелей пустой, чтобы делать какие-либо действия сначала добавьте отель");
+            System.out.println("\nВ системе не создано ни одного отеля, сначала добавьте отель в систему!\n");
             mainMenu();
         }
         for (String hotel : hotelNames) {
             System.out.println(count++ + ". * " + hotel);
         }
         try {
-            System.out.println("Введите номер отеля в котором вы хотите редактирувать комнаты");
+            System.out.println("Введите номер отеля в котором необходимо редактировать комнаты");
             int hotelIndex = Integer.parseInt(buffRead.readLine()) - 1;
             Hotel hotel = controller.getCommonDAO().getDataBase().getHotelList().get(hotelIndex);
-            System.out.println("**** Список комнат в " + hotel.getHotelName() + " ****");
+            System.out.println("***** Список комнат в " + hotel.getHotelName() + " *****");
             count = 1;
             for (Room room : hotel.getRoomList()) {
                 System.out.println(count++ + ". * " + room);
             }
-            System.out.println("Введите номер комнати которою ви хотите редактирувать: ");
-            int roomIndex = Integer.parseInt(buffRead.readLine()) - 1;// TODO иднекс падаэ после контролера
-            System.out.println("**** Редактирувание параметров комнати  ****");
-            System.out.println("Укажите количество спальных мест в номере:");
+            System.out.println("Введите номер комнаты которою Вы хотите редактировать: ");
+            int roomIndex = Integer.parseInt(buffRead.readLine()) - 1;
+            Room room = hotel.getRoomList().get(roomIndex);
+            System.out.println("*------> Редактирование параметров комнаты <------*");
+            System.out.println("Количество спальных мест в номере: " + room.getPersons() + " изменяем на: ");
             int roomPersons = Integer.parseInt(buffRead.readLine());
             if (roomPersons <= 0) {
-                System.out.println("Количество мест должно быть больше 1, попробуйте снова");
+                System.out.println("Вы ввели 0 или отритцательное число!\nВведите данные повторно!\n");
                 editRoomInfo();
             }
-            System.out.println("Укажите цену номера в грн:");
+            System.out.println("Цена номера в грн/сутки: " + room.getPrice() + " изменяем на: ");
             double roomPrice = Double.parseDouble(buffRead.readLine());
             if (roomPrice <= 0) {
-                System.out.println("Цена должна быть больше нуля, попробуйте снова: ");
+                System.out.println("Вы ввели 0 или отритцательное число!\nВведите данные повторно!\n");
                 editRoomInfo();
             }
             System.out.println("Укажите дату когда номер будет доступен в формате year.mm.dd");
@@ -564,7 +578,7 @@ public class ConsoleHelper {
                     mainMenu();
 
             }
-        } catch (IncorrectDataInput | EmptyStringException e) {
+        } catch (IncorrectDataInput | ValidStringNameException e) {
             System.out.println(e.getMessage());
             findByNameHotel();
             ;
@@ -604,7 +618,7 @@ public class ConsoleHelper {
                     mainMenu();
 
             }
-        } catch (IncorrectDataInput | EmptyStringException e) {
+        } catch (IncorrectDataInput | ValidStringNameException e) {
             System.out.println(e.getMessage());
             findByCity();
             ;
@@ -639,7 +653,7 @@ public class ConsoleHelper {
                     mainMenu();
 
             }
-        } catch (IncorrectDataInput | EmptyStringException e) {
+        } catch (IncorrectDataInput | ValidStringNameException e) {
             System.out.println(e.getMessage());
             findByNameHotel();
             ;
