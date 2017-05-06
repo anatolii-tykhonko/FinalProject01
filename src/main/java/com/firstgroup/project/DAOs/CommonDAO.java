@@ -96,8 +96,7 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
         List<Hotel> hotelList = getDataBase().getHotelList().stream().filter(hotel -> hotel.getCityName().equalsIgnoreCase(cityName)).collect(Collectors.toList());
         if (hotelList.isEmpty()) {
             throw new IncorrectDataInput("Проверьте введенные данные. По Вашему запросу ничего не найдено.");
-        } else
-            System.out.println("По Вашему запросу найдены следующие отели: ");
+        }
         return hotelList;
     }
 

@@ -14,6 +14,8 @@ import java.time.DateTimeException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
+
 
 public class ConsoleHelper {
     Controller controller = new Controller();
@@ -43,8 +45,9 @@ public class ConsoleHelper {
         System.out.println("10. * Поиск отеля по имени");
         System.out.println("11. * Поиск отеля по городу");
         System.out.println("12. * Поиск комнаты по отелю");
-        System.out.println("13. * Бронирование комнаты на имя пользователя");
-        System.out.println("14. * Отмена бронирования комнаты" + "\n");
+        System.out.println("13. * Поиск комнат по цене");
+        System.out.println("14. * Бронирование комнаты на имя пользователя");
+        System.out.println("15. * Отмена бронирования комнаты" + "\n");
         System.out.println("0. * ВЫХОД");
         System.out.println("*-------------------------------------------*");
         chooseTheOperation();
@@ -123,11 +126,16 @@ public class ConsoleHelper {
                     mainMenu();
                     break;
                 case 13:
+                    System.out.println("\n***** Поиск комнаты по цене *****\n");
+                    findRoomsByRangePrice();
+                    mainMenu();
+                    break;
+                case 14:
                     System.out.println("\n***** Бронирование комнаты на имя пользователя *****\n");
                     reservationRoom();
                     mainMenu();
                     break;
-                case 14:
+                case 15:
                     System.out.println("\n***** Отмена бронирования комнаты *****\n");
                     cancelReservation();
                     mainMenu();
@@ -601,6 +609,7 @@ public class ConsoleHelper {
         try {
             String city = buffRead.readLine();
             List<Hotel> hotelByCity = controller.findHotelByCity(city);
+            System.out.println("По Вашему запросу найдены следующие отели: ");
             for (Hotel hotel : hotelByCity) {
                 System.out.println("Название отеля:" + hotel.getHotelName() + ";" +
                         "Город:" + hotel.getCityName() + "\n" + "Доступные комнаты: ");
@@ -659,6 +668,41 @@ public class ConsoleHelper {
             ;
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+    }
+
+    private void findRoomsByRangePrice(){
+        try{
+            System.out.println("Введите минимальную цену для поиска: ");
+            Double minPrice = Double.parseDouble(buffRead.readLine());
+            System.out.println("Введите максимальную цену: ");
+            Double maxPrice = Double.parseDouble(buffRead.readLine());
+            System.out.println("Введите город для подбора номеров: ");
+            String city = buffRead.readLine();
+            List<Hotel> hotelByCity = null;
+            try {
+                hotelByCity = controller.findHotelByCity(city);
+            } catch (IncorrectDataInput | ValidStringNameException e) {
+                System.out.println(e.getMessage());
+                findRoomsByRangePrice();
+            }
+            List<List<Room>> findRoomByCity = hotelByCity.stream().map(hotel -> hotel.getRoomList()).collect(toList());
+            //разматываю лист листов комнат до листа комнат))
+            List<Room> rooms = new ArrayList<>();
+            for(List<Room> roomList: findRoomByCity){
+                for(Room room: roomList){
+                    rooms.add(room);
+                }
+            }
+            List<Room> findRoomByPrice = rooms.stream().filter(room -> room.getPrice() > minPrice && room.getPrice() < maxPrice).collect(toList());
+            if(!findRoomByPrice.isEmpty()) {
+                System.out.println("По вашим критериям поиска найдено следующие комнаты: ");
+                findRoomByPrice.forEach(System.out::println);
+            } else System.out.println("Ни одной комнаты не найдено.");
+        } catch (IOException e) {
+            System.out.println("Неверно задали критерии поиска повторите ввод: ");
+            findRoomsByRangePrice();
         }
 
     }

@@ -9,6 +9,7 @@ import com.firstgroup.project.hotels.User;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Controller implements API {
     private CommonDAO commonDAO = new CommonDAO();
@@ -113,6 +114,17 @@ public class Controller implements API {
         commonDAO.getDataBase().getCurrentUser().getRoomList().get(roomIndex).setStatus(false);
         commonDAO.getDataBase().getCurrentUser().getRoomList().remove(roomIndex);
         return true;
+    }
+
+    public List<String> hotelsAndTownInSystem(byte criteriaFind){
+        List<String> namesHotelInSystem  = commonDAO.getDataBase().getHotelList().stream().map(hotel -> hotel.getHotelName()).collect(Collectors.toList());
+        List<String> cityInSystem = commonDAO.getDataBase().getHotelList().stream().map(hotel -> hotel.getCityName()).collect(Collectors.toList());
+        if(criteriaFind == 0){
+
+            return namesHotelInSystem;
+        } else {
+            return cityInSystem;
+        }
     }
 
     public CommonDAO getCommonDAO() {
