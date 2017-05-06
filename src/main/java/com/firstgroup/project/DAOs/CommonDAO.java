@@ -6,9 +6,12 @@ import com.firstgroup.project.hotels.Hotel;
 import com.firstgroup.project.hotels.Room;
 import com.firstgroup.project.hotels.User;
 
+import javax.jws.soap.SOAPBinding;
 import java.io.*;
 import java.util.List;
 
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -22,21 +25,13 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
         load();
     }
 
-    public User save(User user) throws UserAlreadyExist {
+    public User save(User user, boolean regTRUEaddFALSE) throws UserAlreadyExist {
         if (dataBase.getUserMap().keySet().contains(user.getEmail())) {
             throw new UserAlreadyExist("Юзер с таким имейлом уже существует");
         }
         dataBase.getUserMap().put(user.getEmail(), user);
-        dataBase.setCurrentUser(user);
-        return user;
-    }
+        if (regTRUEaddFALSE) dataBase.setCurrentUser(user);
 
-
-    public User add(User user) throws UserAlreadyExist {
-        if (dataBase.getUserMap().keySet().contains(user.getEmail())) {
-            throw new UserAlreadyExist("Юзер с таким имейлом уже существует, повторите попытку! ");
-        }
-        dataBase.getUserMap().put(user.getEmail(), user);
         return user;
     }
 
@@ -54,7 +49,8 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
     }
 
     public User delete(String email) throws CantDeleteCurrentUser {
-        if (dataBase.getCurrentUser().equals(dataBase.getUserMap().get(email))) throw new CantDeleteCurrentUser("Нельзя удалить текущего юзера! Повторите попытку!");
+        if (dataBase.getCurrentUser().equals(dataBase.getUserMap().get(email)))
+            throw new CantDeleteCurrentUser("Нельзя удалить текущего юзера! Повторите попытку!");
         return dataBase.getUserMap().remove(email);
     }
 
@@ -83,7 +79,7 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
         return getDataBase().getHotelList().get(hotelIndex);
     }
 
-    public List<Hotel> findHotelByName(String hotelName)throws IncorrectDataInput {
+    public List<Hotel> findHotelByName(String hotelName) throws IncorrectDataInput {
         List<Hotel> hotelList = getDataBase().getHotelList().stream().filter(hotel -> hotel.getHotelName().equalsIgnoreCase(hotelName)).collect(Collectors.toList());
         if (hotelList.isEmpty()) {
             throw new IncorrectDataInput("Проверьте введенные данные. По Вашему запросу ничего не найдено.");

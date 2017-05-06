@@ -9,6 +9,7 @@ import com.firstgroup.project.hotels.User;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class Controller implements API {
@@ -51,12 +52,8 @@ public class Controller implements API {
         return commonDAO.delete(email);
     }
 
-    public User registerUser(String name, String surname, String email, String password) throws UserAlreadyExist {
-        return commonDAO.save(new User(name, surname, email, password));
-    }
-
-    public User addUser(String name, String surname, String email, String password) throws UserAlreadyExist {
-        return commonDAO.add(new User(name, surname, email, password));
+    public User registerUser(String name, String surname, String email, String password, boolean regTRUEaddFALSE) throws UserAlreadyExist {
+        return commonDAO.save(new User(name, surname, email, password),regTRUEaddFALSE);
     }
 
     public boolean loginUser(String email, String password) throws IncorrectEmail, IncorrectPassword {
