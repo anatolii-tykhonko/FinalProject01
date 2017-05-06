@@ -75,6 +75,9 @@ public class ConsoleHelper {
                     System.out.println("\n*------------------------------------------------------*\n" +
                                          "*------------> Добавление комнаты в отель <------------*\n" +
                                          "*------------------------------------------------------*\n");
+                    System.out.println("\n*--------------------------------------------*\n" +
+                            "*-------> Добавление комнаты в отель <-------*\n" +
+                            "*--------------------------------------------*\n");
                     addRoom();
                     mainMenu();
                     break;
@@ -117,17 +120,23 @@ public class ConsoleHelper {
                     mainMenu();
                     break;
                 case 10:
-                    System.out.println("\n***** Поиск отеля по имени *****\n");
+                    System.out.println("\n*----------------------------------------------*\n" +
+                            "*----------> Поиск отеля по названию <---------*\n" +
+                            "*----------------------------------------------*\n");
                     findByNameHotel();
                     mainMenu();
                     break;
                 case 11:
-                    System.out.println("\n***** Поиск отеля по городу *****\n");
+                    System.out.println("\n*----------------------------------------------*\n" +
+                            "*------> Поиск отеля по заданному городу <-----*\n" +
+                            "*----------------------------------------------*\n");
                     findByCity();
                     mainMenu();
                     break;
                 case 12:
-                    System.out.println("\n***** Поиск комнаты по отелю *****\n");
+                    System.out.println("\n*----------------------------------------------*\n" +
+                            "*------> Поиск комнат по заданному отелю <-----*\n" +
+                            "*----------------------------------------------*\n");
                     findRoomsByHotel();
                     mainMenu();
                     break;
@@ -577,13 +586,15 @@ public class ConsoleHelper {
             String name = buffRead.readLine();
             List<Hotel> hotelByName = controller.findHotelByName(name);
             for (Hotel hotel : hotelByName) {
-                System.out.println("Название отеля:" + hotel.getHotelName() + ";" +
-                        "Город:" + hotel.getCityName() + "\n" + "Доступные комнаты: ");
+                System.out.println("Название отеля:" + hotel.getHotelName() + ";" + "\n" +
+                        "Местонахождение отеля:" + hotel.getCityName() + ";" + "\n" + "Доступные комнаты: ");
 
                 hotel.getRoomList().forEach(System.out::println);
+                System.out.println("*-----------------------------------------*");
+
 
             }
-            System.out.println("Для продолжения поиска отеля по названию нажмите 1, в противном случае Вы перейдете в главное меню");
+            System.out.println("Для продолжения поиска отеля по названию нажмите <<1>>, в противном случае Вы перейдете в главное меню");
             String answer1 = buffRead.readLine();
             switch (answer1) {
                 case "1":
@@ -618,13 +629,14 @@ public class ConsoleHelper {
             List<Hotel> hotelByCity = controller.findHotelByCity(city);
             System.out.println("По Вашему запросу найдены следующие отели: ");
             for (Hotel hotel : hotelByCity) {
-                System.out.println("Название отеля:" + hotel.getHotelName() + ";" +
-                        "Город:" + hotel.getCityName() + "\n" + "Доступные комнаты: ");
+                System.out.println("Название отеля:" + hotel.getHotelName() + ";" + "\n" +
+                        "Местонахождение отеля:" + hotel.getCityName() + ";" + "\n" + "Доступные комнаты: ");
 
                 hotel.getRoomList().forEach(System.out::println);
+                System.out.println("*-----------------------------------------*");
 
             }
-            System.out.println("Для продолжения поиска отеля по городу нажмите 1, в противном случае Вы перейдете в главное меню");
+            System.out.println("Для продолжения поиска отеля по городу нажмите <<1>>, в противном случае Вы перейдете в главное меню");
             String answer1 = buffRead.readLine();
             switch (answer1) {
                 case "1":
@@ -657,9 +669,11 @@ public class ConsoleHelper {
             for (Hotel hotel : hotelByName) {
 
                 hotel.getRoomList().forEach(System.out::println);
+                System.out.println("*-----------------------------------------*");
+
 
             }
-            System.out.println("Для продолжения поиска комнат по отелям нажмите 1, в противном случае Вы перейдете в главное меню");
+            System.out.println("Для продолжения поиска комнат по отелям нажмите <<1>>, в противном случае Вы перейдете в главное меню");
             String answer1 = buffRead.readLine();
             switch (answer1) {
                 case "1":

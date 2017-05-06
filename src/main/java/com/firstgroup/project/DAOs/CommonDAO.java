@@ -54,7 +54,8 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
     }
 
     public User delete(String email) throws CantDeleteCurrentUser {
-        if (dataBase.getCurrentUser().equals(dataBase.getUserMap().get(email))) throw new CantDeleteCurrentUser("Нельзя удалить текущего юзера! Повторите попытку!");
+        if (dataBase.getCurrentUser().equals(dataBase.getUserMap().get(email)))
+            throw new CantDeleteCurrentUser("Нельзя удалить текущего юзера! Повторите попытку!");
         return dataBase.getUserMap().remove(email);
     }
 
@@ -96,7 +97,8 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
         List<Hotel> hotelList = getDataBase().getHotelList().stream().filter(hotel -> hotel.getCityName().equalsIgnoreCase(cityName)).collect(Collectors.toList());
         if (hotelList.isEmpty()) {
             throw new IncorrectDataInput("Проверьте введенные данные. По Вашему запросу ничего не найдено.");
-        }
+        } else
+            System.out.println("По Вашему запросу найдены следующие отели: ");
         return hotelList;
     }
 
