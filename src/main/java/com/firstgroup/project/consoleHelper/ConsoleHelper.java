@@ -199,7 +199,7 @@ public class ConsoleHelper {
         try {
             int hotelIndex = Integer.parseInt(buffRead.readLine()) - 1;
             Hotel hotel = controller.getCommonDAO().getDataBase().getHotelList().get(hotelIndex);
-            System.out.println("**** Добавление комнат в отель " + hotel.getHotelName() + " ****");
+            System.out.println("**** Добавление комнат в отель " + hotel.getHotelName() + ", город " + hotel.getCityName() + " ****");
             System.out.println("Укажите количество спальных мест в номере:");
             int roomPersons = Integer.parseInt(buffRead.readLine());
             if (roomPersons == 0 || roomPersons < 0) {
@@ -319,7 +319,7 @@ public class ConsoleHelper {
         System.out.println("Выберите из списка номер отеля который необходимо отредактировать:");
         List<Hotel> hotelList = controller.getCommonDAO().getDataBase().getHotelList();
         for (Hotel hotel : hotelList) {
-            System.out.println(count++ + ". * " + hotel.getHotelName());
+            System.out.println(count++ + ". * " + hotel.getHotelName() + ", город " + hotel.getCityName());
         }
         try {
             int hotelIndex = Integer.parseInt(buffRead.readLine()) - 1;
@@ -392,7 +392,7 @@ public class ConsoleHelper {
             System.out.println("Введите номер отеля в котором необходимо редактировать комнаты");
             int hotelIndex = Integer.parseInt(buffRead.readLine()) - 1;
             Hotel hotel = controller.getCommonDAO().getDataBase().getHotelList().get(hotelIndex);
-            System.out.println("***** Список комнат в " + hotel.getHotelName() + " *****");
+            System.out.println("***** Список комнат в " + hotel.getHotelName() + ", город " + hotel.getCityName() + " *****");
             count = 1;
             for (Room room : hotel.getRoomList()) {
                 System.out.println(count++ + ". * " + room);
