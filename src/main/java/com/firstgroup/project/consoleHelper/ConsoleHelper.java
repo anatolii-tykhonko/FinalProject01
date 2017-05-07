@@ -142,7 +142,9 @@ public class ConsoleHelper {
                     mainMenu();
                     break;
                 case 13:
-                    System.out.println("\n***** Поиск комнаты по цене *****\n");
+                    System.out.println("\n*----------------------------------------------*\n" +
+                                         "*-----------> Поиск комнаты по цене <----------*\n" +
+                                         "*----------------------------------------------*\n");
                     findRoomsByRangePrice();
                     mainMenu();
                     break;
