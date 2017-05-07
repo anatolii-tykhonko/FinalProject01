@@ -44,11 +44,14 @@ public class Hotel implements Serializable {
 
         Hotel hotel = (Hotel) o;
 
-        return hotelName != null ? hotelName.equals(hotel.hotelName) : hotel.hotelName == null;
+        if (hotelName != null ? !hotelName.equals(hotel.hotelName) : hotel.hotelName != null) return false;
+        return cityName != null ? cityName.equals(hotel.cityName) : hotel.cityName == null;
     }
 
     @Override
     public int hashCode() {
-        return hotelName != null ? hotelName.hashCode() : 0;
+        int result = hotelName != null ? hotelName.hashCode() : 0;
+        result = 31 * result + (cityName != null ? cityName.hashCode() : 0);
+        return result;
     }
 }

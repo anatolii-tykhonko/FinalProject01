@@ -6,6 +6,7 @@ import com.firstgroup.project.hotels.Room;
 import com.firstgroup.project.hotels.User;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Created by Sonikb on 22.04.2017.
@@ -17,8 +18,7 @@ public interface API {
     Room editRoomDetails(int hotelIndex, int roomIndex, int roomPersons, double roomPrice, String dateAvailableFrom);
     boolean deleteRoom(int hotelIndex,int roomIdex);
     boolean deleteHotel(int hotelIndex);
-    User registerUser(String name, String surname, String email, String password) throws UserAlreadyExist;
-    User addUser(String name, String surname, String email, String password) throws UserAlreadyExist;
+    User registerUser(String name, String surname, String email, String password, boolean regTRUEaddFALSE) throws UserAlreadyExist;
     User editUserInfo(String newName,String newSurName,String oldEmail);
     User deleteUser(String email) throws CantDeleteCurrentUser;
     List<Hotel> findHotelByName(String hotelName) throws IncorrectDataInput, ValidStringNameException;

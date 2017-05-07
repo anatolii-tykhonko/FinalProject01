@@ -9,9 +9,7 @@ import com.firstgroup.project.hotels.User;
  */
 public interface UserDAOInterface {
 
-    User save(User user) throws UserAlreadyExist;
-
-    User add(User user) throws UserAlreadyExist;
+    User save(User user, boolean regTRUEaddFALSE) throws UserAlreadyExist;
 
     User delete(String email) throws CantDeleteCurrentUser;
 
