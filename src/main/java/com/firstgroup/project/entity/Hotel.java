@@ -1,4 +1,4 @@
-package com.firstgroup.project.hotels;
+package com.firstgroup.project.entity;
 
 import java.io.Serializable;
 import java.util.List;

@@ -1,9 +1,9 @@
 package com.firstgroup.project.APIs;
 
 import com.firstgroup.project.Exceptions.*;
-import com.firstgroup.project.hotels.Hotel;
-import com.firstgroup.project.hotels.Room;
-import com.firstgroup.project.hotels.User;
+import com.firstgroup.project.entity.Hotel;
+import com.firstgroup.project.entity.Room;
+import com.firstgroup.project.entity.User;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface API {
     Hotel editHotelDetails(int hotelIndex,String newHotelName,String newCityName) throws ValidStringNameException;
     Room addRoom(int hotelIndex, int roomPersons, double roomPrice, String date) throws ValidStringNameException;
     Room editRoomDetails(int hotelIndex, int roomIndex, int roomPersons, double roomPrice, String dateAvailableFrom);
-    boolean deleteRoom(int hotelIndex,int roomIdex);
+    boolean deleteRoom(int hotelIndex,int roomIndex);
     boolean deleteHotel(int hotelIndex);
     User registerUser(String name, String surname, String email, String password, boolean regTRUEaddFALSE) throws UserAlreadyExist;
     User editUserInfo(String newName,String newSurName,String oldEmail);

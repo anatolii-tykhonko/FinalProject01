@@ -3,9 +3,9 @@ package com.firstgroup.project.consoleHelper;
 import com.firstgroup.project.APIs.Controller;
 import com.firstgroup.project.DAOs.CommonDAO;
 import com.firstgroup.project.Exceptions.*;
-import com.firstgroup.project.hotels.Hotel;
-import com.firstgroup.project.hotels.Room;
-import com.firstgroup.project.hotels.User;
+import com.firstgroup.project.entity.Hotel;
+import com.firstgroup.project.entity.Room;
+import com.firstgroup.project.entity.User;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,16 +16,13 @@ import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
+/**
+ *
+ */
 
 public class ConsoleHelper {
     Controller controller = new Controller();
     BufferedReader buffRead = new BufferedReader(new InputStreamReader(System.in));
-
-    public static void main(String[] args) {
-        ConsoleHelper consoleHelper = new ConsoleHelper();
-//        consoleHelper.mainMenu();
-        consoleHelper.loginService();
-    }
 
     public void mainMenu() {
 
@@ -143,8 +140,8 @@ public class ConsoleHelper {
                     break;
                 case 13:
                     System.out.println("\n*----------------------------------------------*\n" +
-                                         "*-----------> Поиск комнаты по цене <----------*\n" +
-                                         "*----------------------------------------------*\n");
+                            "*-----------> Поиск комнаты по цене <----------*\n" +
+                            "*----------------------------------------------*\n");
                     findRoomsByRangePrice();
                     mainMenu();
                     break;
@@ -164,8 +161,8 @@ public class ConsoleHelper {
                     break;
                 case 0:
                     System.out.println("\n*------------------------------------------------------------------------------*\n" +
-                                         "*---------------> Программа завершена, все изменения сохранены! <--------------*\n" +
-                                         "*------------------------------------------------------------------------------*\n");
+                            "*---------------> Программа завершена, все изменения сохранены! <--------------*\n" +
+                            "*------------------------------------------------------------------------------*\n");
                     CommonDAO.save();
                     buffRead.close();
                     System.exit(0);
@@ -181,8 +178,6 @@ public class ConsoleHelper {
             mainMenu();
         }
     }
-
-/// TODO this is my testing
 
     public void userMainMenu() {
 
@@ -207,27 +202,29 @@ public class ConsoleHelper {
             switch (Integer.parseInt(buffRead.readLine())) {
                 case 1:
                     System.out.println("\n*-----------------------------------------------*\n" +
-                                         "*------------> Поиск отеля по имени <-----------*\n" +
-                                         "*-----------------------------------------------*\n");
+                            "*------------> Поиск отеля по имени <-----------*\n" +
+                            "*-----------------------------------------------*\n");
                     findByNameHotel();
                     userMainMenu();
                     break;
                 case 2:
                     System.out.println("\n*----------------------------------------------*\n" +
-                                         "*-----------> Поиск отеля по городу <----------*\n" +
-                                         "*----------------------------------------------*\n");
+                            "*-----------> Поиск отеля по городу <----------*\n" +
+                            "*----------------------------------------------*\n");
                     findByCity();
                     userMainMenu();
                     break;
                 case 3:
                     System.out.println("\n*----------------------------------------------*\n" +
-                                         "*-----------> Поиск комнат по отелю <----------*\n" +
-                                         "*----------------------------------------------*\n");
+                            "*-----------> Поиск комнат по отелю <----------*\n" +
+                            "*----------------------------------------------*\n");
                     findRoomsByHotel();
                     userMainMenu();
                     break;
                 case 4:
-                    System.out.println("\n***** Поиск комнаты по цене *****\n");
+                    System.out.println("\n*----------------------------------------------*\n" +
+                            "*-----------> Поиск комнаты по цене <----------*\n" +
+                            "*----------------------------------------------*\n");
                     findRoomsByRangePrice();
                     userMainMenu();
                     break;
@@ -522,7 +519,7 @@ public class ConsoleHelper {
             System.out.println("Введите номер комнаты которою Вы хотите редактировать: ");
             int roomIndex = Integer.parseInt(buffRead.readLine()) - 1;
             Room room = hotel.getRoomList().get(roomIndex);
-            if (room.isStatus()){
+            if (room.isStatus()) {
                 System.out.println("Данная комната забронирована и ее нельзя изменить до окончания бронирования!");
                 editRoomInfo();
             }
@@ -559,8 +556,8 @@ public class ConsoleHelper {
 
     public void loginService() {
         System.out.println("\n*------------------------------------------------------------------------*\n" +
-                             "*----------> Добро пожаловать в систему бронирования отелей:) <----------*\n" +
-                             "*------------------------------------------------------------------------*");
+                "*----------> Добро пожаловать в систему бронирования отелей:) <----------*\n" +
+                "*------------------------------------------------------------------------*");
         System.out.println("Чтобы войти в систему создайте профиль или выполните вход с существуещего!\n");
         System.out.println("1. * Зарегистрироваться!");
         System.out.println("2. * Войти!");
@@ -573,8 +570,6 @@ public class ConsoleHelper {
             }
             if (1 == line) {
                 regUser();
-//               TODO changed this
-//                mainMenu();
             } else {
                 enterToSystem();
             }
@@ -596,7 +591,6 @@ public class ConsoleHelper {
             if ("0".equals(email)) loginService();
             System.out.println("Введите password: ");
             password = buffRead.readLine();
-            ///TODO My test new fitchers
             if (controller.loginUser(email, password)) {
                 System.out.println("Вход выполнен " + controller.getCommonDAO().getDataBase().getCurrentUser().getName() + "\n");
                 if ("admin".equals(password)) {
@@ -627,11 +621,9 @@ public class ConsoleHelper {
 
             User user = controller.registerUser(name, secondName, email, password, true);
             System.out.println("Пользователь " + user.getEmail() + " успешно зарегистрирован!\n");
-//             TODO this is my test code
-            if (user.getPassword().equals("admin")){
+            if (user.getPassword().equals("admin")) {
                 mainMenu();
-            }else userMainMenu();
-            // ends here
+            } else userMainMenu();
         } catch (UserAlreadyExist | ValidStringNameException e) {
             System.out.println(e.getMessage());
             regUser();
@@ -701,7 +693,7 @@ public class ConsoleHelper {
         }
         System.out.println("Введите номер, который соответствует названию отеля. Введите 0, если желаете вернуться в главное меню. ");
         try {
-            int index= Integer.parseInt(buffRead.readLine());
+            int index = Integer.parseInt(buffRead.readLine());
             if (index == 0) return;
             String name = controller.getCommonDAO().getDataBase().getHotelList().get(index - 1).getHotelName();
             List<Hotel> hotelByName = controller.findHotelByName(name);
@@ -742,7 +734,7 @@ public class ConsoleHelper {
         }
         System.out.println("Введите номер, который соответствует названию города. Введите 0, если желаете вернуться в главное меню. ");
         try {
-            int index= Integer.parseInt(buffRead.readLine());
+            int index = Integer.parseInt(buffRead.readLine());
             if (index == 0) return;
             String city = cityNames.get(index - 1);
             List<Hotel> hotelByCity = controller.findHotelByCity(city);
@@ -778,7 +770,7 @@ public class ConsoleHelper {
         }
         System.out.println("Введите номер, который соответствует названию отеля. Введите 0, если желаете вернуться в главное меню. ");
         try {
-            int index= Integer.parseInt(buffRead.readLine());
+            int index = Integer.parseInt(buffRead.readLine());
             if (index == 0) return;
             String name = controller.getCommonDAO().getDataBase().getHotelList().get(index - 1).getHotelName();
             List<Hotel> hotelByName = controller.findRoomsByHotel(name);

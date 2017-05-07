@@ -2,19 +2,23 @@ package com.firstgroup.project.APIs;
 
 import com.firstgroup.project.DAOs.CommonDAO;
 import com.firstgroup.project.Exceptions.*;
-import com.firstgroup.project.hotels.Hotel;
-import com.firstgroup.project.hotels.Room;
-import com.firstgroup.project.hotels.User;
+import com.firstgroup.project.entity.Hotel;
+import com.firstgroup.project.entity.Room;
+import com.firstgroup.project.entity.User;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class Controller implements API {
     private CommonDAO commonDAO = new CommonDAO();
 
+    /**
+     * Данный метод выполняет создание нового екземпляра отеля и передает его на уровень CommonDAO в метод save(Hotel obj).
+     * Возвращаемый результат метода только что созданный объект класса Hotel.
+     * Метод кидает ексепшини HotelAlreadyExist - если отель уже существует, ValidStringNameException - если название включает цифры или символы.
+     */
     public Hotel addHotel(String hotelName, String cityName, int roomPersons, double roomPrice, String date) throws HotelAlreadyExist, ValidStringNameException {
         List<Room> roomList = new ArrayList<>();
         if (date.length() > 10) {
@@ -78,7 +82,7 @@ public class Controller implements API {
         return commonDAO.findHotelByName(hotelName);
     }
 
-    public List<Hotel> findHotelByCity(String cityName)  {
+    public List<Hotel> findHotelByCity(String cityName) {
 
         return commonDAO.findHotelByCity(cityName);
     }
@@ -113,10 +117,10 @@ public class Controller implements API {
         return true;
     }
 
-    public List<String> hotelsAndTownInSystem(byte criteriaFind){
-        List<String> namesHotelInSystem  = commonDAO.getDataBase().getHotelList().stream().map(hotel -> hotel.getHotelName()).collect(Collectors.toList());
+    public List<String> hotelsAndTownInSystem(byte criteriaFind) {
+        List<String> namesHotelInSystem = commonDAO.getDataBase().getHotelList().stream().map(hotel -> hotel.getHotelName()).collect(Collectors.toList());
         List<String> cityInSystem = commonDAO.getDataBase().getHotelList().stream().map(hotel -> hotel.getCityName()).collect(Collectors.toList());
-        if(criteriaFind == 0){
+        if (criteriaFind == 0) {
             return namesHotelInSystem;
         } else {
             return cityInSystem;

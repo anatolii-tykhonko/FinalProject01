@@ -1,9 +1,9 @@
 package com.firstgroup.project.dataBase;
 
 import com.firstgroup.project.DAOs.CommonDAO;
-import com.firstgroup.project.hotels.Hotel;
-import com.firstgroup.project.hotels.Room;
-import com.firstgroup.project.hotels.User;
+import com.firstgroup.project.entity.Hotel;
+import com.firstgroup.project.entity.Room;
+import com.firstgroup.project.entity.User;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

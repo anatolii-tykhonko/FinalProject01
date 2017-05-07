@@ -1,7 +1,7 @@
 package com.firstgroup.project.dataBase;
 
-import com.firstgroup.project.hotels.Hotel;
-import com.firstgroup.project.hotels.User;
+import com.firstgroup.project.entity.Hotel;
+import com.firstgroup.project.entity.User;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Sonikb on 22.04.2017.
+ *
  */
 public class DataBase implements Serializable{
     private List<Hotel> hotelList = new ArrayList<>();

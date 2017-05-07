@@ -2,10 +2,9 @@ package com.firstgroup.project.DAOs;
 
 
 import com.firstgroup.project.Exceptions.IncorrectDataInput;
-import com.firstgroup.project.hotels.Hotel;
-import com.firstgroup.project.hotels.Room;
+import com.firstgroup.project.entity.Hotel;
+import com.firstgroup.project.entity.Room;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public interface RoomDAOInterface {

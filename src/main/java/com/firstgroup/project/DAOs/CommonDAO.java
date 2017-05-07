@@ -2,21 +2,15 @@ package com.firstgroup.project.DAOs;
 
 import com.firstgroup.project.Exceptions.*;
 import com.firstgroup.project.dataBase.DataBase;
-import com.firstgroup.project.hotels.Hotel;
-import com.firstgroup.project.hotels.Room;
-import com.firstgroup.project.hotels.User;
+import com.firstgroup.project.entity.Hotel;
+import com.firstgroup.project.entity.Room;
+import com.firstgroup.project.entity.User;
 
-import javax.jws.soap.SOAPBinding;
 import java.io.*;
 import java.util.List;
 
-import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
-/**
- * Created by MakeMeSm1Le- on 24.04.2017.
- */
 public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOInterface {
 
     private static DataBase dataBase = new DataBase();
