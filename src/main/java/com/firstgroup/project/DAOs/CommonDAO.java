@@ -37,7 +37,7 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
 
     public Hotel save(Hotel obj) throws HotelAlreadyExist {
         if (dataBase.getHotelList().contains(obj)) {
-            throw new HotelAlreadyExist("Отель c таким именем уже существует!");
+            throw new HotelAlreadyExist("Отель c таким именем уже существует в єтом городе!");
         }
         dataBase.getHotelList().add(obj);
         return obj;

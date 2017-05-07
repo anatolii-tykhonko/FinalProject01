@@ -121,22 +121,22 @@ public class ConsoleHelper {
                     mainMenu();
                     break;
                 case 10:
-                    System.out.println("\n*----------------------------------------------*\n" +
-                            "*----------> Поиск отеля по названию <---------*\n" +
-                            "*----------------------------------------------*\n");
+                    System.out.println("\n*-----------------------------------------------*\n" +
+                            "*------------> Поиск отеля по имени <-----------*\n" +
+                            "*-----------------------------------------------*\n");
                     findByNameHotel();
                     mainMenu();
                     break;
                 case 11:
                     System.out.println("\n*----------------------------------------------*\n" +
-                            "*------> Поиск отеля по заданному городу <-----*\n" +
+                            "*-----------> Поиск отеля по городу <----------*\n" +
                             "*----------------------------------------------*\n");
                     findByCity();
                     mainMenu();
                     break;
                 case 12:
                     System.out.println("\n*----------------------------------------------*\n" +
-                            "*------> Поиск комнат по заданному отелю <-----*\n" +
+                            "*-----------> Поиск комнат по отелю <----------*\n" +
                             "*----------------------------------------------*\n");
                     findRoomsByHotel();
                     mainMenu();
@@ -161,7 +161,92 @@ public class ConsoleHelper {
                     mainMenu();
                     break;
                 case 0:
-                    System.out.println("\n***** Программа завершена, все изменения сохранены *****\n");
+                    System.out.println("\n*------------------------------------------------------------------------------*\n" +
+                                         "*---------------> Программа завершена, все изменения сохранены! <--------------*\n" +
+                                         "*------------------------------------------------------------------------------*\n");
+                    CommonDAO.save();
+                    buffRead.close();
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Не верный номер операции! Повторите попытку!" + " \nДля выхода нажмите \"0\"");
+                    chooseTheOperation();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NoSuchElementException | NumberFormatException n) {
+            System.out.println("Команда введена неверно! Повторите выбор!" + " \nДля выхода нажмите \"0\"");
+            mainMenu();
+        }
+    }
+
+/// TODO this is my testing
+
+    public void userMainMenu() {
+
+        System.out.println("*-------------------------------------------*\n" +
+                "*------> Система бронирования отелей <------*\n" +
+                "*-------------------------------------------*");
+
+        System.out.println("1. * Поиск отеля по имени");
+        System.out.println("2. * Поиск отеля по городу");
+        System.out.println("3. * Поиск комнаты по отелю");
+        System.out.println("4. * Поиск комнат по цене");
+        System.out.println("5. * Бронирование комнаты на имя пользователя");
+        System.out.println("6. * Отмена бронирования комнаты" + "\n");
+        System.out.println("0. * ВЫХОД");
+        System.out.println("*-------------------------------------------*");
+        userChooseTheOperation();
+    }
+
+    private void userChooseTheOperation() {
+        System.out.println("\nВведите номер операции которую вы хотите произвести!!!");
+        try {
+            switch (Integer.parseInt(buffRead.readLine())) {
+                case 1:
+                    System.out.println("\n*-----------------------------------------------*\n" +
+                                         "*------------> Поиск отеля по имени <-----------*\n" +
+                                         "*-----------------------------------------------*\n");
+                    findByNameHotel();
+                    userMainMenu();
+                    break;
+                case 2:
+                    System.out.println("\n*----------------------------------------------*\n" +
+                                         "*-----------> Поиск отеля по городу <----------*\n" +
+                                         "*----------------------------------------------*\n");
+                    findByCity();
+                    userMainMenu();
+                    break;
+                case 3:
+                    System.out.println("\n*----------------------------------------------*\n" +
+                                         "*-----------> Поиск комнат по отелю <----------*\n" +
+                                         "*----------------------------------------------*\n");
+                    findRoomsByHotel();
+                    userMainMenu();
+                    break;
+                case 4:
+                    System.out.println("\n***** Поиск комнаты по цене *****\n");
+                    findRoomsByRangePrice();
+                    userMainMenu();
+                    break;
+                case 5:
+                    System.out.println("\n*----------------------------------------------------------*\n" +
+                            "*-------> Бронирование комнаты на имя пользователя <-------*\n" +
+                            "*----------------------------------------------------------*\n");
+                    reservationRoom();
+                    userMainMenu();
+                    break;
+                case 6:
+                    System.out.println("\n*----------------------------------------------------------------------------*\n" +
+                            "*-----------------------> Отмена бронирования комнаты <----------------------*\n" +
+                            "*----------------------------------------------------------------------------*\n");
+                    cancelReservation();
+                    userMainMenu();
+                    break;
+                case 0:
+                    System.out.println("\n*------------------------------------------------------------------------------*\n" +
+                            "*---------------> Программа завершена, все изменения сохранены! <--------------*\n" +
+                            "*------------------------------------------------------------------------------*\n");
                     CommonDAO.save();
                     buffRead.close();
                     System.exit(0);
@@ -435,6 +520,10 @@ public class ConsoleHelper {
             System.out.println("Введите номер комнаты которою Вы хотите редактировать: ");
             int roomIndex = Integer.parseInt(buffRead.readLine()) - 1;
             Room room = hotel.getRoomList().get(roomIndex);
+            if (room.isStatus()){
+                System.out.println("Данная комната забронирована и ее нельзя изменить до окончания бронирования!");
+                editRoomInfo();
+            }
             System.out.println("*------> Редактирование параметров комнаты <------*");
             System.out.println("Количество спальных мест в номере: " + room.getPersons() + " изменяем на: ");
             int roomPersons = Integer.parseInt(buffRead.readLine());
@@ -467,9 +556,13 @@ public class ConsoleHelper {
     }
 
     public void loginService() {
+        System.out.println("\n*------------------------------------------------------------------------*\n" +
+                             "*----------> Добро пожаловать в систему бронирования отелей:) <----------*\n" +
+                             "*------------------------------------------------------------------------*");
         System.out.println("Чтобы войти в систему создайте профиль или выполните вход с существуещего!\n");
         System.out.println("1. * Зарегистрироваться!");
         System.out.println("2. * Войти!");
+        System.out.println("*------------------------------------------------------------------------*");
         try {
             int line = Integer.parseInt(buffRead.readLine());
             if (1 != line && 2 != line) {
@@ -478,7 +571,8 @@ public class ConsoleHelper {
             }
             if (1 == line) {
                 regUser();
-                mainMenu();
+//               TODO changed this
+//                mainMenu();
             } else {
                 enterToSystem();
             }
@@ -500,9 +594,12 @@ public class ConsoleHelper {
             if ("0".equals(email)) loginService();
             System.out.println("Введите password: ");
             password = buffRead.readLine();
+            ///TODO My test new fitchers
             if (controller.loginUser(email, password)) {
                 System.out.println("Вход выполнен " + controller.getCommonDAO().getDataBase().getCurrentUser().getName() + "\n");
-                mainMenu();
+                if ("admin".equals(password)) {
+                    mainMenu();
+                } else userMainMenu();
             }
         } catch (IncorrectEmail | IncorrectPassword ex) {
             System.out.println(ex.getMessage());
@@ -528,6 +625,11 @@ public class ConsoleHelper {
 
             User user = controller.registerUser(name, secondName, email, password, true);
             System.out.println("Пользователь " + user.getEmail() + " успешно зарегистрирован!\n");
+//             TODO this is my test code
+            if (user.getPassword().equals("admin")){
+                mainMenu();
+            }else userMainMenu();
+            // ends here
         } catch (UserAlreadyExist | ValidStringNameException e) {
             System.out.println(e.getMessage());
             regUser();
@@ -602,14 +704,11 @@ public class ConsoleHelper {
             String name = controller.getCommonDAO().getDataBase().getHotelList().get(index - 1).getHotelName();
             List<Hotel> hotelByName = controller.findHotelByName(name);
             for (Hotel hotel : hotelByName) {
-                System.out.println("*-----------------------------------------*");
+                System.out.println("*------------------------------------------*");
                 System.out.println("Название отеля: " + hotel.getHotelName() + ";" + "\n" +
                         "Местонахождение отеля: " + hotel.getCityName() + ";" + "\n" + "Доступные комнаты: ");
-
                 hotel.getRoomList().forEach(System.out::println);
-                System.out.println("*-----------------------------------------*");
-
-
+                System.out.println("*------------------------------------------*");
             }
             System.out.println("Для продолжения поиска отеля по названию нажмите 1, в противном случае Вы перейдете в главное меню");
             String answer1 = buffRead.readLine();
@@ -617,9 +716,6 @@ public class ConsoleHelper {
                 case "1":
                     findByNameHotel();
                     break;
-                default:
-                    mainMenu();
-
             }
         } catch (IndexOutOfBoundsException | NumberFormatException e) {
             System.out.println("Вы ввели недопустимые символы,повторите Ваш ввод");
@@ -633,7 +729,7 @@ public class ConsoleHelper {
 
 
     private void findByCity() {
-        System.out.println("*-----------------------------------------*");
+        System.out.println("*-------------------------------------------*");
         System.out.println("В системе имеются отели в следующих городах: ");
         int count = 1;
 
@@ -649,13 +745,11 @@ public class ConsoleHelper {
             String city = cityNames.get(index - 1);
             List<Hotel> hotelByCity = controller.findHotelByCity(city);
             for (Hotel hotel : hotelByCity) {
-                System.out.println("*-----------------------------------------*");
+                System.out.println("*-------------------------------------------*");
                 System.out.println("Название отеля: " + hotel.getHotelName() + ";" + "\n" +
                         "Местонахождение отеля: " + hotel.getCityName() + ";" + "\n" + "Доступные комнаты: ");
-
                 hotel.getRoomList().forEach(System.out::println);
-                System.out.println("*-----------------------------------------*");
-
+                System.out.println("*-------------------------------------------*");
             }
             System.out.println("Для продолжения поиска отеля по городу нажмите 1, в противном случае Вы перейдете в главное меню");
             String answer1 = buffRead.readLine();
@@ -663,9 +757,6 @@ public class ConsoleHelper {
                 case "1":
                     findByCity();
                     break;
-                default:
-                    mainMenu();
-
             }
         } catch (IndexOutOfBoundsException | NumberFormatException e) {
             System.out.println("Вы ввели недопустимые символы,повторите Ваш ввод");
@@ -703,9 +794,6 @@ public class ConsoleHelper {
                 case "1":
                     findRoomsByHotel();
                     break;
-                default:
-                    mainMenu();
-
             }
         } catch (IndexOutOfBoundsException | NumberFormatException e) {
             System.out.println("Вы ввели недопустимые символы,повторите Ваш ввод");
@@ -743,7 +831,6 @@ public class ConsoleHelper {
             System.out.println("Неверно задали критерии поиска повторите ввод: ");
             findRoomsByRangePrice();
         }
-
     }
 
     private void reservationRoom() {
