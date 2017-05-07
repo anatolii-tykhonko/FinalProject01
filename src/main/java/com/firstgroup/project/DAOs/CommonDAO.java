@@ -79,30 +79,21 @@ public class CommonDAO implements HotelDAOInterface, RoomDAOInterface, UserDAOIn
         return getDataBase().getHotelList().get(hotelIndex);
     }
 
-    public List<Hotel> findHotelByName(String hotelName) throws IncorrectDataInput {
-        List<Hotel> hotelList = getDataBase().getHotelList().stream().filter(hotel -> hotel.getHotelName().equalsIgnoreCase(hotelName)).collect(Collectors.toList());
-        if (hotelList.isEmpty()) {
-            throw new IncorrectDataInput("Проверьте введенные данные. По Вашему запросу ничего не найдено.");
-        } else
-            System.out.println("По Вашему запросу найдены следующие отели: ");
+    public List<Hotel> findHotelByName(String hotelName) {
+        List<Hotel> hotelList = getDataBase().getHotelList().stream().filter(hotel -> hotel.getHotelName().equals(hotelName)).collect(Collectors.toList());
+        System.out.println("По Вашему запросу найдены следующие отели: ");
         return hotelList;
     }
 
-    public List<Hotel> findHotelByCity(String cityName) throws IncorrectDataInput {
-        List<Hotel> hotelList = getDataBase().getHotelList().stream().filter(hotel -> hotel.getCityName().equalsIgnoreCase(cityName)).collect(Collectors.toList());
-        if (hotelList.isEmpty()) {
-            throw new IncorrectDataInput("Проверьте введенные данные. По Вашему запросу ничего не найдено.");
-        } else
-            System.out.println("По Вашему запросу найдены следующие отели: ");
+    public List<Hotel> findHotelByCity(String cityName) {
+        List<Hotel> hotelList = getDataBase().getHotelList().stream().filter(hotel -> hotel.getCityName().equals(cityName)).collect(Collectors.toList());
+        System.out.println("По Вашему запросу найдены следующие отели: ");
         return hotelList;
     }
 
-    public List<Hotel> findRoomsByHotel(String hotelName) throws IncorrectDataInput {
-        List<Hotel> roomList = getDataBase().getHotelList().stream().filter(hotel -> hotel.getHotelName().equalsIgnoreCase(hotelName)).collect(Collectors.toList());
-        if (roomList.isEmpty()) {
-            throw new IncorrectDataInput("Проверьте введенные данные. По Вашему запросу ничего не найдено.");
-        } else
-            System.out.println("По Вашему запросу найдены следующие комнаты: ");
+    public List<Hotel> findRoomsByHotel(String hotelName) {
+        List<Hotel> roomList = getDataBase().getHotelList().stream().filter(hotel -> hotel.getHotelName().equals(hotelName)).collect(Collectors.toList());
+        System.out.println("По Вашему запросу найдены следующие комнаты: ");
 
         return roomList;
     }

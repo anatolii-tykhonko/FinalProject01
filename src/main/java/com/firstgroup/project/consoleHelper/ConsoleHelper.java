@@ -553,9 +553,6 @@ public class ConsoleHelper {
             User user = controller.registerUser(name, secondName, email, password, false);
             System.out.println("Пользователь " + "\'" + user.getEmail() + "\'" + " успешно зарегистрирован!\n");
         } catch (UserAlreadyExist | ValidStringNameException e) {
-            User user = controller.addUser(name, secondName, email, password);
-            System.out.println("Пользователь " + user.getEmail() + " успешно зарегистрирован!\n");
-        } catch (UserAlreadyExist e) {
             System.out.println(e.getMessage());
             addUser();
         } catch (IOException e) {
@@ -591,26 +588,30 @@ public class ConsoleHelper {
     }
 
     private void findByNameHotel() {
+        System.out.println("*-----------------------------------------*");
         System.out.println("В системе имеются следующие отели: ");
         int count = 1;
-        List<String> hotelNames = controller.getCommonDAO().getDataBase().getHotelList().stream().map(Hotel::getHotelName).collect(Collectors.toList());
-        for (String hotel : hotelNames) {
-            System.out.println(count++ + ". " + hotel);
+        List<Hotel> hotelList = controller.getCommonDAO().getDataBase().getHotelList();
+        for (Hotel hotel : hotelList) {
+            System.out.println(count++ + ". " + hotel.getHotelName() + ", город " + hotel.getCityName());
         }
-        System.out.println("Введите название отеля: ");
+        System.out.println("Введите номер, который соответствует названию отеля. Введите 0, если желаете вернуться в главное меню. ");
         try {
-            String name = buffRead.readLine();
+            int index= Integer.parseInt(buffRead.readLine());
+            if (index == 0) return;
+            String name = controller.getCommonDAO().getDataBase().getHotelList().get(index - 1).getHotelName();
             List<Hotel> hotelByName = controller.findHotelByName(name);
             for (Hotel hotel : hotelByName) {
-                System.out.println("Название отеля:" + hotel.getHotelName() + ";" + "\n" +
-                        "Местонахождение отеля:" + hotel.getCityName() + ";" + "\n" + "Доступные комнаты: ");
+                System.out.println("*-----------------------------------------*");
+                System.out.println("Название отеля: " + hotel.getHotelName() + ";" + "\n" +
+                        "Местонахождение отеля: " + hotel.getCityName() + ";" + "\n" + "Доступные комнаты: ");
 
                 hotel.getRoomList().forEach(System.out::println);
                 System.out.println("*-----------------------------------------*");
 
 
             }
-            System.out.println("Для продолжения поиска отеля по названию нажмите <<1>>, в противном случае Вы перейдете в главное меню");
+            System.out.println("Для продолжения поиска отеля по названию нажмите 1, в противном случае Вы перейдете в главное меню");
             String answer1 = buffRead.readLine();
             switch (answer1) {
                 case "1":
@@ -620,10 +621,9 @@ public class ConsoleHelper {
                     mainMenu();
 
             }
-        } catch (IncorrectDataInput | ValidStringNameException e) {
-            System.out.println(e.getMessage());
+        } catch (IndexOutOfBoundsException | NumberFormatException e) {
+            System.out.println("Вы ввели недопустимые символы,повторите Ваш ввод");
             findByNameHotel();
-            ;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -633,28 +633,31 @@ public class ConsoleHelper {
 
 
     private void findByCity() {
+        System.out.println("*-----------------------------------------*");
         System.out.println("В системе имеются отели в следующих городах: ");
         int count = 1;
-        List<String> citiesNames = controller.getCommonDAO().getDataBase().getHotelList().stream().map(Hotel::getCityName).distinct().collect(Collectors.toList());
-        for (String city : citiesNames) {
-            System.out.println(count++ + ". " + city);
+
+        List<String> cityNames = controller.getCommonDAO().getDataBase().getHotelList().stream().map(Hotel::getCityName).distinct().collect(Collectors.toList());
+
+        for (String cityName : cityNames) {
+            System.out.println(count++ + ". " + cityName);
         }
-        System.out.println("Введите название города: ");
+        System.out.println("Введите номер, который соответствует названию города. Введите 0, если желаете вернуться в главное меню. ");
         try {
-            String city = buffRead.readLine();
+            int index= Integer.parseInt(buffRead.readLine());
+            if (index == 0) return;
+            String city = cityNames.get(index - 1);
             List<Hotel> hotelByCity = controller.findHotelByCity(city);
-            System.out.println("По Вашему запросу найдены следующие отели: ");
             for (Hotel hotel : hotelByCity) {
-                System.out.println("Название отеля: " + hotel.getHotelName() + ";" +
-                        "Город: " + hotel.getCityName() + "\n" + "Доступные комнаты: ");
-                System.out.println("Название отеля:" + hotel.getHotelName() + ";" + "\n" +
-                        "Местонахождение отеля:" + hotel.getCityName() + ";" + "\n" + "Доступные комнаты: ");
+                System.out.println("*-----------------------------------------*");
+                System.out.println("Название отеля: " + hotel.getHotelName() + ";" + "\n" +
+                        "Местонахождение отеля: " + hotel.getCityName() + ";" + "\n" + "Доступные комнаты: ");
 
                 hotel.getRoomList().forEach(System.out::println);
                 System.out.println("*-----------------------------------------*");
 
             }
-            System.out.println("Для продолжения поиска отеля по городу нажмите <<1>>, в противном случае Вы перейдете в главное меню");
+            System.out.println("Для продолжения поиска отеля по городу нажмите 1, в противном случае Вы перейдете в главное меню");
             String answer1 = buffRead.readLine();
             switch (answer1) {
                 case "1":
@@ -664,34 +667,37 @@ public class ConsoleHelper {
                     mainMenu();
 
             }
-        } catch (IncorrectDataInput | ValidStringNameException e) {
-            System.out.println(e.getMessage());
+        } catch (IndexOutOfBoundsException | NumberFormatException e) {
+            System.out.println("Вы ввели недопустимые символы,повторите Ваш ввод");
             findByCity();
-            ;
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private void findRoomsByHotel() {
-        System.out.println("В системе имеются следующие отели: ");
+        System.out.println("*-----------------------------------------*");
+        System.out.println("В системе имеются комнаты в следующих отелях: ");
         int count = 1;
-        List<String> hotelNames = controller.getCommonDAO().getDataBase().getHotelList().stream().map(Hotel::getHotelName).collect(Collectors.toList());
-        for (String hotel : hotelNames) {
-            System.out.println(count++ + ". " + hotel);
+        List<Hotel> hotelList = controller.getCommonDAO().getDataBase().getHotelList();
+        for (Hotel hotel : hotelList) {
+            System.out.println(count++ + ". " + hotel.getHotelName() + ", город " + hotel.getCityName());
         }
-        System.out.println("Введите название отеля: ");
+        System.out.println("Введите номер, который соответствует названию отеля. Введите 0, если желаете вернуться в главное меню. ");
         try {
-            String name = buffRead.readLine();
+            int index= Integer.parseInt(buffRead.readLine());
+            if (index == 0) return;
+            String name = controller.getCommonDAO().getDataBase().getHotelList().get(index - 1).getHotelName();
             List<Hotel> hotelByName = controller.findRoomsByHotel(name);
             for (Hotel hotel : hotelByName) {
+                System.out.println("*-----------------------------------------*");
 
                 hotel.getRoomList().forEach(System.out::println);
                 System.out.println("*-----------------------------------------*");
 
 
             }
-            System.out.println("Для продолжения поиска комнат по отелям нажмите <<1>>, в противном случае Вы перейдете в главное меню");
+            System.out.println("Для продолжения поиска комнат по названию отеля нажмите 1, в противном случае Вы перейдете в главное меню");
             String answer1 = buffRead.readLine();
             switch (answer1) {
                 case "1":
@@ -701,10 +707,9 @@ public class ConsoleHelper {
                     mainMenu();
 
             }
-        } catch (IncorrectDataInput | ValidStringNameException e) {
-            System.out.println(e.getMessage());
-            findByNameHotel();
-            ;
+        } catch (IndexOutOfBoundsException | NumberFormatException e) {
+            System.out.println("Вы ввели недопустимые символы,повторите Ваш ввод");
+            findRoomsByHotel();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -720,12 +725,7 @@ public class ConsoleHelper {
             System.out.println("Введите город для подбора номеров: ");
             String city = buffRead.readLine();
             List<Hotel> hotelByCity = null;
-            try {
-                hotelByCity = controller.findHotelByCity(city);
-            } catch (IncorrectDataInput | ValidStringNameException e) {
-                System.out.println(e.getMessage());
-                findRoomsByRangePrice();
-            }
+            hotelByCity = controller.findHotelByCity(city);
             List<List<Room>> findRoomByCity = hotelByCity.stream().map(hotel -> hotel.getRoomList()).collect(toList());
             //разматываю лист листов комнат до листа комнат))
             List<Room> rooms = new ArrayList<>();

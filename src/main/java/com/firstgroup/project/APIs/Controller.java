@@ -73,24 +73,17 @@ public class Controller implements API {
         return commonDAO.update(room, hotelIndex, roomIndex);
     }
 
-    public List<Hotel> findHotelByName(String hotelName) throws IncorrectDataInput, ValidStringNameException {
-        if (hotelName.equals("")) {
-            throw new ValidStringNameException("Вы ввели пустую строку!\nВведите данные повторно!");
-        }
+    public List<Hotel> findHotelByName(String hotelName) {
+
         return commonDAO.findHotelByName(hotelName);
     }
 
-    public List<Hotel> findHotelByCity(String cityName) throws IncorrectDataInput, ValidStringNameException {
-        if (cityName.equals("")) {
-            throw new ValidStringNameException("Вы ввели пустую строку!\nВведите данные повторно!");
-        }
+    public List<Hotel> findHotelByCity(String cityName)  {
+
         return commonDAO.findHotelByCity(cityName);
     }
 
-    public List<Hotel> findRoomsByHotel(String hotelName) throws IncorrectDataInput, ValidStringNameException {
-        if (hotelName.equals("")) {
-            throw new ValidStringNameException("Вы ввели пустую строку!\nВведите данные повторно!");
-        }
+    public List<Hotel> findRoomsByHotel(String hotelName) {
         return commonDAO.findRoomsByHotel(hotelName);
     }
 
