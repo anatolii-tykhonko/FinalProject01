@@ -117,7 +117,6 @@ public class Controller implements API {
         List<String> namesHotelInSystem  = commonDAO.getDataBase().getHotelList().stream().map(hotel -> hotel.getHotelName()).collect(Collectors.toList());
         List<String> cityInSystem = commonDAO.getDataBase().getHotelList().stream().map(hotel -> hotel.getCityName()).collect(Collectors.toList());
         if(criteriaFind == 0){
-
             return namesHotelInSystem;
         } else {
             return cityInSystem;
