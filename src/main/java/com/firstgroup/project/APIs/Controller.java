@@ -53,7 +53,7 @@ public class Controller implements API {
     }
 
     public User registerUser(String name, String surname, String email, String password, boolean regTRUEaddFALSE) throws UserAlreadyExist {
-        return commonDAO.save(new User(name, surname, email, password),regTRUEaddFALSE);
+        return commonDAO.save(new User(name, surname, email, password), regTRUEaddFALSE);
     }
 
     public boolean loginUser(String email, String password) throws IncorrectEmail, IncorrectPassword {
@@ -94,15 +94,22 @@ public class Controller implements API {
         return commonDAO.findRoomsByHotel(hotelName);
     }
 
-    public Room roomReservationByName(int hotelIndex, int roomIndex) throws InvalidRoomStatus, InvalidHotelStatus {
+    public Room roomReservationByName(int hotelIndex, int roomIndex, String reservDate) throws InvalidRoomStatus, InvalidHotelStatus, InvalidDateFormat {
         if (commonDAO.getDataBase().getHotelList().get(hotelIndex).getRoomList().stream().allMatch(Room::isStatus))
             throw new InvalidHotelStatus("Все комнаты в этом отеле заняты!");
+        if (reservDate.length() > 10) {
+            throw new InvalidDateFormat("Не верный формат даты!");
+        }
         Room room = getCommonDAO().getDataBase().getHotelList().get(hotelIndex).getRoomList().get(roomIndex);
+        LocalDate reserv = LocalDate.of(Integer.valueOf(reservDate.substring(0, 4)), Integer.valueOf(reservDate.substring(5, 7)), Integer.valueOf(reservDate.substring(8, 10)));
+        if (room.getAvailableFrom().getYear() > reserv.getYear() || room.getAvailableFrom().getYear() == reserv.getYear() && room.getAvailableFrom().getMonthValue() > reserv.getMonthValue() || room.getAvailableFrom().getYear() == reserv.getYear() && room.getAvailableFrom().getMonthValue() == reserv.getMonthValue() && room.getAvailableFrom().getDayOfMonth() >= reserv.getDayOfMonth()) {
+            throw new InvalidDateFormat("Не коректная дата, Вы ввели дату на которую эта комната занята!");
+        }
         if (room.isStatus()) throw new InvalidRoomStatus("Эта комната сейчас занята");
         else {
             room.setStatus(true);
+            room.setReservBefore(reserv);
             getCommonDAO().getDataBase().getCurrentUser().getRoomList().add(room);
-            System.out.println("Комната успешно забронирована!!!");
         }
         return room;
     }
@@ -141,7 +148,7 @@ public class Controller implements API {
                 line.contains("{") || line.contains("}") || line.contains("[") ||
                 line.contains("]") || line.contains("<") || line.contains(">") ||
                 line.contains(";") || line.contains(":") || line.contains("'") ||
-                line.contains(",") || line.contains(".") || line.isEmpty()){
+                line.contains(",") || line.contains(".") || line.isEmpty()) {
             throw new ValidStringNameException("Название не должно включать цифры или символы!!!\nВведите данные заново!\n");
         }
     }

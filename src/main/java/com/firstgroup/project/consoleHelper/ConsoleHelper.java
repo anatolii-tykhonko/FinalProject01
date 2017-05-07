@@ -517,8 +517,10 @@ public class ConsoleHelper {
             System.out.println("Укажите Ваше имя! Для выхода введите \"0\"!");
             String name = buffRead.readLine();
             if ("0".equals(name)) loginService();
+            controller.validLine(name);
             System.out.println("Укажите Вашу фамилию");
             String secondName = buffRead.readLine();
+            controller.validLine(secondName);
             System.out.println("Укажите Ваш email");
             String email = buffRead.readLine();
             System.out.println("Укажите PASSWORD");
@@ -526,7 +528,7 @@ public class ConsoleHelper {
 
             User user = controller.registerUser(name, secondName, email, password, true);
             System.out.println("Пользователь " + user.getEmail() + " успешно зарегистрирован!\n");
-        } catch (UserAlreadyExist e) {
+        } catch (UserAlreadyExist | ValidStringNameException e) {
             System.out.println(e.getMessage());
             regUser();
         } catch (IOException e) {
@@ -763,9 +765,11 @@ public class ConsoleHelper {
             }
             System.out.println("Укажите номер комнати которою ви хотите забронировать: ");
             int i = Integer.parseInt(buffRead.readLine());
+            System.out.println("Укажите дату по которую выхотите забронировать комнату в формате year.mm.dd: ");
+            String date = buffRead.readLine();
 
-
-            controller.roomReservationByName(hotelIndex, i - 1);
+            Room room = controller.roomReservationByName(hotelIndex, i - 1, date);
+            System.out.println("***Комната успешно забронирована с " + room.getAvailableFrom() + " по " + room.getReservBefore());
 
         } catch (InvalidRoomStatus | InvalidHotelStatus invalidStatus) {
             System.out.println(invalidStatus.getMessage());
@@ -775,6 +779,9 @@ public class ConsoleHelper {
             reservationRoom();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (InvalidDateFormat invalidDateFormat) {
+            System.out.println(invalidDateFormat.getMessage() + "\n");
+            reservationRoom();
         }
     }
 
@@ -784,7 +791,7 @@ public class ConsoleHelper {
         System.out.println("Комнаты которые вы забронировали:");
         if (userRooms.isEmpty()) System.out.println("У ВАС НЕТ ЗАБРОНИРОВАНЫХ КОМНАТ!!!");
         for (Room room : userRooms) {
-            System.out.println(count++ + ". * " + room + " Вами");
+            System.out.println(count++ + ". * " + room);
         }
         try {
             System.out.println("\nВведите номер комнаты с которой вы хотите снять бронь! Для выхода введите \"0\"!\n");
