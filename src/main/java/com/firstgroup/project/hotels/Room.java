@@ -10,12 +10,21 @@ public class Room implements Serializable {
     private int persons;
     private double price;
     private LocalDate availableFrom;
+    private LocalDate reservBefore;
     private boolean status;
 
     public Room(int persons, double price, LocalDate availableFrom) {
         this.persons = persons;
         this.price = price;
         this.availableFrom = availableFrom;
+    }
+
+    public LocalDate getReservBefore() {
+        return reservBefore;
+    }
+
+    public void setReservBefore(LocalDate reservBefore) {
+        this.reservBefore = reservBefore;
     }
 
     public void setPersons(int persons) {
@@ -54,8 +63,8 @@ public class Room implements Serializable {
     public String toString() {
         return "К-тво спальных мест: " + persons +
                 ", цена: " + price +
-                ", дата: " + availableFrom +
-                ", статус: " + (status ? "занятая" : "свободная");
+                ", " + (status?"забронирована с: "+availableFrom+" по "+reservBefore: "свободна с: "+availableFrom);
+
     }
 
     @Override

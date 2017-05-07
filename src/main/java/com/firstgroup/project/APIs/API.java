@@ -6,7 +6,6 @@ import com.firstgroup.project.hotels.Room;
 import com.firstgroup.project.hotels.User;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 /**
  * Created by Sonikb on 22.04.2017.
@@ -24,7 +23,7 @@ public interface API {
     List<Hotel> findHotelByName(String hotelName) throws IncorrectDataInput, ValidStringNameException;
     List<Hotel> findHotelByCity(String cityName) throws IncorrectDataInput, ValidStringNameException;
     List<Hotel> findRoomsByHotel(String hotelName) throws IncorrectDataInput, ValidStringNameException;
-    Room roomReservationByName(int hotelIndex, int roomIndex) throws InvalidRoomStatus, InvalidHotelStatus;
+    Room roomReservationByName(int hotelIndex, int roomIndex, String reservDate) throws InvalidRoomStatus, InvalidHotelStatus, InvalidDateFormat;
     boolean cancelReservationByName(int roomIndex);
     boolean loginUser(String email, String password) throws IncorrectEmail, IncorrectPassword;
 }
