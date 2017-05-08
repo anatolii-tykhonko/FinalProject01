@@ -20,9 +20,9 @@ public interface API {
     User registerUser(String name, String surname, String email, String password, boolean regTRUEaddFALSE) throws UserAlreadyExist;
     User editUserInfo(String newName,String newSurName,String oldEmail);
     User deleteUser(String email) throws CantDeleteCurrentUser;
-    List<Hotel> findHotelByName(String hotelName) throws IncorrectDataInput, ValidStringNameException;
-    List<Hotel> findHotelByCity(String cityName) throws IncorrectDataInput, ValidStringNameException;
-    List<Hotel> findRoomsByHotel(String hotelName) throws IncorrectDataInput, ValidStringNameException;
+    List<Hotel> findHotelByName(String hotelName) throws IncorrectDataInput;
+    List<Hotel> findHotelByCity(String cityName) throws IncorrectDataInput;
+    List<Hotel> findRoomsByHotel(String hotelName) throws IncorrectDataInput;
     Room roomReservationByName(int hotelIndex, int roomIndex, String reservDate) throws InvalidRoomStatus, InvalidHotelStatus, InvalidDateFormat;
     boolean cancelReservationByName(int roomIndex);
     boolean loginUser(String email, String password) throws IncorrectEmail, IncorrectPassword;
