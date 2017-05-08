@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Controller implements API {
+public class LLALALALA implements API {
     private CommonDAO commonDAO = new CommonDAO();
 
     /**
@@ -37,6 +37,13 @@ public class Controller implements API {
         return commonDAO.save(newRoom, hotelIndex);
     }
 
+    /**
+     * @param hotelIndex
+     * @return boolean(true)
+     * Данный метод принимает индекс отеля, индекс вводит пользователь с консоли в классе ConsoleHelper.
+     * Данный метод возвращает true, поскольку все исключительные ситуации например hotelIndex <0 ловят на уровень выше.
+     * Так же данный метод передает управление на уровень CommonDAO.
+     */
     public boolean deleteHotel(int hotelIndex) {
         return commonDAO.delete(hotelIndex);
     }
@@ -47,6 +54,15 @@ public class Controller implements API {
         return commonDAO.delete(room);
     }
 
+    /**
+     * @param newName
+     * @param newSurName
+     * @param oldEmail
+     * @return user
+     * Данный метод принимает набор параметров, которые вводит пользователь в классе ConsoleHelper.
+     * Все исключительные ситуации обрабатываются на уровень выше.
+     * Данный метод возвращает экземпляр типа User,данный экземпляр служит "контейнером" для хранения данных.
+     */
     public User editUserInfo(String newName, String newSurName, String oldEmail) {
         User user = new User(newName, newSurName, oldEmail, commonDAO.getDataBase().getUserMap().get(oldEmail).getPassword());
         return commonDAO.update(user);
@@ -69,6 +85,14 @@ public class Controller implements API {
         return commonDAO.update(editedHotel, hotelIndex);
     }
 
+    /**
+     * @param hotelIndex
+     * @param roomIndex
+     * @param roomPersons
+     * @param roomPrice
+     * @param date
+     * @return
+     */
     public Room editRoomDetails(int hotelIndex, int roomIndex, int roomPersons, double roomPrice, String date) {
         if (date.length() > 10) {
             throw new IndexOutOfBoundsException();
