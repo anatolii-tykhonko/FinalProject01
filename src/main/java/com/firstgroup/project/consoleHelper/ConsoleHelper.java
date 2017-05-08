@@ -733,6 +733,7 @@ public class ConsoleHelper {
             if (index == 0) return;
             String city = cityNames.get(index - 1);
             List<Hotel> hotelByCity = application.findHotelByCity(city);
+            System.out.println("По заданым критериям поиска доступны следующие отели: ");
             for (Hotel hotel : hotelByCity) {
                 System.out.println("*-------------------------------------------*");
                 System.out.println("Название отеля: " + hotel.getHotelName() + ";" + "\n" +
@@ -798,31 +799,46 @@ public class ConsoleHelper {
     }
 
     private void findRoomsByRangePrice() {
+        System.out.println("*-------------------------------------------*");
+        System.out.println("В системе имеются отели в следующих городах: ");
+        int count = 1;
+
+        List<String> cityNames = application.getDbService().getDataBase().getHotelList().stream().map(Hotel::getCityName).distinct().collect(Collectors.toList());
+
+        for (String cityName : cityNames) {
+            System.out.println(count++ + ". " + cityName);
+        }
+        System.out.println("Введите номер, который соответствует названию города. Введите 0, если желаете вернуться в главное меню. ");
         try {
+            int index = Integer.parseInt(buffRead.readLine());
+            if (index == 0) return;
+            String city = cityNames.get(index - 1);
+            List<Hotel> hotelByCity = application.findHotelByCity(city);
             System.out.println("Введите минимальную цену для поиска: ");
             Double minPrice = Double.parseDouble(buffRead.readLine());
             System.out.println("Введите максимальную цену: ");
             Double maxPrice = Double.parseDouble(buffRead.readLine());
-            System.out.println("Введите город для подбора номеров: ");
-            String city = buffRead.readLine();
-            List<Hotel> hotelByCity = null;
-            hotelByCity = application.findHotelByCity(city);
-            List<List<Room>> findRoomByCity = hotelByCity.stream().map(Hotel::getRoomList).collect(toList());
-            //разматываю лист листов комнат до листа комнат))
-            List<Room> rooms = new ArrayList<>();
-            for (List<Room> roomList : findRoomByCity) {
-                for (Room room : roomList) {
-                    rooms.add(room);
+            System.out.println("По вашим критериям поиска найдено следующие комнаты: ");
+            index = 0;
+            for (Hotel hotel : hotelByCity) {
+                for (Room room : hotel.getRoomList()) {
+                    if (room.getPrice() >= minPrice && room.getPrice() <= maxPrice) {
+                        System.out.println("*-------------------------------------------*");
+                        System.out.println("Название отеля: " + hotel.getHotelName() + ";" + "\n" +
+                                "Местонахождение отеля: " + city + ";" + "\n" + "Доступные комнаты: " + room);
+                        System.out.println("*-------------------------------------------*");
+                        index++;
+                    }
                 }
             }
-            List<Room> findRoomByPrice = rooms.stream().filter(room -> room.getPrice() > minPrice && room.getPrice() < maxPrice).collect(toList());
-            if (!findRoomByPrice.isEmpty()) {
-                System.out.println("По вашим критериям поиска найдено следующие комнаты: ");
-                findRoomByPrice.forEach(System.out::println);
-            } else System.out.println("Ни одной комнаты не найдено.");
-        } catch (IOException e) {
-            System.out.println("Неверно задали критерии поиска повторите ввод: ");
+            if(index == 0){
+                System.out.println("По заданым критериям комнаты отсутствуют.");
+            }
+        } catch (IndexOutOfBoundsException | NumberFormatException e) {
+            System.out.println("Вы ввели недопустимые символы,повторите Ваш ввод");
             findRoomsByRangePrice();
+        } catch (IOException e) {
+            e.printStackTrace();
         } catch (IncorrectDataInput incorrectDataInput) {
             System.out.println("Неверно задан критерий поиска повторите ввод: ");
         }
