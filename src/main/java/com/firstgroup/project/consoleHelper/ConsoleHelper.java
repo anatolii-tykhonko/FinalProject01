@@ -264,8 +264,15 @@ public class ConsoleHelper {
                 System.out.println("Укажите дату когда номер будет доступен в формате year.mm.dd");
                 String dateAvailableFrom = buffRead.readLine();
                 Hotel hotel = application.addHotel(hotelName, cityName, roomPersons, roomPrice, dateAvailableFrom);
-                System.out.println(hotel.getHotelName() + " успешно сохранен!");
-                return;
+                System.out.println(hotel.getHotelName() + " успешно сохранен!\n");
+                System.out.println("Для повторного добавления отеля нажмите 1, в противном случае Вы перейдете в главное меню");
+                String answer1 = buffRead.readLine();
+                switch (answer1) {
+                    case "1":
+                        continue;
+                    default:
+                        return;
+                }
             } catch (HotelAlreadyExist | ValidStringNameException | InvalidDateFormat r) {
                 System.out.println(r.getMessage());
             } catch (IOException e) {
@@ -306,8 +313,15 @@ public class ConsoleHelper {
                 System.out.println("Укажите дату когда номер будет доступен в формате year.mm.dd");
                 String dateAvailableFrom = buffRead.readLine();
                 application.addRoom(hotelIndex, roomPersons, roomPrice, dateAvailableFrom);
-                System.out.println("Комната сохранена в отель " + hotel.getHotelName());
-                return;
+                System.out.println("Комната сохранена в отель " + hotel.getHotelName() + '\n');
+                System.out.println("Для повторного добавления комнаты нажмите 1, в противном случае Вы перейдете в главное меню");
+                String answer1 = buffRead.readLine();
+                switch (answer1) {
+                    case "1":
+                        continue;
+                    default:
+                        return;
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ValidStringNameException | InvalidDateFormat r) {
@@ -348,7 +362,14 @@ public class ConsoleHelper {
                 for (String hotel : hotelNamesWhenWeDeleteHotel) {
                     System.out.println(count1++ + ". * " + hotel);
                 }
-                return;
+                System.out.println("\nДля повторного удаления отеля нажмите 1, в противном случае Вы перейдете в главное меню");
+                String answer1 = buffRead.readLine();
+                switch (answer1) {
+                    case "1":
+                        continue;
+                    default:
+                        return;
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (IndexOutOfBoundsException e) {
@@ -395,7 +416,14 @@ public class ConsoleHelper {
                 for (Room room1 : roomList1) {
                     System.out.println(count++ + ". * " + room1);
                 }
-                return;
+                System.out.println("\nДля повторного удаления комнаты нажмите 1, в противном случае Вы перейдете в главное меню");
+                String answer1 = buffRead.readLine();
+                switch (answer1) {
+                    case "1":
+                        continue;
+                    default:
+                        return;
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (IndexOutOfBoundsException e) {
@@ -430,13 +458,22 @@ public class ConsoleHelper {
                 application.validLine(newCityName);
                 Hotel editedHotel = application.editHotelDetails(hotelIndex, newHotelName, newCityName);
                 System.out.println("Изменениея успешно сохранены: имя отеля " + editedHotel.getHotelName() + ", город: " + editedHotel.getCityName());
-                return;
+                System.out.println("\nДля повторного изменения данных отеля нажмите 1, в противном случае Вы перейдете в главное меню");
+                String answer1 = buffRead.readLine();
+                switch (answer1) {
+                    case "1":
+                        continue;
+                    default:
+                        return;
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ValidStringNameException e) {
                 System.out.println(e.getMessage());
             } catch (IndexOutOfBoundsException e) {
                 System.out.println("Некоректно введенные данные, попробуйте снова!\n");
+            } catch (NumberFormatException n) {
+                System.out.println("Неверный формат данных, введите даные повторно!\n");
             }
         }
     }
@@ -464,7 +501,14 @@ public class ConsoleHelper {
                 application.validLine(newSurName);
                 System.out.println("Параметры пользователя после редактирования: \n"
                         + application.editUserInfo(newName, newSurName, oldEmail));
-                return;
+                System.out.println("Для повторного изменения данных пользователя нажмите 1, в противном случае Вы перейдете в главное меню");
+                String answer1 = buffRead.readLine();
+                switch (answer1) {
+                    case "1":
+                        continue;
+                    default:
+                        return;
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (NumberFormatException e) {
@@ -478,63 +522,70 @@ public class ConsoleHelper {
     }
 
     public void editRoomInfo() {
-        System.out.println("***** Список отелей в системе *****");
-        int count = 1;
-        List<Hotel> hotelList = application.getDbService().getDataBase().getHotelList();
-        if (hotelList.isEmpty()) {
-            System.out.println("\nВ системе не создано ни одного отеля, сначала добавьте отель в систему!\n");
-            return;
-        }
-        for (Hotel hotel : hotelList) {
-            System.out.println(count++ + ". * Отель " + hotel.getHotelName() + ", город " + hotel.getCityName());
-        }
-        try {
-            System.out.println("Введите номер отеля в котором необходимо редактировать комнаты. Для выхода введите \"0\"!");
-            int hotelIndex = Integer.parseInt(buffRead.readLine()) - 1;
-            if (-1 == hotelIndex) return;
-            Hotel hotel = application.getDbService().getDataBase().getHotelList().get(hotelIndex);
-            System.out.println("***** Список комнат в отеле " + hotel.getHotelName() + ", город " + hotel.getCityName() + " *****");
-            count = 1;
-            for (Room room : hotel.getRoomList()) {
-                System.out.println(count++ + ". * " + room);
+        while (true) {
+            System.out.println("***** Список отелей в системе *****");
+            int count = 1;
+            List<Hotel> hotelList = application.getDbService().getDataBase().getHotelList();
+            if (hotelList.isEmpty()) {
+                System.out.println("\nВ системе не создано ни одного отеля, сначала добавьте отель в систему!\n");
+                return;
             }
-            System.out.println("Введите номер комнаты которою Вы хотите редактировать: ");
-            int roomIndex = Integer.parseInt(buffRead.readLine()) - 1;
-            Room room = hotel.getRoomList().get(roomIndex);
-            if (room.isStatus()) {
-                System.out.println("Данная комната забронирована и ее нельзя изменить до окончания бронирования!");
-                editRoomInfo();
+            for (Hotel hotel : hotelList) {
+                System.out.println(count++ + ". * Отель " + hotel.getHotelName() + ", город " + hotel.getCityName());
             }
-            System.out.println("*------> Редактирование параметров комнаты <------*");
-            System.out.println("Количество спальных мест в номере: " + room.getPersons() + " изменяем на: ");
-            int roomPersons = Integer.parseInt(buffRead.readLine());
-            if (roomPersons <= 0) {
-                System.out.println("Вы ввели 0 или отритцательное число!\nВведите данные повторно!\n");
-                editRoomInfo();
+            try {
+                System.out.println("Введите номер отеля в котором необходимо редактировать комнаты. Для выхода введите \"0\"!");
+                int hotelIndex = Integer.parseInt(buffRead.readLine()) - 1;
+                if (-1 == hotelIndex) return;
+                Hotel hotel = application.getDbService().getDataBase().getHotelList().get(hotelIndex);
+                System.out.println("***** Список комнат в отеле " + hotel.getHotelName() + ", город " + hotel.getCityName() + " *****");
+                count = 1;
+                for (Room room : hotel.getRoomList()) {
+                    System.out.println(count++ + ". * " + room);
+                }
+                System.out.println("Введите номер комнаты которою Вы хотите редактировать: ");
+                int roomIndex = Integer.parseInt(buffRead.readLine()) - 1;
+                Room room = hotel.getRoomList().get(roomIndex);
+                if (room.isStatus()) {
+                    System.out.println("Данная комната забронирована и ее нельзя изменить до окончания бронирования!");
+                    continue;
+                }
+                System.out.println("*------> Редактирование параметров комнаты <------*");
+                System.out.println("Количество спальных мест в номере: " + room.getPersons() + " изменяем на: ");
+                int roomPersons = Integer.parseInt(buffRead.readLine());
+                if (roomPersons <= 0) {
+                    System.out.println("Вы ввели 0 или отритцательное число!\nВведите данные повторно!\n");
+                    continue;
+                }
+                System.out.println("Цена номера в грн/сутки: " + room.getPrice() + " изменяем на: ");
+                double roomPrice = Double.parseDouble(buffRead.readLine());
+                if (roomPrice <= 0) {
+                    System.out.println("Вы ввели 0 или отритцательное число!\nВведите данные повторно!\n");
+                    continue;
+                }
+                System.out.println("Укажите дату когда номер будет доступен в формате year.mm.dd");
+                String dateAvailableFrom = buffRead.readLine();
+                System.out.println("Комната после введеных изменений: \n" +
+                        application.editRoomDetails(hotelIndex, roomIndex, roomPersons, roomPrice, dateAvailableFrom));
+                System.out.println("\nДля повторного добавления отеля нажмите 1, в противном случае Вы перейдете в главное меню");
+                String answer1 = buffRead.readLine();
+                switch (answer1) {
+                    case "1":
+                        continue;
+                    default:
+                        return;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Неправильная операция, попробуйте снова: ");
+            } catch (NumberFormatException e) {
+                System.out.println("Неверный формат данных, введите даные повторно: ");
+            } catch (DateTimeException e) {
+                System.out.println("Дата введена неверно!\nВведите данные повторно!\n");
+            } catch (InvalidDateFormat e) {
+                System.out.println(e.getMessage());
             }
-            System.out.println("Цена номера в грн/сутки: " + room.getPrice() + " изменяем на: ");
-            double roomPrice = Double.parseDouble(buffRead.readLine());
-            if (roomPrice <= 0) {
-                System.out.println("Вы ввели 0 или отритцательное число!\nВведите данные повторно!\n");
-                editRoomInfo();
-            }
-            System.out.println("Укажите дату когда номер будет доступен в формате year.mm.dd");
-            String dateAvailableFrom = buffRead.readLine();
-            System.out.println("Комната после введеных изменений: \n" +
-                    application.editRoomDetails(hotelIndex, roomIndex, roomPersons, roomPrice, dateAvailableFrom));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("Неправильная операция, попробуйте снова: ");
-            editRoomInfo();
-        } catch (NumberFormatException e) {
-            System.out.println("Неверный формат данных, введите даные повторно: ");
-            editRoomInfo();
-        } catch (DateTimeException e) {
-            System.out.println("Дата введена неверно!\nВведите данные повторно!\n");
-            editUserInfo();
-        } catch (InvalidDateFormat e) {
-            System.out.println(e.getMessage());
         }
     }
 
@@ -636,7 +687,14 @@ public class ConsoleHelper {
 
                 User user = application.registerUser(name, secondName, email, password, false);
                 System.out.println("Пользователь " + "\'" + user.getEmail() + "\'" + " успешно зарегистрирован!\n");
-                return;
+                System.out.println("Для повторного добавления пользователя нажмите 1, в противном случае Вы перейдете в главное меню");
+                String answer1 = buffRead.readLine();
+                switch (answer1) {
+                    case "1":
+                        continue;
+                    default:
+                        return;
+                }
             } catch (UserAlreadyExist | ValidStringNameException e) {
                 System.out.println(e.getMessage());
             } catch (IOException e) {
@@ -661,7 +719,14 @@ public class ConsoleHelper {
                 int emailIndex = Integer.parseInt(buffRead.readLine()) - 1;
                 if (emailIndex == -1) return;
                 System.out.println("Пользователь " + "\'" + application.deleteUser(emailList.get(emailIndex)).getEmail() + "\'" + " удалён!\n");
-                return;
+                System.out.println("Для повторного удаления пользователя нажмите 1, в противном случае Вы перейдете в главное меню");
+                String answer1 = buffRead.readLine();
+                switch (answer1) {
+                    case "1":
+                        continue;
+                    default:
+                        return;
+                }
             } catch (CantDeleteCurrentUser ex) {
                 System.out.println(ex.getMessage());
             } catch (IndexOutOfBoundsException | NumberFormatException ex) {
@@ -673,166 +738,178 @@ public class ConsoleHelper {
     }
 
     private void findByNameHotel() {
-        System.out.println("*-----------------------------------------------*");
-        System.out.println("В системе имеются следующие отели: ");
-        int count = 1;
-        List<Hotel> hotelList = application.getDbService().getDataBase().getHotelList();
-        for (Hotel hotel : hotelList) {
-            System.out.println(count++ + ". " + hotel.getHotelName() + ", город " + hotel.getCityName());
-        }
-        System.out.println("Введите номер, который соответствует названию отеля. Введите 0, если желаете вернуться в главное меню. ");
-        try {
-            int index = Integer.parseInt(buffRead.readLine());
-            if (index == 0) return;
-            String name = application.getDbService().getDataBase().getHotelList().get(index - 1).getHotelName();
-            List<Hotel> hotelByName = application.findHotelByName(name);
-            for (Hotel hotel : hotelByName) {
-                System.out.println("*----------------------------------------------------------*");
-                System.out.println("Название отеля: " + hotel.getHotelName() + ";" + "\n" +
-                        "Местонахождение отеля: " + hotel.getCityName() + ";" + "\n" + "Доступные комнаты: ");
-                hotel.getRoomList().forEach(System.out::println);
-                System.out.println("*----------------------------------------------------------*");
+        while (true) {
+            System.out.println("*------------------------------------------------*");
+            System.out.println("В системе имеются следующие отели: ");
+            int count = 1;
+            List<Hotel> hotelList = application.getDbService().getDataBase().getHotelList();
+            for (Hotel hotel : hotelList) {
+                System.out.println(count++ + ". " + hotel.getHotelName() + ", город " + hotel.getCityName());
             }
-            System.out.println("Для продолжения поиска отеля по названию нажмите 1, в противном случае Вы перейдете в главное меню");
-            String answer1 = buffRead.readLine();
-            switch (answer1) {
-                case "1":
-                    findByNameHotel();
-                    break;
+            System.out.println("Введите номер, который соответствует названию отеля. Введите 0, если желаете вернуться в главное меню. ");
+            try {
+                int index = Integer.parseInt(buffRead.readLine());
+                if (index == 0) return;
+                String name = application.getDbService().getDataBase().getHotelList().get(index - 1).getHotelName();
+                List<Hotel> hotelByName = application.findHotelByName(name);
+                for (Hotel hotel : hotelByName) {
+                    System.out.println("*-----------------------------------------------------------*");
+                    System.out.println("Название отеля: " + hotel.getHotelName() + ";" + "\n" +
+                            "Местонахождение отеля: " + hotel.getCityName() + ";" + "\n" + "Доступные комнаты: ");
+                    hotel.getRoomList().forEach(System.out::println);
+                    System.out.println("*-----------------------------------------------------------*");
+                }
+                System.out.println("Для продолжения поиска отеля по названию нажмите 1, в противном случае Вы перейдете в главное меню");
+                String answer1 = buffRead.readLine();
+                switch (answer1) {
+                    case "1":
+                        continue;
+                    default:
+                        return;
+                }
+            } catch (IndexOutOfBoundsException | NumberFormatException e) {
+                System.out.println("Вы ввели недопустимые символы,повторите Ваш ввод");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IndexOutOfBoundsException | NumberFormatException e) {
-            System.out.println("Вы ввели недопустимые символы,повторите Ваш ввод");
-            findByNameHotel();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-
-
     }
 
 
     private void findByCity() {
-        System.out.println("*----------------------------------------------*");
-        System.out.println("В системе имеются отели в следующих городах: ");
-        int count = 1;
+        while (true) {
+            System.out.println("*----------------------------------------------*");
+            System.out.println("В системе имеются отели в следующих городах: ");
+            int count = 1;
 
-        List<String> cityNames = application.getDbService().getDataBase().getHotelList()
-                .stream()
-                .map(Hotel::getCityName)
-                .distinct()
-                .collect(Collectors.toList());
+            List<String> cityNames = application.getDbService().getDataBase().getHotelList()
+                    .stream()
+                    .map(Hotel::getCityName)
+                    .distinct()
+                    .collect(Collectors.toList());
 
-        for (String cityName : cityNames) {
-            System.out.println(count++ + ". " + cityName);
-        }
-        System.out.println("Введите номер, который соответствует названию города. Введите 0, если желаете вернуться в главное меню. ");
-        try {
-            int index = Integer.parseInt(buffRead.readLine());
-            if (index == 0) return;
-            String city = cityNames.get(index - 1);
-            List<Hotel> hotelByCity = application.findHotelByCity(city);
-            System.out.println("По заданым критериям поиска доступны следующие отели: ");
-            for (Hotel hotel : hotelByCity) {
-                System.out.println("*----------------------------------------------------------*");
-                System.out.println("Название отеля: " + hotel.getHotelName() + ";" + "\n" +
-                        "Местонахождение отеля: " + hotel.getCityName() + ";" + "\n" + "Доступные комнаты: ");
-                hotel.getRoomList().forEach(System.out::println);
-                System.out.println("*----------------------------------------------------------*");
+            for (String cityName : cityNames) {
+                System.out.println(count++ + ". " + cityName);
             }
-            System.out.println("Для продолжения поиска отеля по городу нажмите 1, в противном случае Вы перейдете в главное меню");
-            String answer1 = buffRead.readLine();
-            switch (answer1) {
-                case "1":
-                    findByCity();
-                    break;
+            System.out.println("Введите номер, который соответствует названию города. Введите 0, если желаете вернуться в главное меню. ");
+            try {
+                int index = Integer.parseInt(buffRead.readLine());
+                if (index == 0) return;
+                String city = cityNames.get(index - 1);
+                List<Hotel> hotelByCity = application.findHotelByCity(city);
+                System.out.println("По заданым критериям поиска доступны следующие отели: ");
+                for (Hotel hotel : hotelByCity) {
+                    System.out.println("*----------------------------------------------------------*");
+                    System.out.println("Название отеля: " + hotel.getHotelName() + ";" + "\n" +
+                            "Местонахождение отеля: " + hotel.getCityName() + ";" + "\n" + "Доступные комнаты: ");
+                    hotel.getRoomList().forEach(System.out::println);
+                    System.out.println("*----------------------------------------------------------*");
+                }
+                System.out.println("Для продолжения поиска отеля по городу нажмите 1, в противном случае Вы перейдете в главное меню");
+                String answer1 = buffRead.readLine();
+                switch (answer1) {
+                    case "1":
+                        continue;
+                    default:
+                        return;
+                }
+            } catch (IndexOutOfBoundsException | NumberFormatException e) {
+                System.out.println("Вы ввели недопустимые символы,повторите Ваш ввод");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IndexOutOfBoundsException | NumberFormatException e) {
-            System.out.println("Вы ввели недопустимые символы,повторите Ваш ввод");
-            findByCity();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
     private void findRoomsByHotel() {
-        System.out.println("*----------------------------------------------*");
-        System.out.println("В системе имеются комнаты в следующих отелях: ");
-        int count = 1;
-        List<Hotel> hotelList = application.getDbService().getDataBase().getHotelList();
-        for (Hotel hotel : hotelList) {
-            System.out.println(count++ + ". " + hotel.getHotelName() + ", город " + hotel.getCityName());
-        }
-        System.out.println("Введите номер, который соответствует названию отеля. Введите 0, если желаете вернуться в главное меню. ");
-        try {
-            int index = Integer.parseInt(buffRead.readLine());
-            if (index == 0) return;
-            String name = application.getDbService().getDataBase().getHotelList().get(index - 1).getHotelName();
-            List<Hotel> hotelByName = application.findRoomsByHotel(name);
-            for (Hotel hotel : hotelByName) {
-                System.out.println("*----------------------------------------------------------*");
-
-                hotel.getRoomList().forEach(System.out::println);
-                System.out.println("*----------------------------------------------------------*");
-
-
+        while (true) {
+            System.out.println("*----------------------------------------------*");
+            System.out.println("В системе имеются комнаты в следующих отелях: ");
+            int count = 1;
+            List<Hotel> hotelList = application.getDbService().getDataBase().getHotelList();
+            for (Hotel hotel : hotelList) {
+                System.out.println(count++ + ". " + hotel.getHotelName() + ", город " + hotel.getCityName());
             }
-            System.out.println("Для продолжения поиска комнат по названию отеля нажмите 1, в противном случае Вы перейдете в главное меню");
-            String answer1 = buffRead.readLine();
-            switch (answer1) {
-                case "1":
-                    findRoomsByHotel();
-                    break;
-            }
-        } catch (IndexOutOfBoundsException | NumberFormatException e) {
-            System.out.println("Вы ввели недопустимые символы,повторите Ваш ввод");
-            findRoomsByHotel();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            System.out.println("Введите номер, который соответствует названию отеля. Введите 0, если желаете вернуться в главное меню. ");
+            try {
+                int index = Integer.parseInt(buffRead.readLine());
+                if (index == 0) return;
+                String name = application.getDbService().getDataBase().getHotelList().get(index - 1).getHotelName();
+                List<Hotel> hotelByName = application.findRoomsByHotel(name);
+                for (Hotel hotel : hotelByName) {
+                    System.out.println("*----------------------------------------------------------*");
 
+                    hotel.getRoomList().forEach(System.out::println);
+                    System.out.println("*----------------------------------------------------------*");
+
+
+                }
+                System.out.println("Для продолжения поиска комнат по названию отеля нажмите 1, в противном случае Вы перейдете в главное меню");
+                String answer1 = buffRead.readLine();
+                switch (answer1) {
+                    case "1":
+                        continue;
+                    default:
+                        return;
+                }
+            } catch (IndexOutOfBoundsException | NumberFormatException e) {
+                System.out.println("Вы ввели недопустимые символы,повторите Ваш ввод");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void findRoomsByRangePrice() {
-        System.out.println("*-------------------------------------------*");
-        System.out.println("В системе имеются отели в следующих городах: ");
-        int count = 1;
+        while (true) {
+            System.out.println("*-------------------------------------------*");
+            System.out.println("В системе имеются отели в следующих городах: ");
+            int count = 1;
 
-        List<String> cityNames = application.getDbService().getDataBase().getHotelList().stream().map(Hotel::getCityName).distinct().collect(Collectors.toList());
+            List<String> cityNames = application.getDbService().getDataBase().getHotelList().stream().map(Hotel::getCityName).distinct().collect(Collectors.toList());
 
-        for (String cityName : cityNames) {
-            System.out.println(count++ + ". " + cityName);
-        }
-        System.out.println("Введите номер, который соответствует названию города. Введите 0, если желаете вернуться в главное меню. ");
-        try {
-            int index = Integer.parseInt(buffRead.readLine());
-            if (index == 0) return;
-            String city = cityNames.get(index - 1);
-            List<Hotel> hotelByCity = application.findHotelByCity(city);
-            System.out.println("Введите минимальную цену для поиска: ");
-            Double minPrice = Double.parseDouble(buffRead.readLine());
-            System.out.println("Введите максимальную цену: ");
-            Double maxPrice = Double.parseDouble(buffRead.readLine());
-            System.out.println("По вашим критериям поиска найдено следующие комнаты: ");
-            index = 0;
-            for (Hotel hotel : hotelByCity) {
-                for (Room room : hotel.getRoomList()) {
-                    if (room.getPrice() >= minPrice && room.getPrice() <= maxPrice) {
-                        System.out.println("*-------------------------------------------*");
-                        System.out.println("Название отеля: " + hotel.getHotelName() + ";" + "\n" +
-                                "Местонахождение отеля: " + city + ";" + "\n" + "Доступные комнаты: " + room);
-                        System.out.println("*-------------------------------------------*");
-                        index++;
+            for (String cityName : cityNames) {
+                System.out.println(count++ + ". " + cityName);
+            }
+            System.out.println("Введите номер, который соответствует названию города. Введите 0, если желаете вернуться в главное меню. ");
+            try {
+                int index = Integer.parseInt(buffRead.readLine());
+                if (index == 0) return;
+                String city = cityNames.get(index - 1);
+                List<Hotel> hotelByCity = application.findHotelByCity(city);
+                System.out.println("Введите минимальную цену для поиска: ");
+                Double minPrice = Double.parseDouble(buffRead.readLine());
+                System.out.println("Введите максимальную цену: ");
+                Double maxPrice = Double.parseDouble(buffRead.readLine());
+                System.out.println("По вашим критериям поиска найдено следующие комнаты: ");
+                index = 0;
+                for (Hotel hotel : hotelByCity) {
+                    for (Room room : hotel.getRoomList()) {
+                        if (room.getPrice() >= minPrice && room.getPrice() <= maxPrice) {
+                            System.out.println("*-------------------------------------------*");
+                            System.out.println("Название отеля: " + hotel.getHotelName() + ";" + "\n" +
+                                    "Местонахождение отеля: " + city + ";" + "\n" + "Доступные комнаты: " + room);
+                            System.out.println("*-------------------------------------------*");
+                            index++;
+                        }
                     }
                 }
+                if (index == 0) {
+                    System.out.println("По заданым критериям комнаты отсутствуют.");
+                }
+                System.out.println("\nДля продолжения поиска нажмите 1, в противном случае Вы перейдете в главное меню");
+                String answer1 = buffRead.readLine();
+                switch (answer1) {
+                    case "1":
+                        continue;
+                    default:
+                        return;
+                }
+            } catch (IndexOutOfBoundsException | NumberFormatException e) {
+                System.out.println("Вы ввели недопустимые символы,повторите Ваш ввод");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            if(index == 0){
-                System.out.println("По заданым критериям комнаты отсутствуют.");
-            }
-        } catch (IndexOutOfBoundsException | NumberFormatException e) {
-            System.out.println("Вы ввели недопустимые символы,повторите Ваш ввод");
-            findRoomsByRangePrice();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -861,7 +938,14 @@ public class ConsoleHelper {
 
                 Room room = application.roomReservationByName(hotelIndex, i - 1, date);
                 System.out.println("***Комната успешно забронирована с " + room.getAvailableFrom() + " по " + room.getReservBefore());
-                return;
+                System.out.println("\nДля повторного бронирования нажмите 1, в противном случае Вы перейдете в главное меню");
+                String answer1 = buffRead.readLine();
+                switch (answer1) {
+                    case "1":
+                        continue;
+                    default:
+                        return;
+                }
             } catch (InvalidRoomStatus | InvalidHotelStatus invalidStatus) {
                 System.out.println(invalidStatus.getMessage());
             } catch (NumberFormatException | IndexOutOfBoundsException ex) {

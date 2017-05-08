@@ -72,7 +72,7 @@ public class UserController implements UserControllerInterface {
      * @throws InvalidRoomStatus  - срабатывает если комната которубю мы хотим забронировать уже занята.
      * @throws InvalidHotelStatus - срабатывает если в даном отеле все комнаты заняты.
      * @throws InvalidDateFormat  - дата вводиться в формате уууу.mm.dd(10символов включая точки), если длинна превышает
-     *                            10 сиволов и когда вы пытаетесь ввести дату более раннюю чем та с которой комната свободна, срабатывает это исключение.
+     * @throws InvalidDateFormat - 10 сиволов и когда вы пытаетесь ввести дату более раннюю чем та с которой комната свободна, срабатывает это исключение.
      */
     public Room roomReservationByName(int hotelIndex, int roomIndex, String reservDate) throws InvalidRoomStatus, InvalidHotelStatus, InvalidDateFormat {
         if (userDAO.getDataBase().getHotelList().get(hotelIndex).getRoomList().stream().allMatch(Room::isStatus))
