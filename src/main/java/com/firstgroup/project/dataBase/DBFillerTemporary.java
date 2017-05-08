@@ -91,7 +91,7 @@ public class DBFillerTemporary {
         roomList6.add(new Room(3,1900, LocalDate.of(2017,5,9)));
         roomList6.add(new Room(3,2300, LocalDate.of(2017,5,5)));
         roomList6.add(new Room(2,1500, LocalDate.of(2017,5,4)));
-        Hotel hotelOdessa2 = new Hotel("Одесський дворик","Одесса",roomList6);
+        Hotel hotelOdessa2 = new Hotel("Одесский дворик","Одесса",roomList6);
 
         dbService.getDataBase().getHotelList().add(hotelLviv1);
         dbService.getDataBase().getHotelList().add(hotelLviv2);
