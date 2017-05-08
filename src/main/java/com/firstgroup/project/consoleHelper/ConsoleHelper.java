@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toList;
 
 /**
- *
+ * Класс предоставляет консольный пользовательский интерфейс.
  */
 
 public class ConsoleHelper {
@@ -266,7 +266,7 @@ public class ConsoleHelper {
                 Hotel hotel = application.addHotel(hotelName, cityName, roomPersons, roomPrice, dateAvailableFrom);
                 System.out.println(hotel.getHotelName() + " успешно сохранен!");
                 return;
-            } catch (HotelAlreadyExist | ValidStringNameException r) {
+            } catch (HotelAlreadyExist | ValidStringNameException | InvalidDateFormat r) {
                 System.out.println(r.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
@@ -310,7 +310,7 @@ public class ConsoleHelper {
                 return;
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (ValidStringNameException r) {
+            } catch (ValidStringNameException | InvalidDateFormat r) {
                 System.out.println(r.getMessage());
             } catch (NumberFormatException e) {
                 System.out.println("Данные введены неверно!\nВведите данные повторно!\n");
@@ -533,6 +533,8 @@ public class ConsoleHelper {
         } catch (DateTimeException e) {
             System.out.println("Дата введена неверно!\nВведите данные повторно!\n");
             editUserInfo();
+        } catch (InvalidDateFormat e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -704,7 +706,7 @@ public class ConsoleHelper {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (IncorrectDataInput incorrectDataInput) {
-            System.out.println("Неверно задали критерии поиска, повторите ввод!");
+            System.out.println("Неверно задан критерии поиска, повторите ввод!");
         }
 
 
@@ -790,7 +792,7 @@ public class ConsoleHelper {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (IncorrectDataInput incorrectDataInput) {
-            System.out.println("Неверно задали критерии поиска, повторите ввод!");
+            System.out.println("Неверно задан критерии поиска, повторите ввод!");
         }
 
     }

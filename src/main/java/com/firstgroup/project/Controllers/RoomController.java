@@ -1,7 +1,7 @@
 package com.firstgroup.project.Controllers;
 
 import com.firstgroup.project.DAOs.RoomDAO;
-import com.firstgroup.project.Exceptions.IncorrectDataInput;
+import com.firstgroup.project.Exceptions.InvalidDateFormat;
 import com.firstgroup.project.Exceptions.ValidStringNameException;
 import com.firstgroup.project.entity.Hotel;
 import com.firstgroup.project.entity.Room;
@@ -15,17 +15,37 @@ import java.util.List;
 public class RoomController implements RoomControllerInterface {
     private RoomDAO roomDAO = new RoomDAO();
 
-    public Room addRoom(int hotelIndex, int roomPersons, double roomPrice, String date) throws ValidStringNameException {
+    /**
+     * Данный метод выполняет создание нового екземпляра комнаты и передает его на уровень RoomDAO в метод save(Room obj, int hotelIndex).
+     * @param hotelIndex - индекс отеля для поиска в листе.
+     * @param roomPersons - количевство мест в номере.
+     * @param roomPrice - цена комнаты в грн./сутки.
+     * @param date - дата когда номер будет доступен.
+     * @return - возвращает объект Room, после сохранения.
+     * @throws ValidStringNameException - исключение бросается если в стоках по названиям вписать символы, числа или пустую строку.
+     * @throws InvalidDateFormat - исключение бросается вбить длиннее формат данных чем указан year.mm.dd.
+     */
+    public Room addRoom(int hotelIndex, int roomPersons, double roomPrice, String date) throws ValidStringNameException, InvalidDateFormat {
         if (date.length() > 10) {
-            throw new IndexOutOfBoundsException();
+            throw new InvalidDateFormat("Не верный формат даты!");
         }
         Room newRoom = new Room(roomPersons, roomPrice, LocalDate.of(Integer.valueOf(date.substring(0, 4)), Integer.valueOf(date.substring(5, 7)), Integer.valueOf(date.substring(8, 10))));
         return roomDAO.save(newRoom, hotelIndex);
     }
 
-    public Room editRoomDetails(int hotelIndex, int roomIndex, int roomPersons, double roomPrice, String date) {
+    /**
+     * Данный метод предназначен для именения полей объектов Room и передает его на уровень RoomDAO в метод update(Room obj, int hotelIndex, int roomIndex).
+     * @param hotelIndex - индекс отеля для поиска в листе.
+     * @param roomIndex - индекс комнаты для поиска в листе.
+     * @param roomPersons - количевство мест в номере.
+     * @param roomPrice - цена комнаты в грн./сутки.
+     * @param date - дата когда номер будет доступен.
+     * @return - возвращает объект Room, после изменения.
+     * @throws InvalidDateFormat - исключение бросается вбить длиннее формат данных чем указан year.mm.dd.
+     */
+    public Room editRoomDetails(int hotelIndex, int roomIndex, int roomPersons, double roomPrice, String date) throws InvalidDateFormat {
         if (date.length() > 10) {
-            throw new IndexOutOfBoundsException();
+            throw new InvalidDateFormat("Не верный формат даты!");
         }
         Room room = new Room(roomPersons, roomPrice, LocalDate.of(Integer.valueOf(date.substring(0, 4)), Integer.valueOf(date.substring(5, 7)), Integer.valueOf(date.substring(8, 10))));
         return roomDAO.update(room, hotelIndex, roomIndex);

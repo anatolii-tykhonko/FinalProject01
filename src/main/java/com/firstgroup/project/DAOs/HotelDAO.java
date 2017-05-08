@@ -13,12 +13,12 @@ import java.util.stream.Collectors;
  */
 public class HotelDAO extends DBService implements HotelDAOInterface {
 
-    public Hotel save(Hotel obj) throws HotelAlreadyExist {
-        if (getDataBase().getHotelList().contains(obj)) {
-            throw new HotelAlreadyExist("Отель c таким именем уже существует в єтом городе!");
+    public Hotel save(Hotel hotel) throws HotelAlreadyExist {
+        if (getDataBase().getHotelList().contains(hotel)) {
+            throw new HotelAlreadyExist("Отель c таким именем уже существует в этом городе!");
         }
-        getDataBase().getHotelList().add(obj);
-        return obj;
+        getDataBase().getHotelList().add(hotel);
+        return hotel;
     }
 
     public boolean delete(int hotelIndex) {

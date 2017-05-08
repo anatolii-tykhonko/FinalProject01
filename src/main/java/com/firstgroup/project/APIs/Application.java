@@ -12,15 +12,16 @@ import com.firstgroup.project.entity.User;
 import java.util.List;
 
 /**
- * Created by MakeMeSm1Le- on 08.05.2017.
+ * Данный класс реализовывает доступ к методам АРІ.
  */
+
 public class Application  implements  API{
     private DBService dbService = new DBService();
     private HotelController hotelController = new HotelController();
     private RoomController roomController = new RoomController();
     private UserController userController = new UserController();
 
-    public Hotel addHotel(String hotelName, String cityName, int roomPersons, double roomPrice, String date) throws HotelAlreadyExist, ValidStringNameException {
+    public Hotel addHotel(String hotelName, String cityName, int roomPersons, double roomPrice, String date) throws HotelAlreadyExist, ValidStringNameException, InvalidDateFormat {
         return hotelController.addHotel(hotelName,cityName,roomPersons,roomPrice,date);
     }
 
@@ -28,11 +29,11 @@ public class Application  implements  API{
         return hotelController.editHotelDetails(hotelIndex,newHotelName,newCityName);
     }
 
-    public Room addRoom(int hotelIndex, int roomPersons, double roomPrice, String date) throws ValidStringNameException {
+    public Room addRoom(int hotelIndex, int roomPersons, double roomPrice, String date) throws ValidStringNameException, InvalidDateFormat {
         return roomController.addRoom(hotelIndex,roomPersons,roomPrice,date);
     }
 
-    public Room editRoomDetails(int hotelIndex, int roomIndex, int roomPersons, double roomPrice, String dateAvailableFrom) {
+    public Room editRoomDetails(int hotelIndex, int roomIndex, int roomPersons, double roomPrice, String dateAvailableFrom) throws InvalidDateFormat {
         return roomController.editRoomDetails(hotelIndex,roomIndex,roomPersons,roomPrice,dateAvailableFrom);
     }
 
