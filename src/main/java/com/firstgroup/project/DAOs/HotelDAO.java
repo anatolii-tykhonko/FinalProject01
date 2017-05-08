@@ -33,13 +33,19 @@ public class HotelDAO extends DBService implements HotelDAOInterface {
         return getDataBase().getHotelList().get(hotelIndex);
     }
 
-    public List<Hotel> findHotelByName(String hotelName) throws IncorrectDataInput {
+    /**
+     * Данный метод работает с базой данных.
+     * @param hotelName
+     * @return hotelList
+     */
+
+    public List<Hotel> findHotelByName(String hotelName){
         List<Hotel> hotelList = getDataBase().getHotelList().stream().filter(hotel -> hotel.getHotelName().equals(hotelName)).collect(Collectors.toList());
         System.out.println("По Вашему запросу найдены следующие отели: ");
         return hotelList;
     }
 
-    public List<Hotel> findHotelByCity(String cityName) throws IncorrectDataInput {
+    public List<Hotel> findHotelByCity(String cityName) {
         List<Hotel> hotelList = getDataBase().getHotelList().stream().filter(hotel -> hotel.getCityName().equals(cityName)).collect(Collectors.toList());
 
         return hotelList;

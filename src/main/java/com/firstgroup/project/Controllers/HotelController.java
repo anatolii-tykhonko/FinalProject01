@@ -64,11 +64,25 @@ public class HotelController implements HotelControllerInterface {
         return hotelDAO.delete(hotelIndex);
     }
 
-    public List<Hotel> findHotelByName(String hotelName) throws IncorrectDataInput {
+    /**
+     * Данный метод выполняет поиск отеля по его имени, посредством перехода на уровень CommonDAO и поиска искомых отелей в базе данных.
+     * Входящим параметором в методе является String hotelName, который является параметром поиска метода.
+     * Возвращаемый результат метода - List<Hotel> отвечающий параметру поиска.
+     */
+    public List<Hotel> findHotelByName(String hotelName) {
         return hotelDAO.findHotelByName(hotelName);
     }
 
-    public List<Hotel> findHotelByCity(String cityName) throws IncorrectDataInput {
+
+    /**
+     * Данный метод выполняет поиск отеля по его городу, посредством перехода на уровень CommonDAO и поиска искомых отелей в базе данных.
+     * Входящим параметором в методе является String cityName, который является параметром поиска метода.
+     * Возвращаемый результат метода - List<Hotel> отвечающий параметру поиска.
+     */
+
+    public List<Hotel> findHotelByCity(String cityName) {
         return hotelDAO.findHotelByCity(cityName);
     }
+
+
 }

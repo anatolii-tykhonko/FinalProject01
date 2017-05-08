@@ -57,15 +57,15 @@ public class Application  implements  API{
         return userController.deleteUser(email);
     }
 
-    public List<Hotel> findHotelByName(String hotelName) throws IncorrectDataInput {
+    public List<Hotel> findHotelByName(String hotelName) {
         return hotelController.findHotelByName(hotelName);
     }
 
-    public List<Hotel> findHotelByCity(String cityName) throws IncorrectDataInput {
+    public List<Hotel> findHotelByCity(String cityName) {
         return hotelController.findHotelByCity(cityName);
     }
 
-    public List<Hotel> findRoomsByHotel(String hotelName) throws IncorrectDataInput {
+    public List<Hotel> findRoomsByHotel(String hotelName) {
         return roomController.findRoomsByHotel(hotelName);
     }
 

@@ -673,7 +673,7 @@ public class ConsoleHelper {
     }
 
     private void findByNameHotel() {
-        System.out.println("*-----------------------------------------*");
+        System.out.println("*-----------------------------------------------*");
         System.out.println("В системе имеются следующие отели: ");
         int count = 1;
         List<Hotel> hotelList = application.getDbService().getDataBase().getHotelList();
@@ -687,11 +687,11 @@ public class ConsoleHelper {
             String name = application.getDbService().getDataBase().getHotelList().get(index - 1).getHotelName();
             List<Hotel> hotelByName = application.findHotelByName(name);
             for (Hotel hotel : hotelByName) {
-                System.out.println("*------------------------------------------*");
+                System.out.println("*----------------------------------------------------------*");
                 System.out.println("Название отеля: " + hotel.getHotelName() + ";" + "\n" +
                         "Местонахождение отеля: " + hotel.getCityName() + ";" + "\n" + "Доступные комнаты: ");
                 hotel.getRoomList().forEach(System.out::println);
-                System.out.println("*------------------------------------------*");
+                System.out.println("*----------------------------------------------------------*");
             }
             System.out.println("Для продолжения поиска отеля по названию нажмите 1, в противном случае Вы перейдете в главное меню");
             String answer1 = buffRead.readLine();
@@ -705,8 +705,6 @@ public class ConsoleHelper {
             findByNameHotel();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (IncorrectDataInput incorrectDataInput) {
-            System.out.println("Неверно задан критерии поиска, повторите ввод!");
         }
 
 
@@ -714,7 +712,7 @@ public class ConsoleHelper {
 
 
     private void findByCity() {
-        System.out.println("*-------------------------------------------*");
+        System.out.println("*----------------------------------------------*");
         System.out.println("В системе имеются отели в следующих городах: ");
         int count = 1;
 
@@ -735,11 +733,11 @@ public class ConsoleHelper {
             List<Hotel> hotelByCity = application.findHotelByCity(city);
             System.out.println("По заданым критериям поиска доступны следующие отели: ");
             for (Hotel hotel : hotelByCity) {
-                System.out.println("*-------------------------------------------*");
+                System.out.println("*----------------------------------------------------------*");
                 System.out.println("Название отеля: " + hotel.getHotelName() + ";" + "\n" +
                         "Местонахождение отеля: " + hotel.getCityName() + ";" + "\n" + "Доступные комнаты: ");
                 hotel.getRoomList().forEach(System.out::println);
-                System.out.println("*-------------------------------------------*");
+                System.out.println("*----------------------------------------------------------*");
             }
             System.out.println("Для продолжения поиска отеля по городу нажмите 1, в противном случае Вы перейдете в главное меню");
             String answer1 = buffRead.readLine();
@@ -753,13 +751,11 @@ public class ConsoleHelper {
             findByCity();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (IncorrectDataInput incorrectDataInput) {
-            System.out.println("Неверно задан критерий поиска повторите ввод: ");
         }
     }
 
     private void findRoomsByHotel() {
-        System.out.println("*-----------------------------------------*");
+        System.out.println("*----------------------------------------------*");
         System.out.println("В системе имеются комнаты в следующих отелях: ");
         int count = 1;
         List<Hotel> hotelList = application.getDbService().getDataBase().getHotelList();
@@ -773,10 +769,10 @@ public class ConsoleHelper {
             String name = application.getDbService().getDataBase().getHotelList().get(index - 1).getHotelName();
             List<Hotel> hotelByName = application.findRoomsByHotel(name);
             for (Hotel hotel : hotelByName) {
-                System.out.println("*-----------------------------------------*");
+                System.out.println("*----------------------------------------------------------*");
 
                 hotel.getRoomList().forEach(System.out::println);
-                System.out.println("*-----------------------------------------*");
+                System.out.println("*----------------------------------------------------------*");
 
 
             }
@@ -792,8 +788,6 @@ public class ConsoleHelper {
             findRoomsByHotel();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (IncorrectDataInput incorrectDataInput) {
-            System.out.println("Неверно задан критерии поиска, повторите ввод!");
         }
 
     }
@@ -839,8 +833,6 @@ public class ConsoleHelper {
             findRoomsByRangePrice();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (IncorrectDataInput incorrectDataInput) {
-            System.out.println("Неверно задан критерий поиска повторите ввод: ");
         }
     }
 

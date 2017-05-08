@@ -15,8 +15,8 @@ public interface HotelControllerInterface {
     Hotel addHotel(String hotelName, String cityName, int roomPersons, double roomPrice, String date) throws HotelAlreadyExist, ValidStringNameException, InvalidDateFormat;
     Hotel editHotelDetails(int hotelIndex,String newHotelName,String newCityName) throws ValidStringNameException;
     boolean deleteHotel(int hotelIndex);
-    List<Hotel> findHotelByName(String hotelName) throws IncorrectDataInput;
-    List<Hotel> findHotelByCity(String cityName) throws IncorrectDataInput;
+    List<Hotel> findHotelByName(String hotelName);
+    List<Hotel> findHotelByCity(String cityName);
 
 
 }
