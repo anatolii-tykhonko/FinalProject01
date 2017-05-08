@@ -883,19 +883,33 @@ public class ConsoleHelper {
                 Double maxPrice = Double.parseDouble(buffRead.readLine());
                 System.out.println("По вашим критериям поиска найдено следующие комнаты: ");
                 index = 0;
+                List<Room> findRoomByPrice = new ArrayList<>();
+                Map<String, List<Room>> o1 = new HashMap<>();
                 for (Hotel hotel : hotelByCity) {
                     for (Room room : hotel.getRoomList()) {
                         if (room.getPrice() >= minPrice && room.getPrice() <= maxPrice) {
-                            System.out.println("*-------------------------------------------*");
-                            System.out.println("Название отеля: " + hotel.getHotelName() + ";" + "\n" +
-                                    "Местонахождение отеля: " + city + ";" + "\n" + "Доступные комнаты: " + room);
-                            System.out.println("*-------------------------------------------*");
                             index++;
+                            findRoomByPrice.add(room);
+                            o1.put(hotel.getHotelName(), findRoomByPrice);
                         }
                     }
                 }
+                for (Map.Entry<String, List<Room>> pair : o1.entrySet()) {
+                    String key = pair.getKey();
+                    List<Room> value = pair.getValue();
+                    System.out.println("*-------------------------------------------*");
+                    System.out.println("Название отеля: " + key + "\n" +
+                            "Доступные комнаты: ");
+                    for (int i = 0; i < value.size(); i++) {
+                        System.out.println((i + 1) + ". " + value.get(i));
+                    }
+                    System.out.println("*-------------------------------------------*");
+                }
                 if (index == 0) {
                     System.out.println("По заданым критериям комнаты отсутствуют.");
+                } else {
+                    System.out.println("Укажите дату по которую выхотите забронировать комнату в формате year.mm.dd: ");
+
                 }
                 System.out.println("\nДля продолжения поиска нажмите 1, в противном случае Вы перейдете в главное меню");
                 String answer1 = buffRead.readLine();
@@ -905,8 +919,10 @@ public class ConsoleHelper {
                     default:
                         return;
                 }
+
             } catch (IndexOutOfBoundsException | NumberFormatException e) {
                 System.out.println("Вы ввели недопустимые символы,повторите Ваш ввод");
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
