@@ -1,7 +1,7 @@
 package com.firstgroup.project.consoleHelper;
 
-import com.firstgroup.project.APIs.LLALALALA;
-import com.firstgroup.project.DAOs.CommonDAO;
+import com.firstgroup.project.APIs.Application;
+import com.firstgroup.project.DAOs.DBService;
 import com.firstgroup.project.Exceptions.*;
 import com.firstgroup.project.entity.Hotel;
 import com.firstgroup.project.entity.Room;
@@ -21,7 +21,7 @@ import static java.util.stream.Collectors.toList;
  */
 
 public class ConsoleHelper {
-    LLALALALA application = new LLALALALA();
+    Application application = new Application();
     BufferedReader buffRead = new BufferedReader(new InputStreamReader(System.in));
 
     public void mainMenu() {
@@ -163,7 +163,7 @@ public class ConsoleHelper {
                     System.out.println("\n*------------------------------------------------------------------------------*\n" +
                             "*---------------> Программа завершена, все изменения сохранены! <--------------*\n" +
                             "*------------------------------------------------------------------------------*\n");
-                    CommonDAO.save();
+                    DBService.save();
                     buffRead.close();
                     System.exit(0);
                     break;
@@ -246,7 +246,7 @@ public class ConsoleHelper {
                     System.out.println("\n*------------------------------------------------------------------------------*\n" +
                             "*---------------> Программа завершена, все изменения сохранены! <--------------*\n" +
                             "*------------------------------------------------------------------------------*\n");
-                    CommonDAO.save();
+                    DBService.save();
                     buffRead.close();
                     System.exit(0);
                     break;
@@ -305,14 +305,14 @@ public class ConsoleHelper {
     private void addRoom() {
         System.out.println("Выберите отель в котором вы хотите добавить комнату. Для выхода введите \"0\"!");
         int count = 1;
-        List<Hotel> hotelList = application.getCommonDAO().getDataBase().getHotelList();
+        List<Hotel> hotelList = application.getDbService().getDataBase().getHotelList();
         for (Hotel hotel : hotelList) {
             System.out.println(count++ + ". * Отель " + hotel.getHotelName() + ", город " + hotel.getCityName());
         }
         try {
             int hotelIndex = Integer.parseInt(buffRead.readLine()) - 1;
             if (-1 == hotelIndex) return;
-            Hotel hotel = application.getCommonDAO().getDataBase().getHotelList().get(hotelIndex);
+            Hotel hotel = application.getDbService().getDataBase().getHotelList().get(hotelIndex);
             System.out.println("**** Добавление комнат в отель " + hotel.getHotelName() + ", город " + hotel.getCityName() + " ****");
             System.out.println("Укажите количество спальных мест в номере:");
             int roomPersons = Integer.parseInt(buffRead.readLine());
@@ -350,7 +350,7 @@ public class ConsoleHelper {
     private void deleteHotel() {
         System.out.println("Cписок отелей для удаления. Для выхода введите \"0\"!");
         int count = 1;
-        List<Hotel> hotelList = application.getCommonDAO().getDataBase().getHotelList();
+        List<Hotel> hotelList = application.getDbService().getDataBase().getHotelList();
         if (hotelList.isEmpty()) {
             System.out.println("Лист отелей пустой, чтобы делать какие-либо действия сначала добавьте отель");
             mainMenu();
@@ -364,7 +364,7 @@ public class ConsoleHelper {
             if (hotelIndex == -1) return;
             application.deleteHotel(hotelIndex);
             System.out.println("Список отелей после удаления: ");
-            List<String> hotelNamesWhenWeDeleteHotel = application.getCommonDAO().getDataBase().getHotelList().stream().map(Hotel::getHotelName).collect(toList());
+            List<String> hotelNamesWhenWeDeleteHotel = application.getDbService().getDataBase().getHotelList().stream().map(Hotel::getHotelName).collect(toList());
             int count1 = 1;
             for (String hotel : hotelNamesWhenWeDeleteHotel) {
                 System.out.println(count1++ + ". * " + hotel);
@@ -383,7 +383,7 @@ public class ConsoleHelper {
     private void deleteRoom() {
         System.out.println("Список отелей. Для выхода введите \"0\"! ");
         int count = 1;
-        List<Hotel> hotelList = application.getCommonDAO().getDataBase().getHotelList();
+        List<Hotel> hotelList = application.getDbService().getDataBase().getHotelList();
         if (hotelList.isEmpty()) {
             System.out.println("Лист отелей пустой, чтобы делать какие-либо действия сначала добавьте отель");
             mainMenu();
@@ -395,7 +395,7 @@ public class ConsoleHelper {
             System.out.println("Введите номер отеля с которого вы хотите удалить комнату:");
             int hotelIndex = Integer.parseInt(buffRead.readLine()) - 1;
             if (hotelIndex == -1) return;
-            Hotel hotel = application.getCommonDAO().getDataBase().getHotelList().get(hotelIndex);
+            Hotel hotel = application.getDbService().getDataBase().getHotelList().get(hotelIndex);
             System.out.println("**** Удаление комнат в отеле " + hotel.getHotelName() + " ****");
             count = 1;
             if (hotel.getRoomList().isEmpty()) {
@@ -428,12 +428,12 @@ public class ConsoleHelper {
 
     public void editHotelInfo() {
         int count = 1;
-        if (application.getCommonDAO().getDataBase().getHotelList().isEmpty()) {
+        if (application.getDbService().getDataBase().getHotelList().isEmpty()) {
             System.out.println("В базе нет отелей, сначала необходимо создать отель!");
             mainMenu();
         }
         System.out.println("Выберите из списка номер отеля который необходимо отредактировать. Для выхода введите \"0\"!");
-        List<Hotel> hotelList = application.getCommonDAO().getDataBase().getHotelList();
+        List<Hotel> hotelList = application.getDbService().getDataBase().getHotelList();
         for (Hotel hotel : hotelList) {
             System.out.println(count++ + ". * " + hotel.getHotelName() + ", город " + hotel.getCityName());
         }
@@ -461,7 +461,7 @@ public class ConsoleHelper {
 
     public void editUserInfo() {
         System.out.println("Список пользователей в системе: ");
-        Set<Map.Entry<String, User>> entrySet = application.getCommonDAO().getDataBase().getUserMap().entrySet();
+        Set<Map.Entry<String, User>> entrySet = application.getDbService().getDataBase().getUserMap().entrySet();
         int count = 1;
         List<String> emailList = new ArrayList<>();
         for (Map.Entry<String, User> userEntry : entrySet) {
@@ -498,7 +498,7 @@ public class ConsoleHelper {
     public void editRoomInfo() {
         System.out.println("***** Список отелей в системе *****");
         int count = 1;
-        List<Hotel> hotelList = application.getCommonDAO().getDataBase().getHotelList();
+        List<Hotel> hotelList = application.getDbService().getDataBase().getHotelList();
         if (hotelList.isEmpty()) {
             System.out.println("\nВ системе не создано ни одного отеля, сначала добавьте отель в систему!\n");
             mainMenu();
@@ -510,7 +510,7 @@ public class ConsoleHelper {
             System.out.println("Введите номер отеля в котором необходимо редактировать комнаты. Для выхода введите \"0\"!");
             int hotelIndex = Integer.parseInt(buffRead.readLine()) - 1;
             if (-1 == hotelIndex) return;
-            Hotel hotel = application.getCommonDAO().getDataBase().getHotelList().get(hotelIndex);
+            Hotel hotel = application.getDbService().getDataBase().getHotelList().get(hotelIndex);
             System.out.println("***** Список комнат в отеле " + hotel.getHotelName() + ", город " + hotel.getCityName() + " *****");
             count = 1;
             for (Room room : hotel.getRoomList()) {
@@ -592,7 +592,7 @@ public class ConsoleHelper {
             System.out.println("Введите password: ");
             password = buffRead.readLine();
             if (application.loginUser(email, password)) {
-                System.out.println("Вход выполнен " + application.getCommonDAO().getDataBase().getCurrentUser().getName() + "\n");
+                System.out.println("Вход выполнен " + application.getDbService().getDataBase().getCurrentUser().getName() + "\n");
                 if ("admin".equals(password)) {
                     mainMenu();
                 } else userMainMenu();
@@ -658,7 +658,7 @@ public class ConsoleHelper {
 
     private void deleteUser() {
         System.out.println("Cписок пользователей-----------------------------------------------\n");
-        Set<Map.Entry<String, User>> entries = application.getCommonDAO().getDataBase().getUserMap().entrySet();
+        Set<Map.Entry<String, User>> entries = application.getDbService().getDataBase().getUserMap().entrySet();
         int count = 1;
         List<String> emailList = new ArrayList<>();
         for (Map.Entry<String, User> userEntry : entries) {
@@ -687,7 +687,7 @@ public class ConsoleHelper {
         System.out.println("*-----------------------------------------*");
         System.out.println("В системе имеются следующие отели: ");
         int count = 1;
-        List<Hotel> hotelList = application.getCommonDAO().getDataBase().getHotelList();
+        List<Hotel> hotelList = application.getDbService().getDataBase().getHotelList();
         for (Hotel hotel : hotelList) {
             System.out.println(count++ + ". " + hotel.getHotelName() + ", город " + hotel.getCityName());
         }
@@ -695,7 +695,7 @@ public class ConsoleHelper {
         try {
             int index = Integer.parseInt(buffRead.readLine());
             if (index == 0) return;
-            String name = application.getCommonDAO().getDataBase().getHotelList().get(index - 1).getHotelName();
+            String name = application.getDbService().getDataBase().getHotelList().get(index - 1).getHotelName();
             List<Hotel> hotelByName = application.findHotelByName(name);
             for (Hotel hotel : hotelByName) {
                 System.out.println("*------------------------------------------*");
@@ -716,6 +716,8 @@ public class ConsoleHelper {
             findByNameHotel();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (IncorrectDataInput incorrectDataInput) {
+            System.out.println("Неверно задан критерий поиска повторите ввод: ");
         }
 
 
@@ -727,7 +729,7 @@ public class ConsoleHelper {
         System.out.println("В системе имеются отели в следующих городах: ");
         int count = 1;
 
-        List<String> cityNames = application.getCommonDAO().getDataBase().getHotelList().stream().map(Hotel::getCityName).distinct().collect(Collectors.toList());
+        List<String> cityNames = application.getDbService().getDataBase().getHotelList().stream().map(Hotel::getCityName).distinct().collect(Collectors.toList());
 
         for (String cityName : cityNames) {
             System.out.println(count++ + ". " + cityName);
@@ -757,6 +759,8 @@ public class ConsoleHelper {
             findByCity();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (IncorrectDataInput incorrectDataInput) {
+            System.out.println("Неверно задан критерий поиска повторите ввод: ");
         }
     }
 
@@ -764,7 +768,7 @@ public class ConsoleHelper {
         System.out.println("*-----------------------------------------*");
         System.out.println("В системе имеются комнаты в следующих отелях: ");
         int count = 1;
-        List<Hotel> hotelList = application.getCommonDAO().getDataBase().getHotelList();
+        List<Hotel> hotelList = application.getDbService().getDataBase().getHotelList();
         for (Hotel hotel : hotelList) {
             System.out.println(count++ + ". " + hotel.getHotelName() + ", город " + hotel.getCityName());
         }
@@ -772,7 +776,7 @@ public class ConsoleHelper {
         try {
             int index = Integer.parseInt(buffRead.readLine());
             if (index == 0) return;
-            String name = application.getCommonDAO().getDataBase().getHotelList().get(index - 1).getHotelName();
+            String name = application.getDbService().getDataBase().getHotelList().get(index - 1).getHotelName();
             List<Hotel> hotelByName = application.findRoomsByHotel(name);
             for (Hotel hotel : hotelByName) {
                 System.out.println("*-----------------------------------------*");
@@ -794,6 +798,8 @@ public class ConsoleHelper {
             findRoomsByHotel();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (IncorrectDataInput incorrectDataInput) {
+            System.out.println("Неверно задан критерий поиска повторите ввод: ");
         }
 
     }
@@ -824,13 +830,15 @@ public class ConsoleHelper {
         } catch (IOException e) {
             System.out.println("Неверно задали критерии поиска повторите ввод: ");
             findRoomsByRangePrice();
+        } catch (IncorrectDataInput incorrectDataInput) {
+            System.out.println("Неверно задан критерий поиска повторите ввод: ");
         }
     }
 
     private void reservationRoom() {
         System.out.println("Виберете отель в которогм вы хотите забронировать комануту: ");
         int count = 1;
-        List<String> hotelNames = application.getCommonDAO().getDataBase().getHotelList().stream().map(Hotel::getHotelName).collect(toList());
+        List<String> hotelNames = application.getDbService().getDataBase().getHotelList().stream().map(Hotel::getHotelName).collect(toList());
         for (String hotel : hotelNames) {
             System.out.println(count++ + ". * " + hotel);
         }
@@ -838,7 +846,7 @@ public class ConsoleHelper {
             System.out.println("Укажите номер отеля в котором вы хотите забронировать комнату! Для выхода введите \"0\"!");
             int hotelIndex = Integer.parseInt(buffRead.readLine()) - 1;
             if (hotelIndex == -1) return;
-            Hotel hotel = application.getCommonDAO().getDataBase().getHotelList().get(hotelIndex);
+            Hotel hotel = application.getDbService().getDataBase().getHotelList().get(hotelIndex);
             System.out.println("**** Бронирование комнат в отеле " + hotel.getHotelName() + " ****");
             count = 1;
             for (Room room : hotel.getRoomList()) {
@@ -868,7 +876,7 @@ public class ConsoleHelper {
 
     private void cancelReservation() {
         int count = 1;
-        List<Room> userRooms = application.getCommonDAO().getDataBase().getCurrentUser().getRoomList();
+        List<Room> userRooms = application.getDbService().getDataBase().getCurrentUser().getRoomList();
         System.out.println("Комнаты которые вы забронировали:");
         if (userRooms.isEmpty()) System.out.println("У ВАС НЕТ ЗАБРОНИРОВАНЫХ КОМНАТ!!!");
         for (Room room : userRooms) {
