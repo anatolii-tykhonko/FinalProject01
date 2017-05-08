@@ -20,15 +20,16 @@ public class HotelController implements HotelControllerInterface {
 
     /**
      * Данный метод выполняет создание нового екземпляра отеля и передает его на уровень HotelDAO в метод save(Hotel hotel).
-     * @param hotelName - название отеля.
-     * @param cityName - название города.
+     *
+     * @param hotelName   - название отеля.
+     * @param cityName    - название города.
      * @param roomPersons - количевство мест в номере.
-     * @param roomPrice - цена комнаты в грн./сутки.
-     * @param date - дата когда номер будет доступен.
+     * @param roomPrice   - цена комнаты в грн./сутки.
+     * @param date        - дата когда номер будет доступен.
      * @return - возвращает объект Hotel, если он был успешно сохранен.
-     * @throws HotelAlreadyExist - исключение бросается если в одном и том же городе продублировать создание отеля с одинаковым названием.
+     * @throws HotelAlreadyExist        - исключение бросается если в одном и том же городе продублировать создание отеля с одинаковым названием.
      * @throws ValidStringNameException - исключение бросается если в стоках по названиям вписать символы, числа или пустую строку.
-     * @throws InvalidDateFormat - исключение бросается вбить длиннее формат данных чем указан year.mm.dd.
+     * @throws InvalidDateFormat        - исключение бросается вбить длиннее формат данных чем указан year.mm.dd.
      */
     public Hotel addHotel(String hotelName, String cityName, int roomPersons, double roomPrice, String date) throws HotelAlreadyExist, ValidStringNameException, InvalidDateFormat {
         List<Room> roomList = new ArrayList<>();
@@ -41,10 +42,11 @@ public class HotelController implements HotelControllerInterface {
     }
 
     /**
-     * Данный метод предназначен для именения полей объектов Hotel и передает его на уровень HotelDAO в метод update(Hotel hotel, int hotelIndex).
-     * @param hotelIndex - индекс отеля для поиска в листе.
+     * Данный метод предназначен для изменения полей объектов Hotel и передает его на уровень HotelDAO в метод update(Hotel hotel, int hotelIndex).
+     *
+     * @param hotelIndex   - индекс отеля для поиска в листе.
      * @param newHotelName - новое название отеля.
-     * @param newCityName - новое название города
+     * @param newCityName  - новое название города
      * @return - возвращает объект Hotel, если он был успешно перезаписан.
      * @throws ValidStringNameException - исключение бросается если в стоках по названиям вписать символы, числа или пустую строку.
      */
@@ -57,6 +59,7 @@ public class HotelController implements HotelControllerInterface {
      * Данный метод принимает индекс отеля, индекс вводит пользователь с консоли в классе ConsoleHelper.
      * Данный метод возвращает true, поскольку все исключительные ситуации например hotelIndex <0 ловят на уровень выше.
      * Так же данный метод передает управление на уровень HotelDAO.
+     *
      * @param hotelIndex
      * @return boolean(true)
      */
@@ -65,9 +68,11 @@ public class HotelController implements HotelControllerInterface {
     }
 
     /**
-     * Данный метод выполняет поиск отеля по его имени, посредством перехода на уровень CommonDAO и поиска искомых отелей в базе данных.
-     * Входящим параметором в методе является String hotelName, который является параметром поиска метода.
-     * Возвращаемый результат метода - List<Hotel> отвечающий параметру поиска.
+     * Данный метод предназначен для поиска отелей по определенному параметру(название отеля) и передает его на уровень HotelDAO в метод findHotelByName(hotelName).
+     * Пользователь вводит параметр поиска с консоли в классе ConsoleHelper.
+     *
+     * @param hotelName - входящий параметр , который является параметром поиска метода.
+     * @return - Возвращаемый результат метода - List<Hotel> отвечающий параметру поиска.
      */
     public List<Hotel> findHotelByName(String hotelName) {
         return hotelDAO.findHotelByName(hotelName);
@@ -75,10 +80,13 @@ public class HotelController implements HotelControllerInterface {
 
 
     /**
-     * Данный метод выполняет поиск отеля по его городу, посредством перехода на уровень CommonDAO и поиска искомых отелей в базе данных.
-     * Входящим параметором в методе является String cityName, который является параметром поиска метода.
-     * Возвращаемый результат метода - List<Hotel> отвечающий параметру поиска.
+     * Данный метод предназначен для поиска отелей по определенному параметру(город отеля) и передает его на уровень HotelDAO в метод findHotelByCity(cityName).
+     * Пользователь вводит параметр поиска с консоли в классе ConsoleHelper.
+     *
+     * @param cityName - входящий параметр , который является параметром поиска метода.
+     * @return - Возвращаемый результат метода - List<Hotel> отвечающий параметру поиска.
      */
+
 
     public List<Hotel> findHotelByCity(String cityName) {
         return hotelDAO.findHotelByCity(cityName);

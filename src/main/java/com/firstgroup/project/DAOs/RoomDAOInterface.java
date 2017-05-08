@@ -11,5 +11,5 @@ public interface RoomDAOInterface {
     Room save(Room obj, int hotelsIndex);
     boolean delete(Room obj);
     Room update(Room obj, int hotelIndex,int roomIndex);
-    List<Hotel> findRoomsByHotel(String hotelName) throws IncorrectDataInput;
+    List<Hotel> findRoomsByHotel(String hotelName);
 }

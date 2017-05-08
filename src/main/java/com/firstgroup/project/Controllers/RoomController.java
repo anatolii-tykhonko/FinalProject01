@@ -17,13 +17,14 @@ public class RoomController implements RoomControllerInterface {
 
     /**
      * Данный метод выполняет создание нового екземпляра комнаты и передает его на уровень RoomDAO в метод save(Room obj, int hotelIndex).
-     * @param hotelIndex - индекс отеля для поиска в листе.
+     *
+     * @param hotelIndex  - индекс отеля для поиска в листе.
      * @param roomPersons - количевство мест в номере.
-     * @param roomPrice - цена комнаты в грн./сутки.
-     * @param date - дата когда номер будет доступен.
+     * @param roomPrice   - цена комнаты в грн./сутки.
+     * @param date        - дата когда номер будет доступен.
      * @return - возвращает объект Room, после сохранения.
      * @throws ValidStringNameException - исключение бросается если в стоках по названиям вписать символы, числа или пустую строку.
-     * @throws InvalidDateFormat - исключение бросается вбить длиннее формат данных чем указан year.mm.dd.
+     * @throws InvalidDateFormat        - исключение бросается вбить длиннее формат данных чем указан year.mm.dd.
      */
     public Room addRoom(int hotelIndex, int roomPersons, double roomPrice, String date) throws ValidStringNameException, InvalidDateFormat {
         if (date.length() > 10) {
@@ -35,11 +36,12 @@ public class RoomController implements RoomControllerInterface {
 
     /**
      * Данный метод предназначен для именения полей объектов Room и передает его на уровень RoomDAO в метод update(Room obj, int hotelIndex, int roomIndex).
-     * @param hotelIndex - индекс отеля для поиска в листе.
-     * @param roomIndex - индекс комнаты для поиска в листе.
+     *
+     * @param hotelIndex  - индекс отеля для поиска в листе.
+     * @param roomIndex   - индекс комнаты для поиска в листе.
      * @param roomPersons - количевство мест в номере.
-     * @param roomPrice - цена комнаты в грн./сутки.
-     * @param date - дата когда номер будет доступен.
+     * @param roomPrice   - цена комнаты в грн./сутки.
+     * @param date        - дата когда номер будет доступен.
      * @return - возвращает объект Room, после изменения.
      * @throws InvalidDateFormat - исключение бросается вбить длиннее формат данных чем указан year.mm.dd.
      */
@@ -56,6 +58,14 @@ public class RoomController implements RoomControllerInterface {
         Room room = hotel.getRoomList().get(roomIndex - 1);
         return roomDAO.delete(room);
     }
+
+    /**
+     * Данный метод предназначен для поиска комнат по определенному параметру(название отеля) и передает его на уровень RoomDAO в метод findRoomsByHotel(String hotelName).
+     * Пользователь вводит параметр поиска с консоли в классе ConsoleHelper.
+     *
+     * @param hotelName - входящий параметр , который является параметром поиска метода.
+     * @return - Возвращаемый результат метода - List<Hotel> отвечающий параметру поиска.
+     */
 
     public List<Hotel> findRoomsByHotel(String hotelName) {
         return roomDAO.findRoomsByHotel(hotelName);

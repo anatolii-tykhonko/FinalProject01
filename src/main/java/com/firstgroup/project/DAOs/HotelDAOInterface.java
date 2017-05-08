@@ -12,6 +12,6 @@ public interface HotelDAOInterface {
     Hotel save(Hotel hotel) throws HotelAlreadyExist;
     boolean delete(int hotelIndex) ;
     Hotel update(Hotel hotel, int hotelIndex);
-    List<Hotel> findHotelByName(String hotelName) throws IncorrectDataInput;
-    List<Hotel> findHotelByCity(String cityName) throws IncorrectDataInput;
+    List<Hotel> findHotelByName(String hotelName);
+    List<Hotel> findHotelByCity(String cityName);
 }

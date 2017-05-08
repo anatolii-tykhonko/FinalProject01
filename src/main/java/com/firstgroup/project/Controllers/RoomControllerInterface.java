@@ -13,5 +13,5 @@ public interface RoomControllerInterface {
     Room addRoom(int hotelIndex, int roomPersons, double roomPrice, String date) throws ValidStringNameException, InvalidDateFormat;
     Room editRoomDetails(int hotelIndex, int roomIndex, int roomPersons, double roomPrice, String dateAvailableFrom) throws InvalidDateFormat;
     boolean deleteRoom(int hotelIndex,int roomIndex);
-    List<Hotel> findRoomsByHotel(String hotelName) throws IncorrectDataInput;
+    List<Hotel> findRoomsByHotel(String hotelName);
 }
