@@ -862,12 +862,10 @@ public class ConsoleHelper {
 
     private void findRoomsByRangePrice() {
         while (true) {
+            int count = 1;
             System.out.println("*-------------------------------------------*");
             System.out.println("В системе имеются отели в следующих городах: ");
-            int count = 1;
-
             List<String> cityNames = application.getDbService().getDataBase().getHotelList().stream().map(Hotel::getCityName).distinct().collect(Collectors.toList());
-
             for (String cityName : cityNames) {
                 System.out.println(count++ + ". " + cityName);
             }
@@ -901,15 +899,16 @@ public class ConsoleHelper {
                     System.out.println("Название отеля: " + key + "\n" +
                             "Доступные комнаты: ");
                     for (int i = 0; i < value.size(); i++) {
-                        System.out.println((i + 1) + ". " + value.get(i));
+                        if(i < 9) {
+                            System.out.println((i + 1) + ".  " + value.get(i));
+                        } else  {
+                            System.out.println((i + 1) + ". " + value.get(i));
+                        }
                     }
                     System.out.println("*-------------------------------------------*");
                 }
                 if (index == 0) {
                     System.out.println("По заданым критериям комнаты отсутствуют.");
-                } else {
-                    System.out.println("Укажите дату по которую выхотите забронировать комнату в формате year.mm.dd: ");
-
                 }
                 System.out.println("\nДля продолжения поиска нажмите 1, в противном случае Вы перейдете в главное меню");
                 String answer1 = buffRead.readLine();
@@ -919,10 +918,8 @@ public class ConsoleHelper {
                     default:
                         return;
                 }
-
             } catch (IndexOutOfBoundsException | NumberFormatException e) {
                 System.out.println("Вы ввели недопустимые символы,повторите Ваш ввод");
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
