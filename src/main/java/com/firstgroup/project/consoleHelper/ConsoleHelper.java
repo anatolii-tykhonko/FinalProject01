@@ -382,7 +382,7 @@ public class ConsoleHelper {
 
     private void deleteRoom() {
         while (true) {
-            System.out.println("Список отелей: \n");
+            System.out.println("Список отелей:");
             int count = 1;
             List<Hotel> hotelList = application.getDbService().getDataBase().getHotelList();
             if (hotelList.isEmpty()) {
@@ -399,13 +399,13 @@ public class ConsoleHelper {
                 Hotel hotel = application.getDbService().getDataBase().getHotelList().get(hotelIndex);
                 System.out.println("**** Удаление комнат в отеле " + hotel.getHotelName() + " ****");
                 count = 1;
-                if (hotel.getRoomList().isEmpty()) {
-                    System.out.println("В " + hotel.getHotelName()
-                            + " нет комнат,чтобы делать какие-либо действия сначала добавьте комнату");
-                    return;
-                }
                 for (Room room : hotel.getRoomList()) {
                     System.out.println(count++ + ". * " + room);
+                }
+                if (hotel.getRoomList().size() == 1) {
+                    System.out.println("В отеле " + hotel.getHotelName()
+                            + " должна оставаться минимум одна комната, поэтому эту комнату удалить нельзя!!! \n");
+                    continue;
                 }
                 System.out.println("Введите номер комнаты которою вы хотите удалить: ");
                 int i = Integer.parseInt(buffRead.readLine());
@@ -899,9 +899,9 @@ public class ConsoleHelper {
                     System.out.println("Название отеля: " + key + "\n" +
                             "Доступные комнаты: ");
                     for (int i = 0; i < value.size(); i++) {
-                        if(i < 9) {
+                        if (i < 9) {
                             System.out.println((i + 1) + ".  " + value.get(i));
-                        } else  {
+                        } else {
                             System.out.println((i + 1) + ". " + value.get(i));
                         }
                     }
