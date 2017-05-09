@@ -9,6 +9,13 @@ import com.firstgroup.project.consoleHelper.ConsoleHelper;
  *            Nazar Yanovets on 07.05.2017.
  *            Anatoliy Tihonko on 07.05.2017.
  */
+
+/**
+ * В данной программе реализовано разделение функционала программы на два меню доступа к функциям!
+ * Вход в меню пользователя осуществляется при обычной регистрации.
+ * Для входа через меню администратора с расширенным функционалом необходимо зарегестрировать пользователя со специальным паролем,
+ * в данный момент пароль для такого входа "admin".
+ */
 public class StartClass {
     public static void main(String[] args) {
         ConsoleHelper consoleHelper = new ConsoleHelper();
