@@ -15,13 +15,13 @@ public class UserController implements UserControllerInterface {
     private UserDAO userDAO = new UserDAO();
 
     /**
-     * @param newName
-     * @param newSurName
-     * @param oldEmail
-     * @return user
      * Данный метод принимает набор параметров, которые вводит пользователь в классе ConsoleHelper.
      * Все исключительные ситуации обрабатываются на уровень выше.
      * Данный метод возвращает экземпляр типа User,данный экземпляр служит "контейнером" для хранения данных.
+     * @param newName - новое имя пользователя
+     * @param newSurName - новая фамилия пользователя
+     * @param oldEmail - старый емейл
+     * @return user
      */
     public User editUserInfo(String newName, String newSurName, String oldEmail) {
         User user = new User(newName, newSurName, oldEmail, userDAO.getDataBase().getUserMap().get(oldEmail).getPassword());
