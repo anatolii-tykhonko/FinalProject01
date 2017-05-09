@@ -2,7 +2,6 @@ package com.firstgroup.project.Controllers;
 
 import com.firstgroup.project.DAOs.HotelDAO;
 import com.firstgroup.project.Exceptions.HotelAlreadyExist;
-import com.firstgroup.project.Exceptions.IncorrectDataInput;
 import com.firstgroup.project.Exceptions.InvalidDateFormat;
 import com.firstgroup.project.Exceptions.ValidStringNameException;
 import com.firstgroup.project.entity.Hotel;
@@ -56,12 +55,11 @@ public class HotelController implements HotelControllerInterface {
     }
 
     /**
+     * @param hotelIndex
+     * @return boolean(true)
      * Данный метод принимает индекс отеля, индекс вводит пользователь с консоли в классе ConsoleHelper.
      * Данный метод возвращает true, поскольку все исключительные ситуации например hotelIndex <0 ловят на уровень выше.
      * Так же данный метод передает управление на уровень HotelDAO.
-     *
-     * @param hotelIndex
-     * @return boolean(true)
      */
     public boolean deleteHotel(int hotelIndex) {
         return hotelDAO.delete(hotelIndex);
@@ -86,7 +84,6 @@ public class HotelController implements HotelControllerInterface {
      * @param cityName - входящий параметр , который является параметром поиска метода.
      * @return - Возвращаемый результат метода - List<Hotel> отвечающий параметру поиска.
      */
-
 
     public List<Hotel> findHotelByCity(String cityName) {
         return hotelDAO.findHotelByCity(cityName);

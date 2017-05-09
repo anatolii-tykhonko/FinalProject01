@@ -28,7 +28,7 @@ public class RoomController implements RoomControllerInterface {
      */
     public Room addRoom(int hotelIndex, int roomPersons, double roomPrice, String date) throws ValidStringNameException, InvalidDateFormat {
         if (date.length() > 10) {
-            throw new InvalidDateFormat("Не верный формат даты!");
+            throw new IndexOutOfBoundsException();
         }
         Room newRoom = new Room(roomPersons, roomPrice, LocalDate.of(Integer.valueOf(date.substring(0, 4)), Integer.valueOf(date.substring(5, 7)), Integer.valueOf(date.substring(8, 10))));
         return roomDAO.save(newRoom, hotelIndex);
@@ -45,14 +45,24 @@ public class RoomController implements RoomControllerInterface {
      * @return - возвращает объект Room, после изменения.
      * @throws InvalidDateFormat - исключение бросается вбить длиннее формат данных чем указан year.mm.dd.
      */
-    public Room editRoomDetails(int hotelIndex, int roomIndex, int roomPersons, double roomPrice, String date) throws InvalidDateFormat {
+
+    public Room editRoomDetails(int hotelIndex, int roomIndex, int roomPersons, double roomPrice, String date) {
         if (date.length() > 10) {
-            throw new InvalidDateFormat("Не верный формат даты!");
+            throw new IndexOutOfBoundsException();
         }
         Room room = new Room(roomPersons, roomPrice, LocalDate.of(Integer.valueOf(date.substring(0, 4)), Integer.valueOf(date.substring(5, 7)), Integer.valueOf(date.substring(8, 10))));
         return roomDAO.update(room, hotelIndex, roomIndex);
     }
 
+
+    /**
+     * Данный метод принимает группу параметров, которые пользователь вводит в ConsoleHelper.
+     * Метод создает комнату которая является контейнером для хранения данных и передает управление на уровень ниже - в DAO.
+     * Все исключительные ситуации обрабатываются на уровень выше - в ConsoleHelper.
+     * @param hotelIndex  - индекс отеля для поиска в листе.
+     * @param roomIndex   - индекс комнаты для поиска в листе.
+     * @return объект типа Room
+     */
     public boolean deleteRoom(int hotelIndex, int roomIndex) {
         Hotel hotel = roomDAO.getDataBase().getHotelList().get(hotelIndex);
         Room room = hotel.getRoomList().get(roomIndex - 1);
