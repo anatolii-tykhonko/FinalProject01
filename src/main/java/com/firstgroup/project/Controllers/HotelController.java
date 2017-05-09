@@ -19,6 +19,7 @@ public class HotelController implements HotelControllerInterface {
 
     /**
      * Данный метод выполняет создание нового екземпляра отеля и передает его на уровень HotelDAO в метод save(Hotel hotel).
+     *
      * @param hotelName   - название отеля.
      * @param cityName    - название города.
      * @param roomPersons - количевство мест в номере.
@@ -41,6 +42,7 @@ public class HotelController implements HotelControllerInterface {
 
     /**
      * Данный метод предназначен для изменения полей объектов Hotel и передает его на уровень HotelDAO в метод update(Hotel hotel, int hotelIndex).
+     *
      * @param hotelIndex   - индекс отеля для поиска в листе.
      * @param newHotelName - новое название отеля.
      * @param newCityName  - новое название города
@@ -56,6 +58,7 @@ public class HotelController implements HotelControllerInterface {
      * Данный метод принимает индекс отеля, индекс вводит пользователь с консоли в классе ConsoleHelper.
      * Данный метод возвращает true, поскольку все исключительные ситуации например hotelIndex <0 ловятся на уровень выше.
      * Так же данный метод передает управление на уровень HotelDAO.
+     *
      * @param hotelIndex
      * @return boolean(true)
      */
@@ -66,6 +69,7 @@ public class HotelController implements HotelControllerInterface {
     /**
      * Данный метод предназначен для поиска отелей по определенному параметру(название отеля) и передает его на уровень HotelDAO в метод findHotelByName(hotelName).
      * Пользователь вводит параметр поиска с консоли в классе ConsoleHelper.
+     *
      * @param hotelName - входящий параметр , который является параметром поиска метода.
      * @return - Возвращаемый результат метода - List<Hotel> отвечающий параметру поиска.
      */
@@ -77,6 +81,7 @@ public class HotelController implements HotelControllerInterface {
     /**
      * Данный метод предназначен для поиска отелей по определенному параметру(город отеля) и передает его на уровень HotelDAO в метод findHotelByCity(cityName).
      * Пользователь вводит параметр поиска с консоли в классе ConsoleHelper.
+     *
      * @param cityName - входящий параметр , который является параметром поиска метода.
      * @return - Возвращаемый результат метода - List<Hotel> отвечающий параметру поиска.
      */

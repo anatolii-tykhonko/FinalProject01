@@ -9,7 +9,10 @@ import java.util.List;
 
 public interface RoomDAOInterface {
     Room save(Room obj, int hotelsIndex);
+
     boolean delete(Room obj);
-    Room update(Room obj, int hotelIndex,int roomIndex);
+
+    Room update(Room obj, int hotelIndex, int roomIndex);
+
     List<Hotel> findRoomsByHotel(String hotelName);
 }

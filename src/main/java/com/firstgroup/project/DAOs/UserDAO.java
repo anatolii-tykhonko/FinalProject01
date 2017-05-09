@@ -6,7 +6,7 @@ import com.firstgroup.project.Exceptions.IncorrectPassword;
 import com.firstgroup.project.Exceptions.UserAlreadyExist;
 import com.firstgroup.project.entity.User;
 
-public class UserDAO extends DBService implements UserDAOInterface{
+public class UserDAO extends DBService implements UserDAOInterface {
 
 
     public User save(User user, boolean regTRUEaddFALSE) throws UserAlreadyExist {

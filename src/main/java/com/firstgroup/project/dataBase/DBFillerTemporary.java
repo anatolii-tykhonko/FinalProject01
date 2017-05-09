@@ -45,7 +45,7 @@ public class DBFillerTemporary {
         roomList3.add(new Room(2,9000, LocalDate.of(2017,5,2)));
         roomList3.add(new Room(3,11000, LocalDate.of(2017,5,12)));
         roomList3.add(new Room(4,12000, LocalDate.of(2017,5,6)));
-        roomList3.add(new Room(2,10000, LocalDate.of(2017,5,8)));
+        roomList3.add(new Room(2, 10000, LocalDate.of(2017,5,8)));
         roomList3.add(new Room(2,9800, LocalDate.of(2017,5,11)));
         roomList3.add(new Room(4,10500, LocalDate.of(2017,4,5)));
         roomList3.add(new Room(2,8700, LocalDate.of(2017,4,26)));

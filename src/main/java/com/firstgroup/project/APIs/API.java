@@ -12,18 +12,32 @@ import java.util.List;
  */
 public interface API {
     Hotel addHotel(String hotelName, String cityName, int roomPersons, double roomPrice, String date) throws HotelAlreadyExist, ValidStringNameException, InvalidDateFormat;
-    Hotel editHotelDetails(int hotelIndex,String newHotelName,String newCityName) throws ValidStringNameException;
+
+    Hotel editHotelDetails(int hotelIndex, String newHotelName, String newCityName) throws ValidStringNameException;
+
     Room addRoom(int hotelIndex, int roomPersons, double roomPrice, String date) throws ValidStringNameException, InvalidDateFormat;
+
     Room editRoomDetails(int hotelIndex, int roomIndex, int roomPersons, double roomPrice, String dateAvailableFrom) throws InvalidDateFormat;
-    boolean deleteRoom(int hotelIndex,int roomIndex);
+
+    boolean deleteRoom(int hotelIndex, int roomIndex);
+
     boolean deleteHotel(int hotelIndex);
+
     User registerUser(String name, String surname, String email, String password, boolean regTRUEaddFALSE) throws UserAlreadyExist;
-    User editUserInfo(String newName,String newSurName,String oldEmail);
+
+    User editUserInfo(String newName, String newSurName, String oldEmail);
+
     User deleteUser(String email) throws CantDeleteCurrentUser;
+
     List<Hotel> findHotelByName(String hotelName);
+
     List<Hotel> findHotelByCity(String cityName);
+
     List<Hotel> findRoomsByHotel(String hotelName);
+
     Room roomReservationByName(int hotelIndex, int roomIndex, String reservDate) throws InvalidRoomStatus, InvalidHotelStatus, InvalidDateFormat;
+
     boolean cancelReservationByName(int roomIndex);
+
     boolean loginUser(String email, String password) throws IncorrectEmail, IncorrectPassword;
 }

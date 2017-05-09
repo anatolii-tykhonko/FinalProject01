@@ -33,7 +33,7 @@ public class HotelDAO extends DBService implements HotelDAOInterface {
     }
 
 
-    public List<Hotel> findHotelByName(String hotelName){
+    public List<Hotel> findHotelByName(String hotelName) {
         List<Hotel> hotelList = getDataBase().getHotelList().stream().filter(hotel -> hotel.getHotelName().equals(hotelName)).collect(Collectors.toList());
         System.out.println("По Вашему запросу найдены следующие отели: ");
         return hotelList;

@@ -899,7 +899,7 @@ public class ConsoleHelper {
                 }
                 for (Map.Entry<String, List<Room>> pair : o1.entrySet()) {
 
-                    if (pair.getValue().isEmpty())continue;
+                    if (pair.getValue().isEmpty()) continue;
                     System.out.println("*---------------------------------------------------------------*");
                     System.out.println("Название отеля: " + pair.getKey() + "\n" +
                             "Доступные комнаты: ");

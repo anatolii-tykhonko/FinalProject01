@@ -18,9 +18,10 @@ public class UserController implements UserControllerInterface {
      * Данный метод принимает набор параметров, которые вводит пользователь в классе ConsoleHelper.
      * Все исключительные ситуации обрабатываются на уровень выше.
      * Данный метод возвращает экземпляр типа User,данный экземпляр служит "контейнером" для хранения данных.
-     * @param newName - новое имя пользователя
+     *
+     * @param newName    - новое имя пользователя
      * @param newSurName - новая фамилия пользователя
-     * @param oldEmail - старый емейл
+     * @param oldEmail   - старый емейл
      * @return user
      */
     public User editUserInfo(String newName, String newSurName, String oldEmail) {
@@ -30,6 +31,7 @@ public class UserController implements UserControllerInterface {
 
     /**
      * Метод удаление пользователя из базы данных по аргументу email(уникальный для каждого пользователя).
+     *
      * @param email - аргумент - имейл пользователя.
      * @return - если операция прошла удачно возвращаеться удалённый пользователь.
      * @throws CantDeleteCurrentUser - исключение сработает если попытаться удалить текущего пользователя.
@@ -42,10 +44,11 @@ public class UserController implements UserControllerInterface {
      * Метод выполняет две функции - регитрация пользователя и просвоение его как текущего пользователя и добавление
      * пользователя в базуданых без присвоение его как иекущего пользователя, этими функциями можно управлять с помощью
      * аргумента regTRUEaddFALSE типа boolean.
-     * @param name - имя пользователя.
-     * @param surname - фамилия пользователя.
-     * @param email - имейл пользователя - уникальный для каждого пользователя.
-     * @param password - пароль каждого юзера который соответствует конкретному email.
+     *
+     * @param name            - имя пользователя.
+     * @param surname         - фамилия пользователя.
+     * @param email           - имейл пользователя - уникальный для каждого пользователя.
+     * @param password        - пароль каждого юзера который соответствует конкретному email.
      * @param regTRUEaddFALSE - значение которое задает режим работы метода(true - регистрация, false - добавление пользователя)
      * @return если регистрация или добавление успешное то позвращаеться пользователь которого мы зарегистрировали или добавили.
      * @throws UserAlreadyExist - исключение срабатывает если пользователь уже существует в базе данных, есть такой же email.
@@ -57,10 +60,11 @@ public class UserController implements UserControllerInterface {
     /**
      * Метод выполняет функциюю входа в систему, проверяет зарегистрирован ли пользователь в базе даных и проверяет его
      * пароль при входе, если вход выполнен, метод возвращает значение true.
-     * @param email - имейл пользователя - уникальный для каждого пользователя.
+     *
+     * @param email    - имейл пользователя - уникальный для каждого пользователя.
      * @param password - пароль который соответствует имейлу юзера.
      * @return - true если операция входа была удачной.
-     * @throws IncorrectEmail - исключение срабатывает если такого имейла нет в базе.
+     * @throws IncorrectEmail    - исключение срабатывает если такого имейла нет в базе.
      * @throws IncorrectPassword - не верный пароль для конкретного юзера.
      */
 
@@ -84,7 +88,7 @@ public class UserController implements UserControllerInterface {
      * @throws InvalidRoomStatus  - срабатывает если комната которубю мы хотим забронировать уже занята.
      * @throws InvalidHotelStatus - срабатывает если в даном отеле все комнаты заняты.
      * @throws InvalidDateFormat  - дата вводиться в формате уууу.mm.dd(10символов включая точки), если длинна превышает
-     * @throws InvalidDateFormat - 10 сиволов и когда вы пытаетесь ввести дату более раннюю чем та с которой комната свободна, срабатывает это исключение.
+     * @throws InvalidDateFormat  - 10 сиволов и когда вы пытаетесь ввести дату более раннюю чем та с которой комната свободна, срабатывает это исключение.
      */
 
     public Room roomReservationByName(int hotelIndex, int roomIndex, String reservDate) throws InvalidRoomStatus, InvalidHotelStatus, InvalidDateFormat {

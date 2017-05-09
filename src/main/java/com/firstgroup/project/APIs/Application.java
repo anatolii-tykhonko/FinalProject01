@@ -15,30 +15,30 @@ import java.util.List;
  * Данный класс реализует доступ к методам АРІ.
  */
 
-public class Application  implements  API{
+public class Application implements API {
     private DBService dbService = new DBService();
     private HotelController hotelController = new HotelController();
     private RoomController roomController = new RoomController();
     private UserController userController = new UserController();
 
     public Hotel addHotel(String hotelName, String cityName, int roomPersons, double roomPrice, String date) throws HotelAlreadyExist, ValidStringNameException, InvalidDateFormat {
-        return hotelController.addHotel(hotelName,cityName,roomPersons,roomPrice,date);
+        return hotelController.addHotel(hotelName, cityName, roomPersons, roomPrice, date);
     }
 
     public Hotel editHotelDetails(int hotelIndex, String newHotelName, String newCityName) throws ValidStringNameException {
-        return hotelController.editHotelDetails(hotelIndex,newHotelName,newCityName);
+        return hotelController.editHotelDetails(hotelIndex, newHotelName, newCityName);
     }
 
     public Room addRoom(int hotelIndex, int roomPersons, double roomPrice, String date) throws ValidStringNameException, InvalidDateFormat {
-        return roomController.addRoom(hotelIndex,roomPersons,roomPrice,date);
+        return roomController.addRoom(hotelIndex, roomPersons, roomPrice, date);
     }
 
     public Room editRoomDetails(int hotelIndex, int roomIndex, int roomPersons, double roomPrice, String dateAvailableFrom) throws InvalidDateFormat {
-        return roomController.editRoomDetails(hotelIndex,roomIndex,roomPersons,roomPrice,dateAvailableFrom);
+        return roomController.editRoomDetails(hotelIndex, roomIndex, roomPersons, roomPrice, dateAvailableFrom);
     }
 
     public boolean deleteRoom(int hotelIndex, int roomIndex) {
-        return roomController.deleteRoom(hotelIndex,roomIndex);
+        return roomController.deleteRoom(hotelIndex, roomIndex);
     }
 
     public boolean deleteHotel(int hotelIndex) {
@@ -46,11 +46,11 @@ public class Application  implements  API{
     }
 
     public User registerUser(String name, String surname, String email, String password, boolean regTRUEaddFALSE) throws UserAlreadyExist {
-        return userController.registerUser(name,surname,email,password,regTRUEaddFALSE);
+        return userController.registerUser(name, surname, email, password, regTRUEaddFALSE);
     }
 
     public User editUserInfo(String newName, String newSurName, String oldEmail) {
-        return userController.editUserInfo(newName,newSurName,oldEmail);
+        return userController.editUserInfo(newName, newSurName, oldEmail);
     }
 
     public User deleteUser(String email) throws CantDeleteCurrentUser {
@@ -70,7 +70,7 @@ public class Application  implements  API{
     }
 
     public Room roomReservationByName(int hotelIndex, int roomIndex, String reservDate) throws InvalidRoomStatus, InvalidHotelStatus, InvalidDateFormat {
-        return userController.roomReservationByName(hotelIndex,roomIndex,reservDate);
+        return userController.roomReservationByName(hotelIndex, roomIndex, reservDate);
     }
 
     public boolean cancelReservationByName(int roomIndex) {
@@ -78,7 +78,7 @@ public class Application  implements  API{
     }
 
     public boolean loginUser(String email, String password) throws IncorrectEmail, IncorrectPassword {
-        return userController.loginUser(email,password);
+        return userController.loginUser(email, password);
     }
 
     public DBService getDbService() {

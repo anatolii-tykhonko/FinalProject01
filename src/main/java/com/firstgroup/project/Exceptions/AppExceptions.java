@@ -5,6 +5,7 @@ package com.firstgroup.project.Exceptions;
  */
 public class AppExceptions extends Exception {
     String message;
+
     public AppExceptions(String message) {
         this.message = message;
     }

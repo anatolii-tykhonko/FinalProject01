@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DataBase implements Serializable{
+public class DataBase implements Serializable {
     private List<Hotel> hotelList = new ArrayList<>();
     private Map<String, User> userMap = new HashMap<>();
     private User currentUser;
