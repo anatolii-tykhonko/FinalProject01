@@ -30,13 +30,4 @@ public class UserDAO extends DBService implements UserDAOInterface{
         getDataBase().getUserMap().get(user.getEmail()).setSurname(user.getSurname());
         return user;
     }
-
-    public boolean loginUser(String email, String password) throws IncorrectEmail, IncorrectPassword {
-        if (getDataBase().getUserMap().keySet().contains(email)) {
-            if (getDataBase().getUserMap().get(email).getPassword().equals(password)) {
-                getDataBase().setCurrentUser(getDataBase().getUserMap().get(email));
-                return true;
-            } else throw new IncorrectPassword("Не верный пароль! Повторите ввод!\n");
-        } else throw new IncorrectEmail("Юзера с таким email не существует! Повторите ввод!\n");
-    }
 }

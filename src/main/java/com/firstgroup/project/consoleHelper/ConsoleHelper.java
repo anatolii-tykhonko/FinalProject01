@@ -865,7 +865,12 @@ public class ConsoleHelper {
             int count = 1;
             System.out.println("*-------------------------------------------*");
             System.out.println("В системе имеются отели в следующих городах: ");
-            List<String> cityNames = application.getDbService().getDataBase().getHotelList().stream().map(Hotel::getCityName).distinct().collect(Collectors.toList());
+            List<String> cityNames = application.getDbService().getDataBase().getHotelList()
+                    .stream()
+                    .map(Hotel::getCityName)
+                    .distinct()
+                    .collect(Collectors.toList());
+
             for (String cityName : cityNames) {
                 System.out.println(count++ + ". " + cityName);
             }
@@ -881,31 +886,27 @@ public class ConsoleHelper {
                 Double maxPrice = Double.parseDouble(buffRead.readLine());
                 System.out.println("По вашим критериям поиска найдено следующие комнаты: ");
                 index = 0;
-                List<Room> findRoomByPrice = new ArrayList<>();
                 Map<String, List<Room>> o1 = new HashMap<>();
                 for (Hotel hotel : hotelByCity) {
+                    o1.put(hotel.getHotelName(), new ArrayList<>());
                     for (Room room : hotel.getRoomList()) {
                         if (room.getPrice() >= minPrice && room.getPrice() <= maxPrice) {
                             index++;
-                            findRoomByPrice.add(room);
-                            o1.put(hotel.getHotelName(), findRoomByPrice);
+                            o1.get(hotel.getHotelName()).add(room);
                         }
                     }
+
                 }
                 for (Map.Entry<String, List<Room>> pair : o1.entrySet()) {
-                    String key = pair.getKey();
-                    List<Room> value = pair.getValue();
-                    System.out.println("*-------------------------------------------*");
-                    System.out.println("Название отеля: " + key + "\n" +
+
+                    if (pair.getValue().isEmpty())continue;
+                    System.out.println("*---------------------------------------------------------------*");
+                    System.out.println("Название отеля: " + pair.getKey() + "\n" +
                             "Доступные комнаты: ");
-                    for (int i = 0; i < value.size(); i++) {
-                        if (i < 9) {
-                            System.out.println((i + 1) + ".  " + value.get(i));
-                        } else {
-                            System.out.println((i + 1) + ". " + value.get(i));
-                        }
+                    for (int i = 0; i < pair.getValue().size(); i++) {
+                        System.out.println((i + 1) + ". " + pair.getValue().get(i));
                     }
-                    System.out.println("*-------------------------------------------*");
+                    System.out.println("*---------------------------------------------------------------*");
                 }
                 if (index == 0) {
                     System.out.println("По заданым критериям комнаты отсутствуют.");
@@ -959,6 +960,8 @@ public class ConsoleHelper {
                     default:
                         return;
                 }
+            } catch (DateTimeException d) {
+                System.out.println("Дата введена не верно, поаторите попытку!");
             } catch (InvalidRoomStatus | InvalidHotelStatus invalidStatus) {
                 System.out.println(invalidStatus.getMessage());
             } catch (NumberFormatException | IndexOutOfBoundsException ex) {

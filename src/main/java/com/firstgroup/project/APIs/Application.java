@@ -12,7 +12,7 @@ import com.firstgroup.project.entity.User;
 import java.util.List;
 
 /**
- * Данный класс реализовывает доступ к методам АРІ.
+ * Данный класс реализует доступ к методам АРІ.
  */
 
 public class Application  implements  API{

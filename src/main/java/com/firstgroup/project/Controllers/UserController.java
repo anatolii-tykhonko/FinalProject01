@@ -29,36 +29,48 @@ public class UserController implements UserControllerInterface {
     }
 
     /**
-     * @param email
-     * @return
-     * @throws CantDeleteCurrentUser
+     * Метод удаление пользователя из базы данных по аргументу email(уникальный для каждого пользователя).
+     * @param email - аргумент - имейл пользователя.
+     * @return - если операция прошла удачно возвращаеться удалённый пользователь.
+     * @throws CantDeleteCurrentUser - исключение сработает если попытаться удалить текущего пользователя.
      */
     public User deleteUser(String email) throws CantDeleteCurrentUser {
         return userDAO.delete(email);
     }
 
     /**
-     * @param name
-     * @param surname
-     * @param email
-     * @param password
-     * @param regTRUEaddFALSE
-     * @return
-     * @throws UserAlreadyExist
+     * Метод выполняет две функции - регитрация пользователя и просвоение его как текущего пользователя и добавление
+     * пользователя в базуданых без присвоение его как иекущего пользователя, этими функциями можно управлять с помощью
+     * аргумента regTRUEaddFALSE типа boolean.
+     * @param name - имя пользователя.
+     * @param surname - фамилия пользователя.
+     * @param email - имейл пользователя - уникальный для каждого пользователя.
+     * @param password - пароль каждого юзера который соответствует конкретному email.
+     * @param regTRUEaddFALSE - значение которое задает режим работы метода(true - регистрация, false - добавление пользователя)
+     * @return если регистрация или добавление успешное то позвращаеться пользователь которого мы зарегистрировали или добавили.
+     * @throws UserAlreadyExist - исключение срабатывает если пользователь уже существует в базе данных, есть такой же email.
      */
     public User registerUser(String name, String surname, String email, String password, boolean regTRUEaddFALSE) throws UserAlreadyExist {
         return userDAO.save(new User(name, surname, email, password), regTRUEaddFALSE);
     }
 
     /**
-     * @param email
-     * @param password
-     * @return
-     * @throws IncorrectEmail
-     * @throws IncorrectPassword
+     * Метод выполняет функциюю входа в систему, проверяет зарегистрирован ли пользователь в базе даных и проверяет его
+     * пароль при входе, если вход выполнен, метод возвращает значение true.
+     * @param email - имейл пользователя - уникальный для каждого пользователя.
+     * @param password - пароль который соответствует имейлу юзера.
+     * @return - true если операция входа была удачной.
+     * @throws IncorrectEmail - исключение срабатывает если такого имейла нет в базе.
+     * @throws IncorrectPassword - не верный пароль для конкретного юзера.
      */
+
     public boolean loginUser(String email, String password) throws IncorrectEmail, IncorrectPassword {
-        return userDAO.loginUser(email, password);
+        if (userDAO.getDataBase().getUserMap().keySet().contains(email)) {
+            if (userDAO.getDataBase().getUserMap().get(email).getPassword().equals(password)) {
+                userDAO.getDataBase().setCurrentUser(userDAO.getDataBase().getUserMap().get(email));
+                return true;
+            } else throw new IncorrectPassword("Не верный пароль! Повторите ввод!\n");
+        } else throw new IncorrectEmail("Юзера с таким email не существует! Повторите ввод!\n");
     }
 
     /**
@@ -74,6 +86,7 @@ public class UserController implements UserControllerInterface {
      * @throws InvalidDateFormat  - дата вводиться в формате уууу.mm.dd(10символов включая точки), если длинна превышает
      * @throws InvalidDateFormat - 10 сиволов и когда вы пытаетесь ввести дату более раннюю чем та с которой комната свободна, срабатывает это исключение.
      */
+
     public Room roomReservationByName(int hotelIndex, int roomIndex, String reservDate) throws InvalidRoomStatus, InvalidHotelStatus, InvalidDateFormat {
         if (userDAO.getDataBase().getHotelList().get(hotelIndex).getRoomList().stream().allMatch(Room::isStatus))
             throw new InvalidHotelStatus("Все комнаты в этом отеле заняты!");
