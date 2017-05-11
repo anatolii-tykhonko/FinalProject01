@@ -1,5 +1,12 @@
 package com.firstgroup.project.progStart;
 
+import com.firstgroup.project.APIs.Application;
+import com.firstgroup.project.Controllers.HotelController;
+import com.firstgroup.project.Controllers.RoomController;
+import com.firstgroup.project.Controllers.UserController;
+import com.firstgroup.project.DAOs.HotelDAO;
+import com.firstgroup.project.DAOs.RoomDAO;
+import com.firstgroup.project.DAOs.UserDAO;
 import com.firstgroup.project.consoleHelper.ConsoleHelper;
 
 /**
@@ -18,7 +25,7 @@ import com.firstgroup.project.consoleHelper.ConsoleHelper;
  */
 public class StartClass {
     public static void main(String[] args) {
-        ConsoleHelper consoleHelper = new ConsoleHelper();
+        ConsoleHelper consoleHelper = new ConsoleHelper(new Application(new HotelController(new HotelDAO()),new RoomController(new RoomDAO()),new UserController(new UserDAO())));
         consoleHelper.loginService();
     }
 }

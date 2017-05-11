@@ -1,6 +1,6 @@
 package com.firstgroup.project.dataBase;
 
-import com.firstgroup.project.DAOs.DBService;
+import com.firstgroup.project.DAOs.DBServiceSingleton;
 import com.firstgroup.project.entity.Hotel;
 import com.firstgroup.project.entity.Room;
 import com.firstgroup.project.entity.User;
@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class DBFillerTemporary {
     public static void main(String[] args) {
-        DBService dbService = new DBService();
+        DBServiceSingleton dbServiceSingleton = DBServiceSingleton.getDBServiceInstance();
 
         List<Room> roomList1 = new ArrayList<>();
         roomList1.add(new Room(2,1500, LocalDate.of(2017,5,10)));
@@ -93,12 +93,12 @@ public class DBFillerTemporary {
         roomList6.add(new Room(2,1500, LocalDate.of(2017,5,4)));
         Hotel hotelOdessa2 = new Hotel("Одесский дворик","Одесса",roomList6);
 
-        dbService.getDataBase().getHotelList().add(hotelLviv1);
-        dbService.getDataBase().getHotelList().add(hotelLviv2);
-        dbService.getDataBase().getHotelList().add(hotelKiev1);
-        dbService.getDataBase().getHotelList().add(hotelKiev2);
-        dbService.getDataBase().getHotelList().add(hotelOdessa1);
-        dbService.getDataBase().getHotelList().add(hotelOdessa2);
+        dbServiceSingleton.getDataBase().getHotelList().add(hotelLviv1);
+        dbServiceSingleton.getDataBase().getHotelList().add(hotelLviv2);
+        dbServiceSingleton.getDataBase().getHotelList().add(hotelKiev1);
+        dbServiceSingleton.getDataBase().getHotelList().add(hotelKiev2);
+        dbServiceSingleton.getDataBase().getHotelList().add(hotelOdessa1);
+        dbServiceSingleton.getDataBase().getHotelList().add(hotelOdessa2);
 
         User user1 = new User("Виктор","Баринов","barinov@gmail.com","111");
         User user2 = new User("Сергей","Куценко","serg@gmail.com","222");
@@ -106,18 +106,18 @@ public class DBFillerTemporary {
         User user4 = new User("Ирина","Билык","bilik@gmail.com","444");
         User user5 = new User("Алена","Виницкая","vinitsa@gmail.com","555");
 
-        dbService.getDataBase().getUserMap().put(user1.getEmail(),user1);
-        dbService.getDataBase().getUserMap().put(user2.getEmail(),user2);
-        dbService.getDataBase().getUserMap().put(user3.getEmail(),user3);
-        dbService.getDataBase().getUserMap().put(user4.getEmail(),user4);
-        dbService.getDataBase().getUserMap().put(user5.getEmail(),user5);
+        dbServiceSingleton.getDataBase().getUserMap().put(user1.getEmail(),user1);
+        dbServiceSingleton.getDataBase().getUserMap().put(user2.getEmail(),user2);
+        dbServiceSingleton.getDataBase().getUserMap().put(user3.getEmail(),user3);
+        dbServiceSingleton.getDataBase().getUserMap().put(user4.getEmail(),user4);
+        dbServiceSingleton.getDataBase().getUserMap().put(user5.getEmail(),user5);
 
-        for (Hotel hotel : dbService.getDataBase().getHotelList()) {
+        for (Hotel hotel : dbServiceSingleton.getDataBase().getHotelList()) {
             System.out.println(hotel.getHotelName() + " " + hotel.getCityName());
         }
 
-        DBService.save();
-       //DBService.resetDBToEmpty();
+        dbServiceSingleton.save();
+       //dbServiceSingleton.resetDBToEmpty();
     }
 
 

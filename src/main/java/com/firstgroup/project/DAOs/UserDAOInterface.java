@@ -4,6 +4,11 @@ import com.firstgroup.project.Exceptions.CantDeleteCurrentUser;
 import com.firstgroup.project.Exceptions.UserAlreadyExist;
 import com.firstgroup.project.entity.User;
 
+import javax.jws.soap.SOAPBinding;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by MakeMeSm1Le- on 24.04.2017.
  */
@@ -14,4 +19,6 @@ public interface UserDAOInterface {
     User delete(String email) throws CantDeleteCurrentUser;
 
     User update(User user);
+
+    DBServiceSingleton getDbServiceSingleton();
 }

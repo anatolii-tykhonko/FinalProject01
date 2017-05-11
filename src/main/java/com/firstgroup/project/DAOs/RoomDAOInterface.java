@@ -1,7 +1,6 @@
 package com.firstgroup.project.DAOs;
 
 
-import com.firstgroup.project.Exceptions.IncorrectDataInput;
 import com.firstgroup.project.entity.Hotel;
 import com.firstgroup.project.entity.Room;
 
@@ -15,4 +14,6 @@ public interface RoomDAOInterface {
     Room update(Room obj, int hotelIndex, int roomIndex);
 
     List<Hotel> findRoomsByHotel(String hotelName);
+
+    DBServiceSingleton getDbServiceSingleton();
 }

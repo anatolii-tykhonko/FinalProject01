@@ -19,4 +19,6 @@ public interface HotelDAOInterface {
     List<Hotel> findHotelByName(String hotelName);
 
     List<Hotel> findHotelByCity(String cityName);
+
+    DBServiceSingleton getDbServiceSingleton();
 }

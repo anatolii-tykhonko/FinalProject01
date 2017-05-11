@@ -1,18 +1,24 @@
 package com.firstgroup.project.Controllers;
 
 import com.firstgroup.project.DAOs.UserDAO;
+import com.firstgroup.project.DAOs.UserDAOInterface;
 import com.firstgroup.project.Exceptions.*;
 import com.firstgroup.project.entity.Room;
 import com.firstgroup.project.entity.User;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 /**
  * Created by MakeMeSm1Le- on 08.05.2017.
  */
 public class UserController implements UserControllerInterface {
 
-    private UserDAO userDAO = new UserDAO();
+    private UserDAOInterface userDAO;
+
+    public UserController(UserDAOInterface userDAO) {
+        this.userDAO = userDAO;
+    }
 
     /**
      * Данный метод принимает набор параметров, которые вводит пользователь в классе ConsoleHelper.
@@ -25,7 +31,7 @@ public class UserController implements UserControllerInterface {
      * @return user
      */
     public User editUserInfo(String newName, String newSurName, String oldEmail) {
-        User user = new User(newName, newSurName, oldEmail, userDAO.getDataBase().getUserMap().get(oldEmail).getPassword());
+        User user = new User(newName, newSurName, oldEmail, userDAO.getDbServiceSingleton().getDataBase().getUserMap().get(oldEmail).getPassword());
         return userDAO.update(user);
     }
 
@@ -69,9 +75,9 @@ public class UserController implements UserControllerInterface {
      */
 
     public boolean loginUser(String email, String password) throws IncorrectEmail, IncorrectPassword {
-        if (userDAO.getDataBase().getUserMap().keySet().contains(email)) {
-            if (userDAO.getDataBase().getUserMap().get(email).getPassword().equals(password)) {
-                userDAO.getDataBase().setCurrentUser(userDAO.getDataBase().getUserMap().get(email));
+        if (userDAO.getDbServiceSingleton().getDataBase().getUserMap().keySet().contains(email)) {
+            if (userDAO.getDbServiceSingleton().getDataBase().getUserMap().get(email).getPassword().equals(password)) {
+                userDAO.getDbServiceSingleton().getDataBase().setCurrentUser(userDAO.getDbServiceSingleton().getDataBase().getUserMap().get(email));
                 return true;
             } else throw new IncorrectPassword("Не верный пароль! Повторите ввод!\n");
         } else throw new IncorrectEmail("Юзера с таким email не существует! Повторите ввод!\n");
@@ -92,12 +98,12 @@ public class UserController implements UserControllerInterface {
      */
 
     public Room roomReservationByName(int hotelIndex, int roomIndex, String reservDate) throws InvalidRoomStatus, InvalidHotelStatus, InvalidDateFormat {
-        if (userDAO.getDataBase().getHotelList().get(hotelIndex).getRoomList().stream().allMatch(Room::isStatus))
+        if (userDAO.getDbServiceSingleton().getDataBase().getHotelList().get(hotelIndex).getRoomList().stream().allMatch(Room::isStatus))
             throw new InvalidHotelStatus("Все комнаты в этом отеле заняты!");
         if (reservDate.length() > 10) {
             throw new InvalidDateFormat("Не верный формат даты!");
         }
-        Room room = userDAO.getDataBase().getHotelList().get(hotelIndex).getRoomList().get(roomIndex);
+        Room room = userDAO.getDbServiceSingleton().getDataBase().getHotelList().get(hotelIndex).getRoomList().get(roomIndex);
         LocalDate reserv = LocalDate.of(Integer.valueOf(reservDate.substring(0, 4)), Integer.valueOf(reservDate.substring(5, 7)), Integer.valueOf(reservDate.substring(8, 10)));
         if (room.getAvailableFrom().getYear() > reserv.getYear() || room.getAvailableFrom().getYear() == reserv.getYear() && room.getAvailableFrom().getMonthValue() > reserv.getMonthValue() || room.getAvailableFrom().getYear() == reserv.getYear() && room.getAvailableFrom().getMonthValue() == reserv.getMonthValue() && room.getAvailableFrom().getDayOfMonth() >= reserv.getDayOfMonth()) {
             throw new InvalidDateFormat("Не коректная дата, Вы ввели дату на которую эта комната занята!");
@@ -106,7 +112,7 @@ public class UserController implements UserControllerInterface {
         else {
             room.setStatus(true);
             room.setReservBefore(reserv);
-            userDAO.getDataBase().getCurrentUser().getRoomList().add(room);
+            userDAO.getDbServiceSingleton().getDataBase().getCurrentUser().getRoomList().add(room);
         }
         return room;
     }
@@ -125,8 +131,16 @@ public class UserController implements UserControllerInterface {
      */
 
     public boolean cancelReservationByName(int roomIndex) {
-        userDAO.getDataBase().getCurrentUser().getRoomList().get(roomIndex).setStatus(false);
-        userDAO.getDataBase().getCurrentUser().getRoomList().remove(roomIndex);
+        userDAO.getDbServiceSingleton().getDataBase().getCurrentUser().getRoomList().get(roomIndex).setStatus(false);
+        userDAO.getDbServiceSingleton().getDataBase().getCurrentUser().getRoomList().remove(roomIndex);
         return true;
+    }
+
+    public Map<String, User> getUsers() {
+        return userDAO.getDbServiceSingleton().getDataBase().getUserMap();
+    }
+
+    public User getCurrentUser() {
+        return userDAO.getDbServiceSingleton().getDataBase().getCurrentUser();
     }
 }

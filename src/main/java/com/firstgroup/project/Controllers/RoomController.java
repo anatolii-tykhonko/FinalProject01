@@ -1,6 +1,7 @@
 package com.firstgroup.project.Controllers;
 
 import com.firstgroup.project.DAOs.RoomDAO;
+import com.firstgroup.project.DAOs.RoomDAOInterface;
 import com.firstgroup.project.Exceptions.InvalidDateFormat;
 import com.firstgroup.project.Exceptions.ValidStringNameException;
 import com.firstgroup.project.entity.Hotel;
@@ -13,7 +14,12 @@ import java.util.List;
  * Created by MakeMeSm1Le- on 08.05.2017.
  */
 public class RoomController implements RoomControllerInterface {
-    private RoomDAO roomDAO = new RoomDAO();
+
+    private RoomDAOInterface roomDAO;
+
+    public RoomController(RoomDAOInterface roomDAO) {
+        this.roomDAO = roomDAO;
+    }
 
     /**
      * Данный метод выполняет создание нового екземпляра комнаты и передает его на уровень RoomDAO в метод save(Room obj, int hotelIndex).
@@ -65,7 +71,7 @@ public class RoomController implements RoomControllerInterface {
      * @return объект типа Room
      */
     public boolean deleteRoom(int hotelIndex, int roomIndex) {
-        Hotel hotel = roomDAO.getDataBase().getHotelList().get(hotelIndex);
+        Hotel hotel = roomDAO.getDbServiceSingleton().getDataBase().getHotelList().get(hotelIndex);
         Room room = hotel.getRoomList().get(roomIndex - 1);
         return roomDAO.delete(room);
     }

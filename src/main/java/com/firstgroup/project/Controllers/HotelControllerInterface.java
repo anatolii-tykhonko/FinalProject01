@@ -22,5 +22,5 @@ public interface HotelControllerInterface {
 
     List<Hotel> findHotelByCity(String cityName);
 
-
+    List<Hotel> getHotels();
 }

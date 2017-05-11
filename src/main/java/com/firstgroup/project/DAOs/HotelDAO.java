@@ -10,38 +10,47 @@ import java.util.stream.Collectors;
 /**
  * Created by MakeMeSm1Le- on 08.05.2017.
  */
-public class HotelDAO extends DBService implements HotelDAOInterface {
+public class HotelDAO implements HotelDAOInterface {
+
+    private DBServiceSingleton dbServiceSingleton = DBServiceSingleton.getDBServiceInstance();
 
     public Hotel save(Hotel hotel) throws HotelAlreadyExist {
-        if (getDataBase().getHotelList().contains(hotel)) {
+        if (dbServiceSingleton.getDataBase().getHotelList().contains(hotel)) {
             throw new HotelAlreadyExist("Отель c таким именем уже существует в этом городе!");
         }
-        getDataBase().getHotelList().add(hotel);
+        dbServiceSingleton.getDataBase().getHotelList().add(hotel);
+        dbServiceSingleton.save();
         return hotel;
     }
 
     public boolean delete(int hotelIndex) {
-        getDataBase().getHotelList().remove(hotelIndex);
+        dbServiceSingleton.getDataBase().getHotelList().remove(hotelIndex);
+        dbServiceSingleton.save();
         return true;
     }
 
     public Hotel update(Hotel hotel, int hotelIndex) {
-        Hotel editHotel = getDataBase().getHotelList().get(hotelIndex);
+        Hotel editHotel = dbServiceSingleton.getDataBase().getHotelList().get(hotelIndex);
         editHotel.setHotelName(hotel.getHotelName());
         editHotel.setCityName(hotel.getCityName());
-        return getDataBase().getHotelList().get(hotelIndex);
+        dbServiceSingleton.save();
+        return dbServiceSingleton.getDataBase().getHotelList().get(hotelIndex);
     }
 
 
     public List<Hotel> findHotelByName(String hotelName) {
-        List<Hotel> hotelList = getDataBase().getHotelList().stream().filter(hotel -> hotel.getHotelName().equals(hotelName)).collect(Collectors.toList());
+        List<Hotel> hotelList = dbServiceSingleton.getDataBase().getHotelList().stream().filter(hotel -> hotel.getHotelName().equals(hotelName)).collect(Collectors.toList());
         System.out.println("По Вашему запросу найдены следующие отели: ");
         return hotelList;
     }
 
     public List<Hotel> findHotelByCity(String cityName) {
-        List<Hotel> hotelList = getDataBase().getHotelList().stream().filter(hotel -> hotel.getCityName().equals(cityName)).collect(Collectors.toList());
+        List<Hotel> hotelList = dbServiceSingleton.getDataBase().getHotelList().stream().filter(hotel -> hotel.getCityName().equals(cityName)).collect(Collectors.toList());
 
         return hotelList;
+    }
+
+    public DBServiceSingleton getDbServiceSingleton() {
+        return dbServiceSingleton;
     }
 }

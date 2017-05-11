@@ -4,6 +4,9 @@ import com.firstgroup.project.Exceptions.*;
 import com.firstgroup.project.entity.Room;
 import com.firstgroup.project.entity.User;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by MakeMeSm1Le- on 08.05.2017.
  */
@@ -20,4 +23,8 @@ public interface UserControllerInterface {
     boolean cancelReservationByName(int roomIndex);
 
     boolean loginUser(String email, String password) throws IncorrectEmail, IncorrectPassword;
+
+    Map<String, User> getUsers();
+
+    User getCurrentUser();
 }

@@ -1,6 +1,7 @@
 package com.firstgroup.project.Controllers;
 
 import com.firstgroup.project.DAOs.HotelDAO;
+import com.firstgroup.project.DAOs.HotelDAOInterface;
 import com.firstgroup.project.Exceptions.HotelAlreadyExist;
 import com.firstgroup.project.Exceptions.InvalidDateFormat;
 import com.firstgroup.project.Exceptions.ValidStringNameException;
@@ -15,7 +16,12 @@ import java.util.List;
  * Created by MakeMeSm1Le- on 08.05.2017.
  */
 public class HotelController implements HotelControllerInterface {
-    private HotelDAO hotelDAO = new HotelDAO();
+
+    private HotelDAOInterface hotelDAO;
+
+    public HotelController(HotelDAOInterface hotelDAO) {
+        this.hotelDAO = hotelDAO;
+    }
 
     /**
      * Данный метод выполняет создание нового екземпляра отеля и передает его на уровень HotelDAO в метод save(Hotel hotel).
@@ -50,7 +56,7 @@ public class HotelController implements HotelControllerInterface {
      * @throws ValidStringNameException - исключение бросается если в стоках по названиям вписать символы, числа или пустую строку.
      */
     public Hotel editHotelDetails(int hotelIndex, String newHotelName, String newCityName) throws ValidStringNameException {
-        Hotel editedHotel = new Hotel(newHotelName, newCityName, hotelDAO.getDataBase().getHotelList().get(hotelIndex).getRoomList());
+        Hotel editedHotel = new Hotel(newHotelName, newCityName, hotelDAO.getDbServiceSingleton().getDataBase().getHotelList().get(hotelIndex).getRoomList());
         return hotelDAO.update(editedHotel, hotelIndex);
     }
 
@@ -90,5 +96,8 @@ public class HotelController implements HotelControllerInterface {
         return hotelDAO.findHotelByCity(cityName);
     }
 
-
+    @Override
+    public List<Hotel> getHotels() {
+        return hotelDAO.getDbServiceSingleton().getDataBase().getHotelList();
+    }
 }

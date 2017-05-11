@@ -40,4 +40,8 @@ public interface API {
     boolean cancelReservationByName(int roomIndex);
 
     boolean loginUser(String email, String password) throws IncorrectEmail, IncorrectPassword;
+
+//    void getUsers();
+
+
 }

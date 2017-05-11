@@ -1,7 +1,7 @@
 package com.firstgroup.project.consoleHelper;
 
 import com.firstgroup.project.APIs.Application;
-import com.firstgroup.project.DAOs.DBService;
+import com.firstgroup.project.DAOs.DBServiceSingleton;
 import com.firstgroup.project.Exceptions.*;
 import com.firstgroup.project.entity.Hotel;
 import com.firstgroup.project.entity.Room;
@@ -21,9 +21,12 @@ import static java.util.stream.Collectors.toList;
  */
 
 public class ConsoleHelper {
-    Application application = new Application();
+    Application application;
     BufferedReader buffRead = new BufferedReader(new InputStreamReader(System.in));
 
+    public ConsoleHelper(Application application) {
+        this.application = application;
+    }
 
     private void chooseTheOperation() {
 
@@ -148,7 +151,6 @@ public class ConsoleHelper {
                         System.out.println("\n*------------------------------------------------------------------------------*\n" +
                                 "*---------------> Программа завершена, все изменения сохранены! <--------------*\n" +
                                 "*------------------------------------------------------------------------------*\n");
-                        DBService.save();
                         buffRead.close();
                         System.exit(0);
                         break;
@@ -222,7 +224,7 @@ public class ConsoleHelper {
                         System.out.println("\n*------------------------------------------------------------------------------*\n" +
                                 "*---------------> Программа завершена, все изменения сохранены! <--------------*\n" +
                                 "*------------------------------------------------------------------------------*\n");
-                        DBService.save();
+//                        DBServiceSingleton.save();
                         buffRead.close();
                         System.exit(0);
                         break;
@@ -293,6 +295,10 @@ public class ConsoleHelper {
             for (Hotel hotel : hotelList) {
                 System.out.println(count++ + ". * Отель " + hotel.getHotelName() + ", город " + hotel.getCityName());
             }
+            hotelList.stream().map(hotel -> {
+                System.out.println("Отель: "+ hotel.getHotelName()+", город "+hotel.getHotelName());
+                return hotel.getRoomList();
+            }).forEach(rooms -> rooms.forEach(System.out::println));
             try {
                 int hotelIndex = Integer.parseInt(buffRead.readLine()) - 1;
                 if (-1 == hotelIndex) return;

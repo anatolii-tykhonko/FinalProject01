@@ -1,9 +1,10 @@
 package com.firstgroup.project.APIs;
 
-import com.firstgroup.project.Controllers.HotelController;
-import com.firstgroup.project.Controllers.RoomController;
-import com.firstgroup.project.Controllers.UserController;
-import com.firstgroup.project.DAOs.DBService;
+import com.firstgroup.project.Controllers.*;
+import com.firstgroup.project.DAOs.DBServiceSingleton;
+import com.firstgroup.project.DAOs.HotelDAO;
+import com.firstgroup.project.DAOs.RoomDAO;
+import com.firstgroup.project.DAOs.UserDAO;
 import com.firstgroup.project.Exceptions.*;
 import com.firstgroup.project.entity.Hotel;
 import com.firstgroup.project.entity.Room;
@@ -16,10 +17,15 @@ import java.util.List;
  */
 
 public class Application implements API {
-    private DBService dbService = new DBService();
-    private HotelController hotelController = new HotelController();
-    private RoomController roomController = new RoomController();
-    private UserController userController = new UserController();
+    private HotelControllerInterface hotelController;
+    private RoomControllerInterface roomController;
+    private UserControllerInterface userController;
+
+    public Application(HotelControllerInterface hotelController, RoomControllerInterface roomController, UserControllerInterface userController) {
+        this.hotelController = hotelController;
+        this.roomController = roomController;
+        this.userController = userController;
+    }
 
     public Hotel addHotel(String hotelName, String cityName, int roomPersons, double roomPrice, String date) throws HotelAlreadyExist, ValidStringNameException, InvalidDateFormat {
         return hotelController.addHotel(hotelName, cityName, roomPersons, roomPrice, date);
@@ -79,10 +85,6 @@ public class Application implements API {
 
     public boolean loginUser(String email, String password) throws IncorrectEmail, IncorrectPassword {
         return userController.loginUser(email, password);
-    }
-
-    public DBService getDbService() {
-        return dbService;
     }
 
     public void validLine(String line) throws ValidStringNameException {
