@@ -25,7 +25,19 @@ import com.firstgroup.project.consoleHelper.ConsoleHelper;
  */
 public class StartClass {
     public static void main(String[] args) {
-        ConsoleHelper consoleHelper = new ConsoleHelper(new Application(new HotelController(new HotelDAO()),new RoomController(new RoomDAO()),new UserController(new UserDAO())));
+
+        UserDAO userDAO = new UserDAO();
+        HotelDAO hotelDAO = new HotelDAO();
+        RoomDAO roomDAO = new RoomDAO();
+
+        UserController userController = new UserController(userDAO);
+        HotelController hotelController = new HotelController(hotelDAO);
+        RoomController roomController = new RoomController(roomDAO);
+
+        Application application = new Application(hotelController, roomController, userController);
+
+        ConsoleHelper consoleHelper = new ConsoleHelper(application);
+
         consoleHelper.loginService();
     }
 }

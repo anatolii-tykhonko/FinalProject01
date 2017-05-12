@@ -7,22 +7,20 @@ import java.io.*;
 /**
  * Created by Sonikb on 08.05.2017.
  */
-public final class DBServiceSingleton {
+public class DBServiceSingleton {
 
     private static DBServiceSingleton dbServiceSingleton;
     private DataBase dataBase;
 
-    {
-        load();
-    }
 
     public static DBServiceSingleton getDBServiceInstance(){
-        if(dbServiceSingleton==null) new DBServiceSingleton(new DataBase());
+        if(dbServiceSingleton==null) dbServiceSingleton = new DBServiceSingleton(new DataBase());
         return dbServiceSingleton;
     }
 
     private DBServiceSingleton(DataBase dataBase) {
         this.dataBase = dataBase;
+        load();
     }
 
 

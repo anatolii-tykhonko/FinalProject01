@@ -6,6 +6,7 @@ import com.firstgroup.project.entity.Room;
 import com.firstgroup.project.entity.User;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Sonikb on 22.04.2017.
@@ -41,7 +42,9 @@ public interface API {
 
     boolean loginUser(String email, String password) throws IncorrectEmail, IncorrectPassword;
 
-//    void getUsers();
+    Map<String, User> getUsers();
 
+    List<Hotel> getHotels();
 
+    User curUser();
 }

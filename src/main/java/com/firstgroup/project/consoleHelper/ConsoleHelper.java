@@ -291,7 +291,7 @@ public class ConsoleHelper {
         while (true) {
             System.out.println("Выберите отель в котором вы хотите добавить комнату. Для выхода введите \"0\"!");
             int count = 1;
-            List<Hotel> hotelList = application.getDbService().getDataBase().getHotelList();
+            List<Hotel> hotelList = application.getHotels();
             for (Hotel hotel : hotelList) {
                 System.out.println(count++ + ". * Отель " + hotel.getHotelName() + ", город " + hotel.getCityName());
             }
@@ -302,7 +302,7 @@ public class ConsoleHelper {
             try {
                 int hotelIndex = Integer.parseInt(buffRead.readLine()) - 1;
                 if (-1 == hotelIndex) return;
-                Hotel hotel = application.getDbService().getDataBase().getHotelList().get(hotelIndex);
+                Hotel hotel = application.getHotels().get(hotelIndex);
                 System.out.println("**** Добавление комнат в отель " + hotel.getHotelName() + ", город " + hotel.getCityName() + " ****");
                 System.out.println("Укажите количество спальных мест в номере:");
                 int roomPersons = Integer.parseInt(buffRead.readLine());
@@ -346,7 +346,7 @@ public class ConsoleHelper {
         while (true) {
             System.out.println("Cписок отелей для удаления. Для выхода введите \"0\"!");
             int count = 1;
-            List<Hotel> hotelList = application.getDbService().getDataBase().getHotelList();
+            List<Hotel> hotelList = application.getHotels();
             if (hotelList.isEmpty()) {
                 System.out.println("Лист отелей пустой, чтобы делать какие-либо действия сначала добавьте отель");
                 return;
@@ -360,7 +360,7 @@ public class ConsoleHelper {
                 if (hotelIndex == -1) return;
                 application.deleteHotel(hotelIndex);
                 System.out.println("Список отелей после удаления: ");
-                List<String> hotelNamesWhenWeDeleteHotel = application.getDbService().getDataBase().getHotelList()
+                List<String> hotelNamesWhenWeDeleteHotel = application.getHotels()
                         .stream()
                         .map(Hotel::getHotelName)
                         .collect(toList());
@@ -390,7 +390,7 @@ public class ConsoleHelper {
         while (true) {
             System.out.println("Список отелей:");
             int count = 1;
-            List<Hotel> hotelList = application.getDbService().getDataBase().getHotelList();
+            List<Hotel> hotelList = application.getHotels();
             if (hotelList.isEmpty()) {
                 System.out.println("Лист отелей пустой, чтобы делать какие-либо действия сначала добавьте отель");
                 return;
@@ -402,7 +402,7 @@ public class ConsoleHelper {
                 System.out.println("Введите номер отеля с которого вы хотите удалить комнату! Для выхода введите \"0\"! ");
                 int hotelIndex = Integer.parseInt(buffRead.readLine()) - 1;
                 if (hotelIndex == -1) return;
-                Hotel hotel = application.getDbService().getDataBase().getHotelList().get(hotelIndex);
+                Hotel hotel = application.getHotels().get(hotelIndex);
                 System.out.println("**** Удаление комнат в отеле " + hotel.getHotelName() + " ****");
                 count = 1;
                 for (Room room : hotel.getRoomList()) {
@@ -444,12 +444,12 @@ public class ConsoleHelper {
     public void editHotelInfo() {
         while (true) {
             int count = 1;
-            if (application.getDbService().getDataBase().getHotelList().isEmpty()) {
+            if (application.getHotels().isEmpty()) {
                 System.out.println("В базе нет отелей, сначала необходимо создать отель!");
                 return;
             }
             System.out.println("Выберите из списка номер отеля который необходимо отредактировать. Для выхода введите \"0\"!");
-            List<Hotel> hotelList = application.getDbService().getDataBase().getHotelList();
+            List<Hotel> hotelList = application.getHotels();
             for (Hotel hotel : hotelList) {
                 System.out.println(count++ + ". * " + hotel.getHotelName() + ", город " + hotel.getCityName());
             }
@@ -487,7 +487,7 @@ public class ConsoleHelper {
     public void editUserInfo() {
         while (true) {
             System.out.println("Список пользователей в системе: ");
-            Set<Map.Entry<String, User>> entrySet = application.getDbService().getDataBase().getUserMap().entrySet();
+            Set<Map.Entry<String, User>> entrySet = application.getUsers().entrySet();
             int count = 1;
             List<String> emailList = new ArrayList<>();
             for (Map.Entry<String, User> userEntry : entrySet) {
@@ -531,7 +531,7 @@ public class ConsoleHelper {
         while (true) {
             System.out.println("***** Список отелей в системе *****");
             int count = 1;
-            List<Hotel> hotelList = application.getDbService().getDataBase().getHotelList();
+            List<Hotel> hotelList = application.getHotels();
             if (hotelList.isEmpty()) {
                 System.out.println("\nВ системе не создано ни одного отеля, сначала добавьте отель в систему!\n");
                 return;
@@ -543,7 +543,7 @@ public class ConsoleHelper {
                 System.out.println("Введите номер отеля в котором необходимо редактировать комнаты. Для выхода введите \"0\"!");
                 int hotelIndex = Integer.parseInt(buffRead.readLine()) - 1;
                 if (-1 == hotelIndex) return;
-                Hotel hotel = application.getDbService().getDataBase().getHotelList().get(hotelIndex);
+                Hotel hotel = application.getHotels().get(hotelIndex);
                 System.out.println("***** Список комнат в отеле " + hotel.getHotelName() + ", город " + hotel.getCityName() + " *****");
                 count = 1;
                 for (Room room : hotel.getRoomList()) {
@@ -635,7 +635,7 @@ public class ConsoleHelper {
                 System.out.println("Введите password: ");
                 password = buffRead.readLine();
                 if (application.loginUser(email, password)) {
-                    System.out.println("Вход выполнен " + application.getDbService().getDataBase().getCurrentUser().getName() + "\n");
+                    System.out.println("Вход выполнен " + application.curUser().getName() + "\n");
                     if ("admin".equals(password)) {
                         chooseTheOperation();
                     } else userChooseTheOperation();
@@ -712,7 +712,7 @@ public class ConsoleHelper {
     private void deleteUser() {
         while (true) {
             System.out.println("Cписок пользователей ----------------------------------------------\n");
-            Set<Map.Entry<String, User>> entries = application.getDbService().getDataBase().getUserMap().entrySet();
+            Set<Map.Entry<String, User>> entries = application.getUsers().entrySet();
             int count = 1;
             List<String> emailList = new ArrayList<>();
             for (Map.Entry<String, User> userEntry : entries) {
@@ -748,7 +748,7 @@ public class ConsoleHelper {
             System.out.println("*------------------------------------------------*");
             System.out.println("В системе имеются следующие отели: ");
             int count = 1;
-            List<Hotel> hotelList = application.getDbService().getDataBase().getHotelList();
+            List<Hotel> hotelList = application.getHotels();
             for (Hotel hotel : hotelList) {
                 System.out.println(count++ + ". " + hotel.getHotelName() + ", город " + hotel.getCityName());
             }
@@ -756,7 +756,7 @@ public class ConsoleHelper {
             try {
                 int index = Integer.parseInt(buffRead.readLine());
                 if (index == 0) return;
-                String name = application.getDbService().getDataBase().getHotelList().get(index - 1).getHotelName();
+                String name = application.getHotels().get(index - 1).getHotelName();
                 List<Hotel> hotelByName = application.findHotelByName(name);
                 for (Hotel hotel : hotelByName) {
                     System.out.println("*-----------------------------------------------------------*");
@@ -788,7 +788,7 @@ public class ConsoleHelper {
             System.out.println("В системе имеются отели в следующих городах: ");
             int count = 1;
 
-            List<String> cityNames = application.getDbService().getDataBase().getHotelList()
+            List<String> cityNames = application.getHotels()
                     .stream()
                     .map(Hotel::getCityName)
                     .distinct()
@@ -832,7 +832,7 @@ public class ConsoleHelper {
             System.out.println("*----------------------------------------------*");
             System.out.println("В системе имеются комнаты в следующих отелях: ");
             int count = 1;
-            List<Hotel> hotelList = application.getDbService().getDataBase().getHotelList();
+            List<Hotel> hotelList = application.getHotels();
             for (Hotel hotel : hotelList) {
                 System.out.println(count++ + ". " + hotel.getHotelName() + ", город " + hotel.getCityName());
             }
@@ -840,14 +840,13 @@ public class ConsoleHelper {
             try {
                 int index = Integer.parseInt(buffRead.readLine());
                 if (index == 0) return;
-                String name = application.getDbService().getDataBase().getHotelList().get(index - 1).getHotelName();
+                String name = application.getHotels().get(index - 1).getHotelName();
                 List<Hotel> hotelByName = application.findRoomsByHotel(name);
                 for (Hotel hotel : hotelByName) {
-                    System.out.println("*----------------------------------------------------------*");
 
+                    System.out.println("*----------------------------------------------------------*");
                     hotel.getRoomList().forEach(System.out::println);
                     System.out.println("*----------------------------------------------------------*");
-
 
                 }
                 System.out.println("Для продолжения поиска комнат по названию отеля нажмите 1, в противном случае Вы перейдете в главное меню");
@@ -871,7 +870,7 @@ public class ConsoleHelper {
             int count = 1;
             System.out.println("*-------------------------------------------*");
             System.out.println("В системе имеются отели в следующих городах: ");
-            List<String> cityNames = application.getDbService().getDataBase().getHotelList()
+            List<String> cityNames = application.getHotels()
                     .stream()
                     .map(Hotel::getCityName)
                     .distinct()
@@ -937,7 +936,7 @@ public class ConsoleHelper {
         while (true) {
             System.out.println("Виберете отель в которогм вы хотите забронировать комануту: \n");
             int count = 1;
-            List<Hotel> hotels = application.getDbService().getDataBase().getHotelList();
+            List<Hotel> hotels = application.getHotels();
             for (Hotel hotel : hotels) {
                 System.out.println(count++ + ". " + "Отель \'" + hotel.getHotelName() + "\', город " + hotel.getCityName());
             }
@@ -945,7 +944,7 @@ public class ConsoleHelper {
                 System.out.println("\nУкажите номер отеля в котором вы хотите забронировать комнату! Для выхода введите \"0\"!");
                 int hotelIndex = Integer.parseInt(buffRead.readLine()) - 1;
                 if (hotelIndex == -1) return;
-                Hotel hotel = application.getDbService().getDataBase().getHotelList().get(hotelIndex);
+                Hotel hotel = application.getHotels().get(hotelIndex);
                 System.out.println("**** Бронирование комнат в отеле " + hotel.getHotelName() + " ****");
                 count = 1;
                 for (Room room : hotel.getRoomList()) {
@@ -984,7 +983,7 @@ public class ConsoleHelper {
     private void cancelReservation() {
         while (true) {
             int count = 1;
-            List<Room> userRooms = application.getDbService().getDataBase().getCurrentUser().getRoomList();
+            List<Room> userRooms = application.curUser().getRoomList();
             System.out.println("Комнаты которые вы забронировали:");
             if (userRooms.isEmpty()) System.out.println("У ВАС НЕТ ЗАБРОНИРОВАНЫХ КОМНАТ!!!");
             for (Room room : userRooms) {

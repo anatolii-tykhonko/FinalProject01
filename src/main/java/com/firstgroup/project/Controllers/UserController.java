@@ -110,17 +110,12 @@ public class UserController implements UserControllerInterface {
         }
         if (room.isStatus()) throw new InvalidRoomStatus("Эта комната сейчас занята");
         else {
-            room.setStatus(true);
-            room.setReservBefore(reserv);
-            userDAO.getDbServiceSingleton().getDataBase().getCurrentUser().getRoomList().add(room);
+           return userDAO.reservRoom(room,reserv,true);
         }
-        return room;
     }
 
     /**
      * Метод cancelReservationByName предназначен для отмены бронирования комнаты для текущего юзера,
-     * он выполняет две функции - присваивает значение статуса комнаты(false) командой setStatus(комната свободна)
-     * и удаляет комнату из списка забронированых комнат текущего пользователя командой remove
      * Так как в консоли мы получем пронумерованый список комнат, то мотод принимает порядковый номер комнаты в списке и
      * по нему удаляет выбраную комнату!
      *
@@ -131,9 +126,7 @@ public class UserController implements UserControllerInterface {
      */
 
     public boolean cancelReservationByName(int roomIndex) {
-        userDAO.getDbServiceSingleton().getDataBase().getCurrentUser().getRoomList().get(roomIndex).setStatus(false);
-        userDAO.getDbServiceSingleton().getDataBase().getCurrentUser().getRoomList().remove(roomIndex);
-        return true;
+        return userDAO.cancelReserv(roomIndex);
     }
 
     public Map<String, User> getUsers() {

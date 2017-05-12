@@ -11,6 +11,7 @@ import com.firstgroup.project.entity.Room;
 import com.firstgroup.project.entity.User;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Данный класс реализует доступ к методам АРІ.
@@ -85,6 +86,18 @@ public class Application implements API {
 
     public boolean loginUser(String email, String password) throws IncorrectEmail, IncorrectPassword {
         return userController.loginUser(email, password);
+    }
+
+    public Map<String, User> getUsers() {
+        return userController.getUsers();
+    }
+
+    public List<Hotel> getHotels() {
+        return hotelController.getHotels();
+    }
+
+    public User curUser() {
+        return userController.getCurrentUser();
     }
 
     public void validLine(String line) throws ValidStringNameException {

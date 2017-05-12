@@ -116,8 +116,8 @@ public class DBFillerTemporary {
             System.out.println(hotel.getHotelName() + " " + hotel.getCityName());
         }
 
-        dbServiceSingleton.save();
-       //dbServiceSingleton.resetDBToEmpty();
+//        dbServiceSingleton.save();
+//       dbServiceSingleton.resetDBToEmpty();
     }
 
 

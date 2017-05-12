@@ -2,8 +2,11 @@ package com.firstgroup.project.DAOs;
 
 import com.firstgroup.project.Exceptions.CantDeleteCurrentUser;
 import com.firstgroup.project.Exceptions.UserAlreadyExist;
+import com.firstgroup.project.entity.Room;
 import com.firstgroup.project.entity.User;
 
+import javax.jws.soap.SOAPBinding;
+import java.time.LocalDate;
 import java.util.Map;
 
 public class UserDAO implements UserDAOInterface {
@@ -23,8 +26,9 @@ public class UserDAO implements UserDAOInterface {
     public User delete(String email) throws CantDeleteCurrentUser {
         if (dbServiceSingleton.getDataBase().getCurrentUser().equals(dbServiceSingleton.getDataBase().getUserMap().get(email)))
             throw new CantDeleteCurrentUser("Нельзя удалить текущего юзера! Повторите попытку!");
+        User removeUser = dbServiceSingleton.getDataBase().getUserMap().remove(email);
         dbServiceSingleton.save();
-        return dbServiceSingleton.getDataBase().getUserMap().remove(email);
+        return removeUser;
     }
 
     public User update(User user) {
@@ -32,6 +36,21 @@ public class UserDAO implements UserDAOInterface {
         dbServiceSingleton.getDataBase().getUserMap().get(user.getEmail()).setSurname(user.getSurname());
         dbServiceSingleton.save();
         return user;
+    }
+
+    public Room reservRoom(Room room, LocalDate date, boolean status) {
+        room.setStatus(true);
+        room.setReservBefore(date);
+        dbServiceSingleton.getDataBase().getCurrentUser().getRoomList().add(room);
+        dbServiceSingleton.save();
+        return room;
+    }
+
+    public boolean cancelReserv(int roomindex) {
+        dbServiceSingleton.getDataBase().getCurrentUser().getRoomList().get(roomindex).setStatus(false);
+        dbServiceSingleton.getDataBase().getCurrentUser().getRoomList().remove(roomindex);
+        dbServiceSingleton.save();
+        return true;
     }
 
     public DBServiceSingleton getDbServiceSingleton() {

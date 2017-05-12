@@ -2,9 +2,11 @@ package com.firstgroup.project.DAOs;
 
 import com.firstgroup.project.Exceptions.CantDeleteCurrentUser;
 import com.firstgroup.project.Exceptions.UserAlreadyExist;
+import com.firstgroup.project.entity.Room;
 import com.firstgroup.project.entity.User;
 
 import javax.jws.soap.SOAPBinding;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -21,4 +23,8 @@ public interface UserDAOInterface {
     User update(User user);
 
     DBServiceSingleton getDbServiceSingleton();
+
+    Room reservRoom(Room room, LocalDate date, boolean status);
+
+    boolean cancelReserv(int roomindex);
 }

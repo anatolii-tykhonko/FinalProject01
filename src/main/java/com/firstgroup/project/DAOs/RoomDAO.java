@@ -23,16 +23,18 @@ public class RoomDAO implements RoomDAOInterface {
         if (!dbServiceSingleton.getDataBase().getHotelList().stream().anyMatch(hotel -> hotel.getRoomList().contains(obj))) {
             return false;
         }
+        boolean okdelete = dbServiceSingleton.getDataBase().getHotelList().stream().anyMatch(hotel -> hotel.getRoomList().remove(obj));
         dbServiceSingleton.save();
-        return dbServiceSingleton.getDataBase().getHotelList().stream().anyMatch(hotel -> hotel.getRoomList().remove(obj));
+        return okdelete;
     }
 
     public Room update(Room obj, int hotelIndex, int roomIndex) {
         dbServiceSingleton.getDataBase().getHotelList().get(hotelIndex).getRoomList().get(roomIndex).setPersons(obj.getPersons());
         dbServiceSingleton.getDataBase().getHotelList().get(hotelIndex).getRoomList().get(roomIndex).setPrice(obj.getPrice());
         dbServiceSingleton.getDataBase().getHotelList().get(hotelIndex).getRoomList().get(roomIndex).setAvailableFrom(obj.getAvailableFrom());
+        Room room = dbServiceSingleton.getDataBase().getHotelList().get(hotelIndex).getRoomList().get(roomIndex);
         dbServiceSingleton.save();
-        return dbServiceSingleton.getDataBase().getHotelList().get(hotelIndex).getRoomList().get(roomIndex);
+        return room;
     }
 
     public List<Hotel> findRoomsByHotel(String hotelName) {
