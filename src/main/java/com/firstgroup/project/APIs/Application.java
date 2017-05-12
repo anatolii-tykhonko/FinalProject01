@@ -1,10 +1,6 @@
 package com.firstgroup.project.APIs;
 
 import com.firstgroup.project.Controllers.*;
-import com.firstgroup.project.DAOs.DBServiceSingleton;
-import com.firstgroup.project.DAOs.HotelDAO;
-import com.firstgroup.project.DAOs.RoomDAO;
-import com.firstgroup.project.DAOs.UserDAO;
 import com.firstgroup.project.Exceptions.*;
 import com.firstgroup.project.entity.Hotel;
 import com.firstgroup.project.entity.Room;

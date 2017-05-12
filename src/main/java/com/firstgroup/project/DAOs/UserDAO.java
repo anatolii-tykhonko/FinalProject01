@@ -4,10 +4,7 @@ import com.firstgroup.project.Exceptions.CantDeleteCurrentUser;
 import com.firstgroup.project.Exceptions.UserAlreadyExist;
 import com.firstgroup.project.entity.Room;
 import com.firstgroup.project.entity.User;
-
-import javax.jws.soap.SOAPBinding;
 import java.time.LocalDate;
-import java.util.Map;
 
 public class UserDAO implements UserDAOInterface {
 

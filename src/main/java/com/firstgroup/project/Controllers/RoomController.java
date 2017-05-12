@@ -1,6 +1,5 @@
 package com.firstgroup.project.Controllers;
 
-import com.firstgroup.project.DAOs.RoomDAO;
 import com.firstgroup.project.DAOs.RoomDAOInterface;
 import com.firstgroup.project.Exceptions.InvalidDateFormat;
 import com.firstgroup.project.Exceptions.ValidStringNameException;

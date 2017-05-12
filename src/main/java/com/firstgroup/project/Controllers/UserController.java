@@ -1,6 +1,5 @@
 package com.firstgroup.project.Controllers;
 
-import com.firstgroup.project.DAOs.UserDAO;
 import com.firstgroup.project.DAOs.UserDAOInterface;
 import com.firstgroup.project.Exceptions.*;
 import com.firstgroup.project.entity.Room;

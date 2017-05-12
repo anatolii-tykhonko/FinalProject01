@@ -1,7 +1,6 @@
 package com.firstgroup.project.Controllers;
 
 import com.firstgroup.project.Exceptions.HotelAlreadyExist;
-import com.firstgroup.project.Exceptions.IncorrectDataInput;
 import com.firstgroup.project.Exceptions.InvalidDateFormat;
 import com.firstgroup.project.Exceptions.ValidStringNameException;
 import com.firstgroup.project.entity.Hotel;

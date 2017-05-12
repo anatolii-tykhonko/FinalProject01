@@ -1,6 +1,5 @@
 package com.firstgroup.project.Controllers;
 
-import com.firstgroup.project.DAOs.HotelDAO;
 import com.firstgroup.project.DAOs.HotelDAOInterface;
 import com.firstgroup.project.Exceptions.HotelAlreadyExist;
 import com.firstgroup.project.Exceptions.InvalidDateFormat;
