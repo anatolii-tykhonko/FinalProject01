@@ -295,10 +295,7 @@ public class ConsoleHelper {
             for (Hotel hotel : hotelList) {
                 System.out.println(count++ + ". * Отель " + hotel.getHotelName() + ", город " + hotel.getCityName());
             }
-            hotelList.stream().map(hotel -> {
-                System.out.println("Отель: "+ hotel.getHotelName()+", город "+hotel.getHotelName());
-                return hotel.getRoomList();
-            }).forEach(rooms -> rooms.forEach(System.out::println));
+
             try {
                 int hotelIndex = Integer.parseInt(buffRead.readLine()) - 1;
                 if (-1 == hotelIndex) return;
