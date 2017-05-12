@@ -18,11 +18,14 @@ import com.firstgroup.project.consoleHelper.ConsoleHelper;
  */
 
 /**
+ * -------------------------------------------------------------------------------------------------------------------------------
  * В данной программе реализовано разделение функционала программы на два меню доступа к функциям!
  * Вход в меню пользователя осуществляется при обычной регистрации.
  * Для входа через меню администратора с расширенным функционалом необходимо зарегестрировать пользователя со специальным паролем,
  * в данный момент пароль для такого входа "admin".
+ * -------------------------------------------------------------------------------------------------------------------------------
  */
+
 public class StartClass {
     public static void main(String[] args) {
 
@@ -37,7 +40,6 @@ public class StartClass {
         Application application = new Application(hotelController, roomController, userController);
 
         ConsoleHelper consoleHelper = new ConsoleHelper(application);
-
         consoleHelper.loginService();
     }
 }

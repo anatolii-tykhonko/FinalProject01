@@ -35,7 +35,6 @@ public class HotelDAO implements HotelDAOInterface {
         return dbServiceSingleton.getDataBase().getHotelList().get(hotelIndex);
     }
 
-
     public List<Hotel> findHotelByName(String hotelName) {
         List<Hotel> hotelList = dbServiceSingleton.getDataBase().getHotelList().stream().filter(hotel -> hotel.getHotelName().equals(hotelName)).collect(Collectors.toList());
         System.out.println("По Вашему запросу найдены следующие отели: ");

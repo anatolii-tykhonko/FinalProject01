@@ -13,8 +13,8 @@ public class DBServiceSingleton {
     private DataBase dataBase;
 
 
-    public static DBServiceSingleton getDBServiceInstance(){
-        if(dbServiceSingleton==null) dbServiceSingleton = new DBServiceSingleton(new DataBase());
+    public static DBServiceSingleton getDBServiceInstance() {
+        if (dbServiceSingleton == null) dbServiceSingleton = new DBServiceSingleton(new DataBase());
         return dbServiceSingleton;
     }
 
@@ -22,8 +22,6 @@ public class DBServiceSingleton {
         this.dataBase = dataBase;
         load();
     }
-
-
 
 
     public void save() {

@@ -95,7 +95,6 @@ public class HotelController implements HotelControllerInterface {
         return hotelDAO.findHotelByCity(cityName);
     }
 
-    @Override
     public List<Hotel> getHotels() {
         return hotelDAO.getDbServiceSingleton().getDataBase().getHotelList();
     }

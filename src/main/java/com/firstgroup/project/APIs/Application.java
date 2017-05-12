@@ -6,8 +6,11 @@ import com.firstgroup.project.entity.Hotel;
 import com.firstgroup.project.entity.Room;
 import com.firstgroup.project.entity.User;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Данный класс реализует доступ к методам АРІ.
@@ -84,13 +87,13 @@ public class Application implements API {
         return userController.loginUser(email, password);
     }
 
-    public Map<String, User> getUsers() {
-        return userController.getUsers();
-    }
-
-    public List<Hotel> getHotels() {
-        return hotelController.getHotels();
-    }
+//    public Map<String, User> getUsers() {
+//        return userController.getUsers();
+//    }
+//
+//    public List<Hotel> getHotels() {
+//        return hotelController.getHotels();
+//    }
 
     public User curUser() {
         return userController.getCurrentUser();
@@ -113,5 +116,62 @@ public class Application implements API {
                 line.contains(",") || line.contains(".") || line.isEmpty()) {
             throw new ValidStringNameException("Название не должно включать цифры или символы!!!\nВведите данные заново!\n");
         }
+    }
+
+    public void showHotelList() {
+        int count = 1;
+        List<Hotel> hotelList = hotelController.getHotels();
+        for (Hotel hotel : hotelList) {
+            System.out.println(count++ + ". * Отель " + hotel.getHotelName() + ", город " + hotel.getCityName());
+        }
+    }
+
+    public Hotel getHotelsByIndex(int hotelIndex) {
+        return hotelController.getHotels().get(hotelIndex);
+    }
+
+    public boolean isEmptyHotelsList(){
+        return hotelController.getHotels().isEmpty();
+    }
+
+    public void showRoomList(Hotel hotel) {
+        int count = 1;
+        for (Room room : hotel.getRoomList()) {
+            System.out.println(count++ + ". * " + room);
+        }
+    }
+
+//    public void showUsersList() {
+//        Set<Map.Entry<String, User>> entrySet = userController.getUsers().entrySet();
+//        int count = 1;
+//        List<String> emailList = new ArrayList<>();
+//        for (Map.Entry<String, User> userEntry : entrySet) {
+//            System.out.println(count++ + ". * " + userEntry.getValue());
+//            emailList.add(userEntry.getValue().getEmail());
+//        }
+//    }
+
+    public void showCityNameList() {
+        int count = 1;
+        List<String> cityNames = hotelController.getHotels()
+                .stream()
+                .map(Hotel::getCityName)
+                .distinct()
+                .collect(Collectors.toList());
+
+        for (String cityName : cityNames) {
+            System.out.println(count++ + ". " + cityName);
+        }
+    }
+
+    public List<String> makeEmailUserList() {
+        Set<Map.Entry<String, User>> entries = userController.getUsers().entrySet();
+        int count = 1;
+        List<String> emailList = new ArrayList<>();
+        for (Map.Entry<String, User> userEntry : entries) {
+            System.out.println(count++ + "." + " " + userEntry.getValue());
+            emailList.add(userEntry.getValue().getEmail());
+        }
+        return emailList;
     }
 }

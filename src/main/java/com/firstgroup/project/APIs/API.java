@@ -41,10 +41,22 @@ public interface API {
     boolean cancelReservationByName(int roomIndex);
 
     boolean loginUser(String email, String password) throws IncorrectEmail, IncorrectPassword;
-
-    Map<String, User> getUsers();
-
-    List<Hotel> getHotels();
+//
+//    Map<String, User> getUsers();
+//
+//    List<Hotel> getHotels();
 
     User curUser();
+
+    void showHotelList();
+
+    Hotel getHotelsByIndex(int hotelIndex);
+
+    boolean isEmptyHotelsList();
+
+    void showRoomList(Hotel hotel);
+
+    void showCityNameList();
+
+    List<String> makeEmailUserList();
 }
