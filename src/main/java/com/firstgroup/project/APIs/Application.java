@@ -87,14 +87,6 @@ public class Application implements API {
         return userController.loginUser(email, password);
     }
 
-//    public Map<String, User> getUsers() {
-//        return userController.getUsers();
-//    }
-//
-//    public List<Hotel> getHotels() {
-//        return hotelController.getHotels();
-//    }
-
     public User curUser() {
         return userController.getCurrentUser();
     }
@@ -141,17 +133,7 @@ public class Application implements API {
         }
     }
 
-//    public void showUsersList() {
-//        Set<Map.Entry<String, User>> entrySet = userController.getUsers().entrySet();
-//        int count = 1;
-//        List<String> emailList = new ArrayList<>();
-//        for (Map.Entry<String, User> userEntry : entrySet) {
-//            System.out.println(count++ + ". * " + userEntry.getValue());
-//            emailList.add(userEntry.getValue().getEmail());
-//        }
-//    }
-
-    public void showCityNameList() {
+    public List<String> showCityNameList() {
         int count = 1;
         List<String> cityNames = hotelController.getHotels()
                 .stream()
@@ -162,6 +144,7 @@ public class Application implements API {
         for (String cityName : cityNames) {
             System.out.println(count++ + ". " + cityName);
         }
+        return cityNames;
     }
 
     public List<String> makeEmailUserList() {

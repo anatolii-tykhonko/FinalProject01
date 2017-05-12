@@ -56,7 +56,7 @@ public interface API {
 
     void showRoomList(Hotel hotel);
 
-    void showCityNameList();
+    List<String> showCityNameList();
 
     List<String> makeEmailUserList();
 }

@@ -725,12 +725,12 @@ public class ConsoleHelper {
         while (true) {
             System.out.println("*----------------------------------------------*");
             System.out.println("В системе имеются отели в следующих городах: ");
-            application.showCityNameList();
+            List<String> distinctCityNameList = application.showCityNameList();
             System.out.println("Введите номер, который соответствует названию города. Введите 0, если желаете вернуться в главное меню. ");
             try {
-                int index = Integer.parseInt(buffRead.readLine());
-                if (index == 0) return;
-                String city = application.getHotelsByIndex(index - 1).getCityName();
+                int index = Integer.parseInt(buffRead.readLine()) - 1;
+                if (index == -1) return;
+                String city = distinctCityNameList.get(index);
                 List<Hotel> hotelByCity = application.findHotelByCity(city);
                 System.out.println("По заданым критериям поиска доступны следующие отели: ");
                 for (Hotel hotel : hotelByCity) {
@@ -794,12 +794,12 @@ public class ConsoleHelper {
         while (true) {
             System.out.println("*-------------------------------------------*");
             System.out.println("В системе имеются отели в следующих городах: ");
-            application.showCityNameList();
+            List<String> distinctCityNameList = application.showCityNameList();
             System.out.println("Введите номер, который соответствует названию города. Введите 0, если желаете вернуться в главное меню. ");
             try {
-                int index = Integer.parseInt(buffRead.readLine());
-                if (index == 0) return;
-                String city = application.getHotelsByIndex(index - 1).getCityName();
+                int index = Integer.parseInt(buffRead.readLine()) - 1;
+                if (index == -1) return;
+                String city = distinctCityNameList.get(index);
                 List<Hotel> hotelByCity = application.findHotelByCity(city);
                 System.out.println("Введите минимальную цену для поиска: ");
                 Double minPrice = Double.parseDouble(buffRead.readLine());

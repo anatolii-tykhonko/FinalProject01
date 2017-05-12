@@ -43,7 +43,6 @@ public class HotelDAO implements HotelDAOInterface {
 
     public List<Hotel> findHotelByCity(String cityName) {
         List<Hotel> hotelList = dbServiceSingleton.getDataBase().getHotelList().stream().filter(hotel -> hotel.getCityName().equals(cityName)).collect(Collectors.toList());
-
         return hotelList;
     }
 
