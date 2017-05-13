@@ -41,5 +41,6 @@ public class StartClass {
 
         ConsoleHelper consoleHelper = new ConsoleHelper(application);
         consoleHelper.loginService();
+        
     }
 }
