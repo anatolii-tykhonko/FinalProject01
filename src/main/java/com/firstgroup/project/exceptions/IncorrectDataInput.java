@@ -1,4 +1,4 @@
-package com.firstgroup.project.Exceptions;
+package com.firstgroup.project.exceptions;
 
 
 public class IncorrectDataInput extends Exception {

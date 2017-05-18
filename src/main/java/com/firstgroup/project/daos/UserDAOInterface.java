@@ -1,7 +1,7 @@
-package com.firstgroup.project.DAOs;
+package com.firstgroup.project.daos;
 
-import com.firstgroup.project.Exceptions.CantDeleteCurrentUser;
-import com.firstgroup.project.Exceptions.UserAlreadyExist;
+import com.firstgroup.project.exceptions.CantDeleteCurrentUser;
+import com.firstgroup.project.exceptions.UserAlreadyExist;
 import com.firstgroup.project.entity.Room;
 import com.firstgroup.project.entity.User;
 import java.time.LocalDate;

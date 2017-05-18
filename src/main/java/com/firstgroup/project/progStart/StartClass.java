@@ -1,12 +1,12 @@
 package com.firstgroup.project.progStart;
 
-import com.firstgroup.project.APIs.Application;
-import com.firstgroup.project.Controllers.HotelController;
-import com.firstgroup.project.Controllers.RoomController;
-import com.firstgroup.project.Controllers.UserController;
-import com.firstgroup.project.DAOs.HotelDAO;
-import com.firstgroup.project.DAOs.RoomDAO;
-import com.firstgroup.project.DAOs.UserDAO;
+import com.firstgroup.project.apis.Application;
+import com.firstgroup.project.controllers.HotelController;
+import com.firstgroup.project.controllers.RoomController;
+import com.firstgroup.project.controllers.UserController;
+import com.firstgroup.project.daos.HotelDAO;
+import com.firstgroup.project.daos.RoomDAO;
+import com.firstgroup.project.daos.UserDAO;
 import com.firstgroup.project.consoleHelper.ConsoleHelper;
 
 /**
@@ -41,6 +41,6 @@ public class StartClass {
 
         ConsoleHelper consoleHelper = new ConsoleHelper(application);
         consoleHelper.loginService();
-        
+
     }
 }

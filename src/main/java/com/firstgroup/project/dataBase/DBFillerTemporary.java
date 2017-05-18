@@ -1,6 +1,6 @@
 package com.firstgroup.project.dataBase;
 
-import com.firstgroup.project.DAOs.DBServiceSingleton;
+import com.firstgroup.project.daos.DBServiceSingleton;
 import com.firstgroup.project.entity.Hotel;
 import com.firstgroup.project.entity.Room;
 import com.firstgroup.project.entity.User;

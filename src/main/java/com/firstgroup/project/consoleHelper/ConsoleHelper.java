@@ -1,7 +1,7 @@
 package com.firstgroup.project.consoleHelper;
 
-import com.firstgroup.project.APIs.Application;
-import com.firstgroup.project.Exceptions.*;
+import com.firstgroup.project.apis.Application;
+import com.firstgroup.project.exceptions.*;
 import com.firstgroup.project.entity.Hotel;
 import com.firstgroup.project.entity.Room;
 import com.firstgroup.project.entity.User;

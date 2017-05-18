@@ -1,7 +1,8 @@
-package com.firstgroup.project.DAOs;
+package com.firstgroup.project.daos;
 
-import com.firstgroup.project.Exceptions.HotelAlreadyExist;
+import com.firstgroup.project.exceptions.HotelAlreadyExist;
 import com.firstgroup.project.entity.Hotel;
+
 import java.util.List;
 import java.util.stream.Collectors;
 

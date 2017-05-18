@@ -1,7 +1,7 @@
-package com.firstgroup.project.Controllers;
+package com.firstgroup.project.controllers;
 
-import com.firstgroup.project.DAOs.UserDAOInterface;
-import com.firstgroup.project.Exceptions.*;
+import com.firstgroup.project.daos.UserDAOInterface;
+import com.firstgroup.project.exceptions.*;
 import com.firstgroup.project.entity.Room;
 import com.firstgroup.project.entity.User;
 
@@ -104,12 +104,14 @@ public class UserController implements UserControllerInterface {
         }
         Room room = userDAO.getDbServiceSingleton().getDataBase().getHotelList().get(hotelIndex).getRoomList().get(roomIndex);
         LocalDate reserv = LocalDate.of(Integer.valueOf(reservDate.substring(0, 4)), Integer.valueOf(reservDate.substring(5, 7)), Integer.valueOf(reservDate.substring(8, 10)));
-        if (room.getAvailableFrom().getYear() > reserv.getYear() || room.getAvailableFrom().getYear() == reserv.getYear() && room.getAvailableFrom().getMonthValue() > reserv.getMonthValue() || room.getAvailableFrom().getYear() == reserv.getYear() && room.getAvailableFrom().getMonthValue() == reserv.getMonthValue() && room.getAvailableFrom().getDayOfMonth() >= reserv.getDayOfMonth()) {
+        if (room.getAvailableFrom().getYear() > reserv.getYear() ||
+                room.getAvailableFrom().getYear() == reserv.getYear() && room.getAvailableFrom().getMonthValue() > reserv.getMonthValue() ||
+                room.getAvailableFrom().getYear() == reserv.getYear() && room.getAvailableFrom().getMonthValue() == reserv.getMonthValue() && room.getAvailableFrom().getDayOfMonth() >= reserv.getDayOfMonth()) {
             throw new InvalidDateFormat("Не коректная дата, Вы ввели дату на которую эта комната занята!");
         }
         if (room.isStatus()) throw new InvalidRoomStatus("Эта комната сейчас занята");
         else {
-           return userDAO.reservRoom(room,reserv,true);
+            return userDAO.reservRoom(room, reserv, true);
         }
     }
 

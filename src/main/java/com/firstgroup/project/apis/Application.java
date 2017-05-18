@@ -1,7 +1,7 @@
-package com.firstgroup.project.APIs;
+package com.firstgroup.project.apis;
 
-import com.firstgroup.project.Controllers.*;
-import com.firstgroup.project.Exceptions.*;
+import com.firstgroup.project.controllers.*;
+import com.firstgroup.project.exceptions.*;
 import com.firstgroup.project.entity.Hotel;
 import com.firstgroup.project.entity.Room;
 import com.firstgroup.project.entity.User;

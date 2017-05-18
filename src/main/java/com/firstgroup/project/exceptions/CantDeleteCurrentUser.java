@@ -1,4 +1,4 @@
-package com.firstgroup.project.Exceptions;
+package com.firstgroup.project.exceptions;
 
 /**
  * Created by КЕП on 01.05.2017.

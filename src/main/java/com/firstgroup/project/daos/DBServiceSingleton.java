@@ -1,4 +1,4 @@
-package com.firstgroup.project.DAOs;
+package com.firstgroup.project.daos;
 
 import com.firstgroup.project.dataBase.DataBase;
 

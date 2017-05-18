@@ -1,9 +1,9 @@
-package com.firstgroup.project.Controllers;
+package com.firstgroup.project.controllers;
 
-import com.firstgroup.project.DAOs.HotelDAOInterface;
-import com.firstgroup.project.Exceptions.HotelAlreadyExist;
-import com.firstgroup.project.Exceptions.InvalidDateFormat;
-import com.firstgroup.project.Exceptions.ValidStringNameException;
+import com.firstgroup.project.daos.HotelDAOInterface;
+import com.firstgroup.project.exceptions.HotelAlreadyExist;
+import com.firstgroup.project.exceptions.InvalidDateFormat;
+import com.firstgroup.project.exceptions.ValidStringNameException;
 import com.firstgroup.project.entity.Hotel;
 import com.firstgroup.project.entity.Room;
 

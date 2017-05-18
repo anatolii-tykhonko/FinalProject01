@@ -1,8 +1,9 @@
-package com.firstgroup.project.Controllers;
+package com.firstgroup.project.controllers;
 
-import com.firstgroup.project.Exceptions.*;
+import com.firstgroup.project.exceptions.*;
 import com.firstgroup.project.entity.Room;
 import com.firstgroup.project.entity.User;
+
 import java.util.Map;
 
 /**

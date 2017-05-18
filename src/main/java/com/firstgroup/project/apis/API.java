@@ -1,12 +1,11 @@
-package com.firstgroup.project.APIs;
+package com.firstgroup.project.apis;
 
-import com.firstgroup.project.Exceptions.*;
+import com.firstgroup.project.exceptions.*;
 import com.firstgroup.project.entity.Hotel;
 import com.firstgroup.project.entity.Room;
 import com.firstgroup.project.entity.User;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Sonikb on 22.04.2017.
