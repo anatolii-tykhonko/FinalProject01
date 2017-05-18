@@ -17,8 +17,8 @@ import java.util.*;
  */
 
 public class ConsoleHelper {
-    Application application;
-    BufferedReader buffRead = new BufferedReader(new InputStreamReader(System.in));
+    private Application application;
+    private BufferedReader buffRead = new BufferedReader(new InputStreamReader(System.in));
 
     public ConsoleHelper(Application application) {
         this.application = application;
@@ -220,7 +220,6 @@ public class ConsoleHelper {
                         System.out.println("\n*------------------------------------------------------------------------------*\n" +
                                 "*---------------> Программа завершена, все изменения сохранены! <--------------*\n" +
                                 "*------------------------------------------------------------------------------*\n");
-//                        DBServiceSingleton.save();
                         buffRead.close();
                         System.exit(0);
                         break;
@@ -407,7 +406,7 @@ public class ConsoleHelper {
         }
     }
 
-    public void editHotelInfo() {
+    private void editHotelInfo() {
         while (true) {
             if (application.isEmptyHotelsList()) {
                 System.out.println("В базе нет отелей, сначала необходимо создать отель!");
@@ -446,7 +445,7 @@ public class ConsoleHelper {
         }
     }
 
-    public void editUserInfo() {
+    private void editUserInfo() {
         while (true) {
             System.out.println("Список пользователей в системе: ");
             List<String> emailList = application.makeEmailUserList();
@@ -483,7 +482,7 @@ public class ConsoleHelper {
         }
     }
 
-    public void editRoomInfo() {
+    private void editRoomInfo() {
         while (true) {
             System.out.println("***** Список отелей в системе *****");
             application.showHotelList();
